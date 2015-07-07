@@ -1,38 +1,39 @@
 # Boardshare
-
-> Pithy project description
+> A collaborative whiteboard and text-editing app 
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Stephan Tabor
+  - __Scrum Master__: David Chiang
+  - __Development Team Members__: Tyler Travers, Thomas Lam, Cody Scholberg
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Demo](#Demo)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
-1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
+## Description
 
-> Some usage instructions
+Boardshare is a collaborative code editor/whiteboard/video conferencing app that streams data realtime between clients. 
 
-## Requirements
+## Demo
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+See http://www.boardshare.io 
+<!-- Potentially add photograph of website -->
+
 
 ## Development
 
-### Installing Dependencies
+#### Requirements
+
+- Node 0.10.x
+
+
+#### Installing Dependencies
 
 From within the root directory:
 
@@ -40,13 +41,15 @@ From within the root directory:
 sudo npm install -g bower
 npm install
 bower install
+gulp
 ```
 
-### Roadmap
+## Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://trello.com/b/cYBZAh14/boardshare-io)
 
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](doc/_CONTRIBUTING.md) for contribution guidelines.
+See [STYLE-GUIDE.md](doc/_STYLE-GUIDE.md) for style guidlines.

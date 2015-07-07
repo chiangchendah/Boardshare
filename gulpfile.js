@@ -34,7 +34,7 @@
 
   gulp.task('dev', function(){
     nodemon({
-      script: './server/app.js', // subject to change
+      script: './app.js', // subject to change
       ext: 'js css html',
       tasks: ['scripts', 'styleSheets']
     }).on('restart', function(){

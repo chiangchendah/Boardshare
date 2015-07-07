@@ -2,7 +2,7 @@
   'use strict';
 
   var gulp = require('gulp');
-  var browserify = require('gulp-browserify');
+  // var browserify = require('gulp-browserify');
   var jshint = require('gulp-jshint');
   var mocha = require('gulp-mocha');
   var nodemon = require('gulp-nodemon');
@@ -10,7 +10,13 @@
   var paths = {
     clientScripts: ['./client/**/*.js'],
     serverScripts: ['./server/**/*.js'],
-    allScripts: ['./server/**/*.js', './client/**/*.js', '!./client/lib/**/*.js', 'gulpfile.js'],
+    allScripts: [
+      './server/**/*.js', 
+      './client/**/*.js', 
+      '!./client/lib/**/*.js', 
+      'gulpfile.js', 
+      'app.js'
+    ],
     styleSheets: ['./client/lib/**/*.css', '.client/assets/**/*.css']
   };
 
@@ -18,7 +24,13 @@
     return gulp.src(paths.allScripts)
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
-        .pipe(mocha({reporter: 'nyan'}));
+        .pipe(mocha({reporter: 'nyan'}))
+          .once('error', function() {
+            process.exit(1);
+          })
+          .once('end', function(){
+            process.exit();
+          });
   });
 
   // TODO: test:client
@@ -34,7 +46,7 @@
 
   gulp.task('dev', function(){
     nodemon({
-      script: './server/app.js', // subject to change
+      script: './app.js', // subject to change
       ext: 'js css html',
       tasks: ['scripts', 'styleSheets']
     }).on('restart', function(){
@@ -52,4 +64,5 @@
   });
 
   gulp.task('default', ['test', 'scripts', 'styleSheets', 'dev']);
+
 })();

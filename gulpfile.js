@@ -10,7 +10,7 @@
   var paths = {
     clientScripts: ['./client/**/*.js'],
     serverScripts: ['./server/**/*.js'],
-    allScripts: ['./server/**/*.js', './client/**/*.js', 'gulpfile.js'],
+    allScripts: ['./server/**/*.js', './client/**/*.js', '!./client/lib/**/*.js', 'gulpfile.js'],
     styleSheets: ['./client/lib/**/*.css', '.client/assets/**/*.css']
   };
 

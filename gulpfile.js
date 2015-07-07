@@ -2,7 +2,7 @@
   'use strict';
 
   var gulp = require('gulp');
-  var browserify = require('gulp-browserify');
+  // var browserify = require('gulp-browserify');
   var jshint = require('gulp-jshint');
   var mocha = require('gulp-mocha');
   var nodemon = require('gulp-nodemon');

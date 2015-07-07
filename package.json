@@ -1,0 +1,32 @@
+{
+  "name": "boardshare",
+  "version": "0.0.1",
+  "description": "a collaborative whiteboarding app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Boardshare/Boardshare.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Boardshare/Boardshare/issues"
+  },
+  "homepage": "https://github.com/Boardshare/Boardshare",
+  "dependencies": {
+    "express": "^4.13.1",
+    "lodash": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-jshint": "^1.11.2",
+    "gulp-mocha": "^2.1.2",
+    "gulp-nodemon": "^2.0.3",
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.4"
+  }
+}

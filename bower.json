@@ -1,19 +1,18 @@
 {
-  "name": "boardshare",
+  "name": "Boardshare",
   "version": "0.0.1",
   "homepage": "https://github.com/Boardshare/Boardshare",
-  "description": "A collaborative whiteboarding app",
-  "main": "app.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "client/lib",
+    "./client/lib",
     "test",
     "tests"
   ],
   "dependencies": {
-    "lodash": "~3.10.0"
+    "jquery": "~2.1.4",
+    "handlebars": "~3.0.3"
   }
 }

@@ -10,12 +10,16 @@
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "quotmark": "single",
+    "quotmark": "both",
     "regexp": true,
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
     "smarttabs": true,
-    "white": true
+    "white": true,
+    "globals": {
+        "$": true,
+        "Handlebars": true
+    }
 }

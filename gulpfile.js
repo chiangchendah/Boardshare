@@ -114,8 +114,8 @@ gulp.task('deploy', function(){
 
 gulp.task('watch', function(){
   gulp.watch(paths.clientScripts, ['scripts']);
-  gulp.watch(paths.styleSheets, ['styleSheets']);
+  gulp.watch(paths.styleSheets, ['stylesheets']);
 });
 
-gulp.task('default', ['test', 'scripts', 'stylesheets', 'dev', 'watch']);
+gulp.task('default', ['scripts', 'stylesheets', 'dev', 'watch']);
 

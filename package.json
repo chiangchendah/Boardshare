@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/Boardshare/Boardshare",
   "dependencies": {
+    "dustjs-linkedin": "^2.7.2",
     "express": "^4.13.1",
     "lodash": "^3.10.0"
   },

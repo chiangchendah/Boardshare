@@ -5,13 +5,9 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var ExpressPeerServer = require('peer').ExpressPeerServer;
 
-// app.get('/', function(req, res, next) {
-//   res.send('hello world!');
-// });
-
 app.set('port', (process.env.PORT || 9000));
-app.use(express.static(__dirname + '/client'));
 
+app.use(express.static(__dirname + '/client'));
 
 var peerOptions = {
   debug: true

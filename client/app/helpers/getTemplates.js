@@ -1,4 +1,5 @@
 // Allows us to dynamically render templates with just clientside code
+
 module.exports = function(path, container) {
   var source;
   var template;
@@ -11,4 +12,5 @@ module.exports = function(path, container) {
       $('#' + container ).html(template);
     }               
   });   
+  $('#text-editor').append('<h1>ayyy</h1>');
 };

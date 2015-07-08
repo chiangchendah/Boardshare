@@ -23,9 +23,12 @@
     "chai": "^3.0.0",
     "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-cssmin": "^0.1.7",
     "gulp-jshint": "^1.11.2",
     "gulp-mocha": "^2.1.2",
     "gulp-nodemon": "^2.0.3",
+    "gulp-rename": "^1.2.2",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4"
   }

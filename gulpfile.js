@@ -1,15 +1,21 @@
 (function(){
   'use strict';
-
   var gulp = require('gulp');
   // var browserify = require('gulp-browserify');
   var jshint = require('gulp-jshint');
   var mocha = require('gulp-mocha');
   var nodemon = require('gulp-nodemon');
+  var cssmin = require('gulp-cssmin');
+  var concat = require('gulp-concat');
+  var rename = require('gulp-rename');
 
   var paths = {
-    clientScripts: ['./client/**/*.js'],
-    serverScripts: ['./server/**/*.js'],
+    clientScripts: [
+      './client/**/*.js'
+    ],
+    serverScripts: [
+      './server/**/*.js'
+    ],
     allScripts: [
       './server/**/*.js', 
       './client/**/*.js', 
@@ -17,7 +23,10 @@
       'gulpfile.js', 
       'app.js'
     ],
-    styleSheets: ['./client/lib/**/*.css', '.client/assets/**/*.css']
+    styleSheets: [
+      './client/lib/**/*.css', 
+      './client/assets/css/*.css'
+    ]
   };
 
   gulp.task('test', function(){
@@ -40,8 +49,13 @@
     // concats & minify
   });
 
-  gulp.task('styleSheets', function(){
-    // concats & minify
+  gulp.task('stylesheets', function(){
+    return gulp.src(paths.styleSheets)
+      .pipe(concat('main.css'))
+      .pipe(gulp.dest('./client/dist'))
+      .pipe(cssmin())
+      .pipe(rename('main.min.css'))
+      .pipe(gulp.dest('./client/dist'));
   });
 
   gulp.task('dev', function(){

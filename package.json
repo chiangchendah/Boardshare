@@ -35,7 +35,6 @@
     "mocha": "^2.2.5",
     "sinon": "^1.15.4",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "vinyl-transform": "^1.0.0"
+    "vinyl-source-stream": "^1.1.0"
   }
 }

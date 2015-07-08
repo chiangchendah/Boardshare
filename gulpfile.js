@@ -4,7 +4,6 @@ var browserify = require('browserify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var transform = require('vinyl-transform');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
@@ -26,6 +25,7 @@ var paths = {
     './server/**/*.js', 
     './client/**/*.js', 
     '!./client/lib/**/*.js', 
+    '!./client/dist/**/*.js', 
     'gulpfile.js', 
     'app.js'
   ],
@@ -47,6 +47,7 @@ gulp.task('test', function(){
         process.exit();
       });
 });
+
 gulp.task('test:client', function() {
   return gulp.src(paths.clientScripts)
     .pipe(jshint())
@@ -59,6 +60,7 @@ gulp.task('test:client', function() {
         process.exit();
       });
 });
+
 gulp.task('test:server', function() {
   return gulp.src(paths.serverScripts)
     .pipe(jshint())
@@ -71,6 +73,7 @@ gulp.task('test:server', function() {
         process.exit();
       });
 });
+
 gulp.task('scripts', function(){
   var b = browserify({
     entries: './client/app/entry.js',
@@ -114,5 +117,5 @@ gulp.task('watch', function(){
   gulp.watch(paths.styleSheets, ['styleSheets']);
 });
 
-gulp.task('default', ['test', 'scripts', 'stylesheets', 'dev']);
+gulp.task('default', ['test', 'scripts', 'stylesheets', 'dev', 'watch']);
 

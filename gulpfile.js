@@ -1,19 +1,20 @@
 'use strict';
 
 var browserify = require('browserify');
-var gulp = require('gulp');
+var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
+var gulp = require('gulp');
+var cssmin = require('gulp-cssmin');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
-var nodemon = require('gulp-nodemon');
-var cssmin = require('gulp-cssmin');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
 var mochaPhantomjs = require('gulp-mocha-phantomjs');
+var nodemon = require('gulp-nodemon');
+var gutil = require('gulp-util');
 
 var paths = {
   clientScripts: [
@@ -42,6 +43,7 @@ gulp.task('lint', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
+
 gulp.task('test:client', function() {
   return gulp.src('test/client/Runner.html')
     .pipe(mochaPhantomjs({reporter: 'spec'}))
@@ -50,6 +52,7 @@ gulp.task('test:client', function() {
         console.log('client tests ended');
       });
 });
+
 gulp.task('test:server', function() {
   return gulp.src(paths.serverScripts)
     .pipe(mocha({reporter: 'nyan'}))
@@ -58,10 +61,32 @@ gulp.task('test:server', function() {
         process.exit();
       });
 });
+
 gulp.task('test', ['lint', 'test:client'], function() {
   gulp.start('test:server');
 });
 
+// function scripts(watch) {
+//   var bundler, rebundle, production;
+//   bundler = browserify('./client/app/entry.js', {
+//     basedir: __dirname,
+//     debug: !production,
+//     cache: {},
+//     packageCache: {},
+//     fullPaths: watch
+//   });
+//   if (watch) {
+//     bundler = watchify(bundler);
+//   }
+//   rebundle = function() {
+//     var stream = bundler.bundle();
+//     stream.on('error', gutil.log);
+//     stream = stream.pipe(source('main.min.js'))
+//     return stream.pipe(gulp.dest('./client/dist/'));
+//   };
+//   bundler.on('update', rebundle);
+//   return rebundle();
+// }
 gulp.task('scripts', function(){
   var b = browserify({
     entries: './client/app/entry.js',
@@ -89,9 +114,8 @@ gulp.task('stylesheets', function(){
 
 gulp.task('dev', function(){
   nodemon({
-    script: './app.js', // subject to change
+    script: './app.js', 
     ext: 'js css html handlebars',
-    tasks: ['scripts', 'stylesheets']
   }).on('restart', function(){
     console.log('server restarted...');
   });
@@ -107,5 +131,7 @@ gulp.task('watch', function(){
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });
 
-gulp.task('default', ['scripts', 'stylesheets', 'dev', 'watch']);
+gulp.task('default', ['scripts', 'stylesheets', 'watch'], function() {
+  gulp.start('dev');
+});
 

@@ -101,7 +101,7 @@ var b = watchify(browserify(opts));
 
 gulp.task('js', bundle); // so you can run gulpjs to build on the file
 
-gulp.task('js-deploy', bundleProduction)
+gulp.task('js-deploy', bundleProduction);
 
 b.on('update', bundle); // on any update, runs bundler
 b.on('log', gutil.log);

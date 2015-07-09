@@ -15,6 +15,7 @@
     "jquery": "~2.1.4",
     "handlebars": "~3.0.3",
     "lodash": "~3.10.0",
-    "peerjs": "~0.3.14"
+    "peerjs": "~0.3.14",
+    "normalize.css": "~3.0.3"
   }
 }

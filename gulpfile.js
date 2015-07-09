@@ -1,18 +1,20 @@
 'use strict';
 
 var browserify = require('browserify');
-var gulp = require('gulp');
+var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
+var gulp = require('gulp');
+var cssmin = require('gulp-cssmin');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
+var mochaPhantomjs = require('gulp-mocha-phantomjs');
 var nodemon = require('gulp-nodemon');
-var cssmin = require('gulp-cssmin');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
+var gutil = require('gulp-util');
 
 var paths = {
   clientScripts: [
@@ -24,6 +26,7 @@ var paths = {
   allScripts: [
     './server/**/*.js', 
     './client/**/*.js', 
+    './test/**/*.js',
     '!./client/lib/**/*.js', 
     '!./client/dist/**/*.js', 
     'gulpfile.js', 
@@ -35,44 +38,55 @@ var paths = {
   ]
 };
 
-gulp.task('test', function(){
-  return gulp.src(paths.serverScripts)
+gulp.task('lint', function() {
+  return gulp.src(paths.allScripts)
     .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(mocha({reporter: 'nyan'}))
-      .on('error', gutil.log)
-      .once('end', function() {
-        process.exit();
-      });
+    .pipe(jshint.reporter('default'));
 });
 
-
 gulp.task('test:client', function() {
-  // TODO: Setup phantomjs with mocha
-  
-  // return gulp.src(paths.clientScripts)
-  //   .pipe(jshint())
-  //   .pipe(jshint.reporter('default'))
-  //   .pipe(mocha({reporter: 'nyan'}))
-  //     .on('error', gutil.log)
-  //     .once('end', function(){
-  //       process.exit();
-  //     });
+  return gulp.src('test/client/Runner.html')
+    .pipe(mochaPhantomjs({reporter: 'spec'}))
+      .on('error', gutil.log)
+      .once('end', function(){
+        console.log('client tests ended');
+      });
 });
 
 gulp.task('test:server', function() {
   return gulp.src(paths.serverScripts)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
     .pipe(mocha({reporter: 'nyan'}))
-      .once('error', function() {
-        process.exit(1);
-      })
+      .on('error', gutil.log)
       .once('end', function(){
         process.exit();
       });
 });
 
+gulp.task('test', ['lint', 'test:client'], function() {
+  gulp.start('test:server');
+});
+
+// function scripts(watch) {
+//   var bundler, rebundle, production;
+//   bundler = browserify('./client/app/entry.js', {
+//     basedir: __dirname,
+//     debug: !production,
+//     cache: {},
+//     packageCache: {},
+//     fullPaths: watch
+//   });
+//   if (watch) {
+//     bundler = watchify(bundler);
+//   }
+//   rebundle = function() {
+//     var stream = bundler.bundle();
+//     stream.on('error', gutil.log);
+//     stream = stream.pipe(source('main.min.js'))
+//     return stream.pipe(gulp.dest('./client/dist/'));
+//   };
+//   bundler.on('update', rebundle);
+//   return rebundle();
+// }
 gulp.task('scripts', function(){
   var b = browserify({
     entries: './client/app/entry.js',
@@ -100,9 +114,8 @@ gulp.task('stylesheets', function(){
 
 gulp.task('dev', function(){
   nodemon({
-    script: './app.js', // subject to change
-    ext: 'js css',
-    tasks: ['scripts', 'styleSheets']
+    script: './app.js', 
+    ext: 'js css html handlebars',
   }).on('restart', function(){
     console.log('server restarted...');
   });
@@ -113,9 +126,12 @@ gulp.task('deploy', function(){
 });
 
 gulp.task('watch', function(){
+  gulp.watch(['./test/**/*.js'], ['test']);
   gulp.watch(paths.clientScripts, ['scripts']);
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });
 
-gulp.task('default', ['scripts', 'stylesheets', 'dev', 'watch']);
+gulp.task('default', ['scripts', 'stylesheets', 'watch'], function() {
+  gulp.start('dev');
+});
 

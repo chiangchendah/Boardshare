@@ -13,6 +13,7 @@ var nodemon = require('gulp-nodemon');
 var cssmin = require('gulp-cssmin');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
+var mochaPhantomjs = require('gulp-mocha-phantomjs');
 
 var paths = {
   clientScripts: [
@@ -24,6 +25,7 @@ var paths = {
   allScripts: [
     './server/**/*.js', 
     './client/**/*.js', 
+    './test/**/*.js',
     '!./client/lib/**/*.js', 
     '!./client/dist/**/*.js', 
     'gulpfile.js', 
@@ -35,42 +37,29 @@ var paths = {
   ]
 };
 
-gulp.task('test', function(){
-  return gulp.src(paths.serverScripts)
+gulp.task('lint', function() {
+  return gulp.src(paths.allScripts)
     .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(mocha({reporter: 'nyan'}))
+    .pipe(jshint.reporter('default'));
+});
+gulp.task('test:client', function() {
+  return gulp.src('test/client/Runner.html')
+    .pipe(mochaPhantomjs({reporter: 'spec'}))
       .on('error', gutil.log)
-      .once('end', function() {
-        process.exit();
+      .once('end', function(){
+        console.log('client tests ended');
       });
 });
-
-
-gulp.task('test:client', function() {
-  // TODO: Setup phantomjs with mocha
-  
-  // return gulp.src(paths.clientScripts)
-  //   .pipe(jshint())
-  //   .pipe(jshint.reporter('default'))
-  //   .pipe(mocha({reporter: 'nyan'}))
-  //     .on('error', gutil.log)
-  //     .once('end', function(){
-  //       process.exit();
-  //     });
-});
-
 gulp.task('test:server', function() {
   return gulp.src(paths.serverScripts)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
     .pipe(mocha({reporter: 'nyan'}))
-      .once('error', function() {
-        process.exit(1);
-      })
+      .on('error', gutil.log)
       .once('end', function(){
         process.exit();
       });
+});
+gulp.task('test', ['lint', 'test:client'], function() {
+  gulp.start('test:server');
 });
 
 gulp.task('scripts', function(){
@@ -101,8 +90,8 @@ gulp.task('stylesheets', function(){
 gulp.task('dev', function(){
   nodemon({
     script: './app.js', // subject to change
-    ext: 'js css',
-    tasks: ['scripts', 'styleSheets']
+    ext: 'js css html handlebars',
+    tasks: ['scripts', 'stylesheets']
   }).on('restart', function(){
     console.log('server restarted...');
   });
@@ -113,6 +102,7 @@ gulp.task('deploy', function(){
 });
 
 gulp.task('watch', function(){
+  gulp.watch(['./test/**/*.js'], ['test']);
   gulp.watch(paths.clientScripts, ['scripts']);
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });

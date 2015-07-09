@@ -2,6 +2,7 @@
 
 var browserify = require('browserify');
 var watchify = require('watchify');
+var lodash = require('lodash');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gulp = require('gulp');
@@ -66,42 +67,49 @@ gulp.task('test', ['lint', 'test:client'], function() {
   gulp.start('test:server');
 });
 
-// function scripts(watch) {
-//   var bundler, rebundle, production;
-//   bundler = browserify('./client/app/entry.js', {
-//     basedir: __dirname,
-//     debug: !production,
-//     cache: {},
-//     packageCache: {},
-//     fullPaths: watch
-//   });
-//   if (watch) {
-//     bundler = watchify(bundler);
-//   }
-//   rebundle = function() {
-//     var stream = bundler.bundle();
-//     stream.on('error', gutil.log);
-//     stream = stream.pipe(source('main.min.js'))
-//     return stream.pipe(gulp.dest('./client/dist/'));
-//   };
-//   bundler.on('update', rebundle);
-//   return rebundle();
-// }
-gulp.task('scripts', function(){
-  var b = browserify({
-    entries: './client/app/entry.js',
-    insertGlobals: true,
-    debug: true
-  });
+// add custom browserify options here
+var customOpts = {
+  entries: ['./client/app/entry.js'],
+  debug: true
+};
+var opts = lodash.assign({}, watchify.args, customOpts);
+var b = watchify(browserify(opts));
+// add transformations here
+// i.e. b.transform(coffeeify);
+
+gulp.task('js', bundle); // so you can run gulpjs to build on the file
+b.on('update', bundle); // on any update, runs bundler
+b.on('log', gutil.log);
+
+function bundle() {
   return b.bundle()
-    .pipe(source('main.min.js'))
+    // log errors if they happen
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('main.js'))
+    // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(uglify())
-      .on('error', gutil.log)
-    .pipe(sourcemaps.write())
+    // optional, remove if you dont want sourcemaps
+    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+       // Add transformation tasks to the pipeline here.
+    .pipe(sourcemaps.write()) // writes .map file
     .pipe(gulp.dest('./client/dist/'));
-});
+}
+
+// gulp.task('scripts', function(){
+//   var b = browserify({
+//     entries: './client/app/entry.js',
+//     insertGlobals: true,
+//     debug: true
+//   });
+//   return b.bundle()
+//     .pipe(source('main.min.js'))
+//     .pipe(buffer())
+//     .pipe(sourcemaps.init({loadMaps: true}))
+//       .pipe(uglify())
+//       .on('error', gutil.log)
+//     .pipe(sourcemaps.write())
+//     .pipe(gulp.dest('./client/dist/'));
+// });
 
 gulp.task('stylesheets', function(){
   return gulp.src(paths.styleSheets)
@@ -127,11 +135,11 @@ gulp.task('deploy', function(){
 
 gulp.task('watch', function(){
   gulp.watch(['./test/**/*.js'], ['test']);
-  gulp.watch(paths.clientScripts, ['scripts']);
+  gulp.watch(paths.clientScripts, ['js']);
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });
 
-gulp.task('default', ['scripts', 'stylesheets', 'watch'], function() {
+gulp.task('default', ['js', 'stylesheets', 'watch'], function() {
   gulp.start('dev');
 });
 

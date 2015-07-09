@@ -9,7 +9,7 @@ var gulp = require('gulp');
 var cssmin = require('gulp-cssmin');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
+// var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
@@ -67,6 +67,19 @@ gulp.task('test', ['lint', 'test:client'], function() {
   gulp.start('test:server');
 });
 
+function bundle() {
+  return b.bundle()
+    // log errors if they happen
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('main.js'))
+    // optional, remove if you don't need to buffer file contents
+    .pipe(buffer())
+    // optional, remove if you dont want sourcemaps
+    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+       // Add transformation tasks to the pipeline here.
+    .pipe(sourcemaps.write()) // writes .map file
+    .pipe(gulp.dest('./client/dist/'));
+}
 // add custom browserify options here
 var customOpts = {
   entries: ['./client/app/entry.js'],
@@ -81,19 +94,6 @@ gulp.task('js', bundle); // so you can run gulpjs to build on the file
 b.on('update', bundle); // on any update, runs bundler
 b.on('log', gutil.log);
 
-function bundle() {
-  return b.bundle()
-    // log errors if they happen
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('main.js'))
-    // optional, remove if you don't need to buffer file contents
-    .pipe(buffer())
-    // optional, remove if you dont want sourcemaps
-    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-       // Add transformation tasks to the pipeline here.
-    .pipe(sourcemaps.write()) // writes .map file
-    .pipe(gulp.dest('./client/dist/'));
-}
 
 // gulp.task('scripts', function(){
 //   var b = browserify({

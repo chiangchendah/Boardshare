@@ -1,0 +1,9 @@
+#paint-canvas {
+  display: block;
+  border: solid 1px black;
+  height: 100%;
+}
+#canvas {
+  display: block;
+  border: solid 1px red;
+}

@@ -1,4 +1,10 @@
 language: node_js
 node_js:
-  - '0.10'
-  - '0.12'
+- '0.10'
+- '0.12'
+deploy:
+  provider: heroku
+  api_key:
+    secure: VHF87C5so2NCtxuUJTjHSO9+E1nWqov9De8fI1Z1kGcKA22auxTt1N8WDym1X+JrM/3G+yQWUqzv3VqdK57yi3TGfc1OnnSpy3P1X6rNiZv3FW9HFssVZLZG+vLfAaig8ajQYNT4RyLyNNEC9OTl7gL+eYlf+j5KO0cv1LfQNT/789/jwiqNnHo3XxfSmqZ97zfCv+UDXf1J+o+oKIm60R9Bz1rJTMvm0QcXLe7pA3JdhTV63fGflrFh8AqZUBs4r6uG4SfKbeBE2JaTx0bJe/91lOeADgQ2BImVCXLs4wGJ6XSgyseMijhp1zyqr3d9tDQkiRYiiyJxltCRweTtxDUQDXfLqPGosbnMj1OZqcV+He2uB4LyDxo+mPD86xQsTL8ZYdRn45UJjxBuDOrzyuuaPq5USqstWLPgiDU4ijcsDVKFqQCdyrapbAF0vOe//Kms0pVDykf+bRiU4Bgz78tPEqmTlDGA/7CuR3oNRw6WwbQjmvmyWzeoPoeJyFdRamuw/2fI5IAJlHvtVkVEeErWP5T1JZYODSYxvQ82xXJMdca5RLrsIS8tpvFTrB4Nbxh29KVdHAEFzueedVdiuOS86iNpPjlSePayjdh7IcYgUCqg9tJJTSbLhWVsP5j7unTYfa7WswKju0fQ8E+DQfjBCHpeyvYDLQV4PeN5zr4=
+  app: board-share
+  on: deploy

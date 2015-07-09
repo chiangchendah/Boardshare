@@ -4,7 +4,11 @@
   "description": "a collaborative whiteboarding app",
   "main": "app.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node app.js"
+  },
+  "engine": {
+    "node": "0.12.2"
   },
   "repository": {
     "type": "git",

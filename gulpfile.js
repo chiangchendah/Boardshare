@@ -80,6 +80,15 @@ function bundle() {
     .pipe(sourcemaps.write()) // writes .map file
     .pipe(gulp.dest('./client/dist/'));
 }
+
+function bundleProduction() {
+  return b.bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./client/dist/'));
+}
+
+
 // add custom browserify options here
 var customOpts = {
   entries: ['./client/app/entry.js'],
@@ -91,6 +100,9 @@ var b = watchify(browserify(opts));
 // i.e. b.transform(coffeeify);
 
 gulp.task('js', bundle); // so you can run gulpjs to build on the file
+
+gulp.task('js-deploy', bundleProduction)
+
 b.on('update', bundle); // on any update, runs bundler
 b.on('log', gutil.log);
 
@@ -129,8 +141,8 @@ gulp.task('dev', function(){
   });
 });
 
-gulp.task('deploy', function(){
-
+gulp.task('deploy', ['js-deploy', 'stylesheets'], function(){
+  process.exit(0);
 });
 
 gulp.task('watch', function(){

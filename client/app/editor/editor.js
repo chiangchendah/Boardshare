@@ -53,4 +53,3 @@ module.exports = function() {
     var language = this.options[this.selectedIndex].value;
     editor.session.setMode("ace/mode/" + language);
   });
-};

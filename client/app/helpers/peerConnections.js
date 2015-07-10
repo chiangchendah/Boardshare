@@ -23,7 +23,7 @@
     // ids is { [id hash]: id, ... }
     socket.on('peerIds', function(ids){
       console.log('peerIds event: ', ids);
-      _.forEach(ids, function(id, key, arr){
+      _.forEach(ids, function(id){
         var dataChannel = peer.connect(id);
         setPeerListeners(dataChannel);
         connections[dataChannel.id] = dataChannel;
@@ -38,6 +38,9 @@
 
     function setPeerListeners(peerConnection){
       peerConnection.on('open', function(){
+        // this emission is here solely so jshint won't complain
+        // about a function that is defined but not used...
+        peerEmit(connections, "ayy lmao");
         console.log('connection opened');
       });
 

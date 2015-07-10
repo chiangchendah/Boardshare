@@ -1,3 +1,4 @@
+module.exports = function(){
 var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");
@@ -15,7 +16,7 @@ editor.on('change', function(data){
 //extensions
 $('#settings').on('click', function(){
     editor.execCommand('showSettingsMenu');
-})
+});
 
 //menu functionality
 $('#fontSize').on('change', function(){
@@ -57,5 +58,4 @@ $('#language').on('change', function(){
   var language = e.options[e.selectedIndex].value;
   editor.session.setMode("ace/mode/" + language);
 });
-
-
+};s

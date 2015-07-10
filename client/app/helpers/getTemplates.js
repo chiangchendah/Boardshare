@@ -1,16 +1,23 @@
 // Allows us to dynamically render templates with just clientside code
 
-module.exports = function(path, container) {
-  var source;
-  var template;
+// Create event to signal when template is rendered
+var onTemplateRender = new CustomEvent('templateRendered');
+
+module.exports = function(path, container, callback) {
+  var source, template;
+  var elem = document.getElementById(container);
+  elem.addEventListener('templateRendered', callback);
+  
   $.ajax({
     url: path,
     cache: true,
     success: function(data) {
       source = data;
       template = Handlebars.compile(source);
-      $('#' + container ).html(template);
-    }               
+      $(elem).html(template);
+    },
+    complete: function() {
+      elem.dispatchEvent(onTemplateRender);
+    }
   });   
-  $('#text-editor').append('<h1>ayyy</h1>');
 };

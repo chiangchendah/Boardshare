@@ -1,7 +1,14 @@
-var makeResizableCanvas = require('../helpers/resizeElement').makeResizableCanvas;
-var setImmediate = require('../helpers/setImmediate');
-var elem = document.getElementById('paint-canvas');
+var saveDrawingSurface = require('saveAndRestore').saveDrawingSurface;
+var restoreDrawingSurface = require('saveAndRestore').restoreDrawingSurface;
+var drawGrid = require('./canvasHelpers/drawGrid');
 
-elem.addEventListener('templateRendered', function() {
-  console.log('canvas template rendered');
-});
+module.exports = function() {
+  // Declare variables
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+  var drawingSurfaceImageData;
+
+  // Initialize
+  drawGrid(context, 'black', 10, 10);
+};
+

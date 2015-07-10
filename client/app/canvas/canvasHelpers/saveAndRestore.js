@@ -9,6 +9,6 @@ function restoreDrawingSurface(canvas, context) {
 
 module.exports = {
   drawingSurfaceImageData: drawingSurfaceImageData,
-  saveDrawingSurface: saveDrawingSurface,
-  restoreDrawingSurface: restoreDrawingSurface
+  save: saveDrawingSurface,
+  restore: restoreDrawingSurface
 };

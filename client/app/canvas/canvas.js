@@ -1,15 +1,17 @@
 var drawGrid = require('./canvasHelpers/drawGrid');
 var mouseActions = require('./canvasHelpers/mouseActions');
 var getCoords = require('./canvasHelpers/getCoords');
+var drawingSurface = ('./canvasHelpers/saveAndRestore');
 
 module.exports = function() {
   // Declare variables
   var canvas = document.getElementById('canvas');
   var context = canvas.getContext('2d');
-  // Controls
   var strokeStyleSelect = document.getElementById('strokeStyleSelect');
   var fillStyleSelect = document.getElementById('fillStyleSelect');
   var lineWidthSelect = document.getElementById('lineWidthSelect');
+  var eraseAllButton = document.getElementById('eraseAllButton');
+  var snapshotButton = document.getElementById('snapshotButton');
 
   // Control Event Handlers
   strokeStyleSelect.onchange = function(e) {
@@ -21,6 +23,11 @@ module.exports = function() {
   lineWidthSelect.onchange = function(e) {
     context.lineWidth = lineWidthSelect.value;
   };
+  eraseAllButton.onclick = function(e) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    drawGrid(context, 'black', 10, 10);
+    drawingSurface.save(canvas, context);
+  }
 
   // Canvas Event Handlers
   canvas.onmousedown = getCoords(e, function(loc) {

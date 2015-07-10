@@ -12,8 +12,8 @@
     "noarg": true,
     "quotmark": "both",
     "regexp": true,
-    "undef": true,
-    "unused": true,
+    "undef": false,
+    "unused": false,
     "strict": false,
     "trailing": true,
     "smarttabs": true,
@@ -24,7 +24,7 @@
         "document": true,
         "Peer": true,
         "io": true,
-        "_": true
+        "_": true,
         "CustomEvent": true
     }
 }

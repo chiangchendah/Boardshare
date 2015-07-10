@@ -1,4 +1,4 @@
-var saveDrawingSurface = require('./saveAndRestore').saveDrawingSurface;
+var drawingSurface = require('./saveAndRestore');
 var dragging = false;
 var selectedFunction = 'line';
 var mousedown = {};
@@ -6,7 +6,7 @@ var lastX, lastY;
 
 function mouseDownInCanvas(loc, canvas, context) {
   dragging = true;
-  saveDrawingSurface(canvas, context);
+  drawingSurface.save(canvas, context);
   mousedown.x = loc.x;
   mousedown.y = loc.y;
   if (selectedFunction === 'line') {

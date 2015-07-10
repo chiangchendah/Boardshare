@@ -27,7 +27,7 @@ module.exports = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawGrid(context, 'black', 10, 10);
     drawingSurface.save(canvas, context);
-  }
+  };
 
   // Canvas Event Handlers
   canvas.onmousedown = getCoords(e, function(loc) {

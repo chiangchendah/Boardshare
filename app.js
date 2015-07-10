@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var reqUtils = require('./server/utils/connectionHandlers');
 
 var expressPeerServer = require('peer').ExpressPeerServer;
 
@@ -16,19 +17,12 @@ var peerOptions = {
 
 app.use('/api', expressPeerServer(server, peerOptions));
 
-var peerIds = [];
-
 io.on('connection', function(socket){
+  // emit port to user so they can initiate peerjs stuff
   socket.emit('port', app.get('port'));
+  // user giving server their peer id
   socket.on('peerId', function(id){
-    socket.emit('peerIds', peerIds);
-    peerIds.push(id);
-  });
-
-   // adding this temporarily so that we can empty our the peerIds
-  // array every once in a while until we get rooms set up
-  socket.on('flushIds', function(){
-    peerIds = [];
+    reqUtils.returnPeerIds(socket, id);
   });
 });
 

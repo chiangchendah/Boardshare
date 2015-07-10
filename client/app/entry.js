@@ -2,9 +2,15 @@
 
 // Library
 require('lodash');
+require('interact.js');
 
+// Helpers
+require('./helpers/setImmediate');
+// require('./helpers/peerConnections');
 require('./helpers/getTemplates');
 require('./helpers/renderTemplates');
+require('./helpers/resizeElement');
+
 require('./canvas/canvas');
 require('./editor/editor');
 require('./messaging/messaging');

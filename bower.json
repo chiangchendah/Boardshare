@@ -16,6 +16,7 @@
     "handlebars": "~3.0.3",
     "lodash": "~3.10.0",
     "peerjs": "~0.3.14",
-    "normalize.css": "~3.0.3"
+    "normalize.css": "~3.0.3",
+    "ace-builds": "~1.1.9"
   }
 }

@@ -13,4 +13,4 @@ exports.returnPeerIds = function(socket, peerId){
 
 exports.removePeerId = function(socket){
   boardshare.removePeerId(socket.id);
-}
+};

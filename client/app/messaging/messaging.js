@@ -1,4 +1,8 @@
-
+var peer = require('../helpers/peerConnection');
+var dataConnections = require('../helpers/peerHelpers').dataConnections;
+var setDataListeners = require('../helpers/peerHelpers').setDataListeners;
+var emitDataToPeers = require('../helpers/peerHelpers').emitDataToPeers;
+var _ = require('lodash');
 
 // currently on a timeout because waiting for template
 // to load before we can do stuff
@@ -10,7 +14,7 @@ setTimeout(function(){
       if(msg === ''){
         return false;
       }
-      emitDataToPeers(peerConnections, { chat: msg });
+      emitDataToPeers(dataConnections, { chat: msg });
       $('#m').val('');
       $('#messages').append($('<li>').text('me' + ': ' + msg));
       return false;
@@ -56,5 +60,13 @@ function joinVideo(){
   _.forEach(peersToCall, function(id){
     var call = peer.call(id, window.localStream);
     callHandler(call);
+  });
+}
+
+function callHandler(call) {
+  call.on('stream', function(stream){
+    var vid = $('<video class="peer-vid" autoplay></vid>');
+    $('#video-container').append(vid);
+    vid.prop('src', URL.createObjectURL(stream));
   });
 }

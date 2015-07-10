@@ -5,7 +5,8 @@ require('lodash');
 require('interact.js');
 
 // Helpers
-// require('./helpers/peerConnections');
+require('./helpers/peerConnection');
+require('./helpers/peerHelpers');
 require('./helpers/getTemplates');
 require('./helpers/renderTemplates');
 require('./helpers/resizeElement');

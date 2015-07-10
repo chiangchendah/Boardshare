@@ -34,7 +34,8 @@ var paths = {
     'app.js'
   ],
   styleSheets: [
-    './client/lib/**/*.css', 
+    // './client/lib/**/*.css', 
+    './client/lib/normalize.css/normalize.css',
     './client/assets/css/*.css'
   ]
 };

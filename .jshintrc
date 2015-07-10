@@ -21,6 +21,9 @@
     "globals": {
         "$": true,
         "Handlebars": true,
-        "document": true
+        "document": true,
+        "Peer": true,
+        "io": true,
+        "_": true
     }
 }

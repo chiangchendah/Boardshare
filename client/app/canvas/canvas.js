@@ -30,15 +30,21 @@ module.exports = function() {
   };
 
   // Canvas Event Handlers
-  canvas.onmousedown = getCoords(e, function(loc) {
-    mouseActions.mouseDownInCanvas(loc, canvas, context);
-  });
-  canvas.onmousemove = getCoords(e, function(loc) {
-    mouseActions.mouseMoveInCanvas(loc, canvas, context);
-  });  
-  canvas.onmouseup = getCoords(e, function(loc) {
-    mouseActions.mouseUpInCanvas(loc, canvas, context);
-  });
+  canvas.onmousedown = function(e) {
+    getCoords(e, function(loc) {
+      mouseActions.mouseDownInCanvas(loc, canvas, context);
+    });
+  };
+  canvas.onmousemove = function(e) {
+    getCoords(e, function(loc) {
+      mouseActions.mouseMoveInCanvas(loc, canvas, context);
+    });  
+  };
+  canvas.onmouseup = function(e) {
+    getCoords(e, function(loc) {
+      mouseActions.mouseUpInCanvas(loc, canvas, context);
+    });
+  };
 
   // Initialize
   drawGrid(context, 'black', 10, 10);

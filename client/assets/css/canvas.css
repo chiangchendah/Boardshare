@@ -1,9 +1,18 @@
 #paint-canvas {
-  display: block;
+  display: inline-block;
   border: solid 1px black;
-  height: 100%;
 }
 #canvas {
   display: block;
   border: solid 1px red;
 }
+.left-options {
+  position: absolute;
+}
+.left-options ul{
+  list-style: none;
+  padding: 0;
+}
+.left-options li {
+  padding: 0 0 15px 0;
+}  

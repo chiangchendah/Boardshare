@@ -1,13 +1,16 @@
     'use strict';
     // var _ = require('lodash');
     var peer;
-    var connections = {};
+    var peerConnections = {};
     var socket = io();
 
     // No API key required when not using the peerJS cloud server
     socket.on('env', function(env, port){
       if (env === 'production'){
-         peer = new Peer({　host:'/', secure:true, port:443, key: 'peerjs', path: '/api'});  
+         peer = new Peer({　host:'/', secure:true, port:443, key: 'peerjs', path: '/api', config: {
+          'iceServers': [
+            { url: 'stun:stun.l.google.com:19302' } 
+          ]}});
       } else {
         peer = new Peer({host: '/', port: port, path: '/api'});
       }
@@ -17,7 +20,7 @@
       });
       peer.on('connection', function(dataChannel){
         setPeerListeners(dataChannel);
-        connections[dataChannel.id] = dataChannel;
+        peerConnections[dataChannel.id] = dataChannel;
       });
     });
 
@@ -26,11 +29,11 @@
       _.forEach(ids, function(id){
         var dataChannel = peer.connect(id);
         setPeerListeners(dataChannel);
-        connections[dataChannel.id] = dataChannel;
+        peerConnections[dataChannel.id] = dataChannel;
       });
     });
 
-    function peerEmit(peerConnections, data){
+    function emitDataToPeers(peerConnections, data){
       _.forEach(peerConnections, function(connection){
         if (connection.open) {
           connection.send(data);
@@ -42,18 +45,29 @@
       peerConnection.on('open', function(){
         // this emission is here solely so jshint won't complain
         // about a function that is defined but not used...
-        peerEmit(connections, "ayy lmao");
+        emitDataToPeers(peerConnections, "ayy lmao");
       });
 
       peerConnection.on('data', function(data){
+        if (data.chat) {
+          $('#messages').append($('<li>').text(peerConnection.id + ': ' + data.chat));
+        }
         console.log(data);
       });
 
       peerConnection.on('close', function(){
-        delete connections[peerConnection.id];
+        delete peerConnections[peerConnection.id];
       });
 
       peerConnection.on('error', function(err){
         console.log(err);
+      });
+    }
+
+    function callHandler(call) {
+      call.on('stream', function(stream){
+        var vid = $('<video class="peer-vid" autoplay></vid>');
+        $('#video-container').append(vid);
+        vid.prop('src', URL.createObjectURL(stream));
       });
     }

@@ -16,7 +16,7 @@ module.exports = function() {
   //extensions
   $('#settings').on('click', function(){
       editor.execCommand('showSettingsMenu');
-  })
+  });
 
   //menu functionality
   $('#fontSize').on('change', function(){

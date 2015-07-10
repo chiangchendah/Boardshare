@@ -8,10 +8,10 @@ exports.Boardshare = function(){
   this.boardId = hashids.encode(Math.floor(Math.random() * 1e9));
 };
 
-exports.Boardshare.prototype.addPeerId = function(id) {
-  this.peerIds[id] = id;
+exports.Boardshare.prototype.addPeerId = function(socketId, peerId) {
+  this.peerIds[socketId] = peerId;
 };
 
-exports.Boardshare.prototype.removePeerId = function(id) {
-  delete this.peerIds[id];
+exports.Boardshare.prototype.removePeerId = function(socketId) {
+  delete this.peerIds[socketId];
 };

@@ -19,10 +19,14 @@ app.use('/api', expressPeerServer(server, peerOptions));
 
 io.on('connection', function(socket){
   // emit port to user so they can initiate peerjs stuff
-  socket.emit('port', app.get('port'));
+  socket.emit('env', process.env.NODE_ENV, app.get('port'));
   // user giving server their peer id
-  socket.on('peerId', function(id){
-    reqUtils.returnPeerIds(socket, id);
+  socket.on('peerId', function(peerId){
+    reqUtils.returnPeerIds(socket, peerId);
+  });
+
+  socket.on('disconnect', function(){
+    reqUtils.removePeerId(socket);
   });
 });
 

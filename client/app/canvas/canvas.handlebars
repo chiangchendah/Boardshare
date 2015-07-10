@@ -1,19 +1,46 @@
-<div class='left-options'>
-  <ul>
-    <li>Pencil</li>
-    <li>Brush</li>
-    <li>line tool</li>
-    <li>bucket</li>
-  </ul>
-</div>
-<div class='top-options'>
-  <ul>
-    <li>Stroke</li>
-    <li>Fill</li>
-    <li>undo</li>
-    <li>erase</li>
-    <li>start over</li>
-  </ul>
+<div id='controls'>
+ Stroke: <select id='strokeStyleSelect'>
+            <option value='red'>red</option>
+            <option value='green'>green</option>
+            <option value='blue'>blue</option>
+            <option value='orange'>orange</option>
+            <option value='cornflowerblue' selected>cornflowerblue</option>
+            <option value='goldenrod'>goldenrod</option>
+            <option value='white'>white</option>
+            <option value='purple'>purple</option>
+         </select>
+
+ Fill: <select id='fillStyleSelect'>
+          <option value='red'>red</option>
+          <option value='rgba(255,0,0,0.5)'>semi-transparent red</option>
+          <option value='green'>green</option>
+          <option value='rgba(0,255,0,0.5)'>semi-transparent green</option>
+          <option value='blue'>blue</option>
+          <option value='rgba(0,0,255,0.5)'>semi-transparent blue</option>
+          <option value='orange'>orange</option>
+          <option value='rgba(255,165,0,0.5)'>semi-transparent orange</option>
+          <option value='cornflowerblue'>cornflowerblue</option>
+          <option value='rgba(100,140,230,0.5)'>semi-transparent cornflowerblue</option>
+          <option value='goldenrod'>goldenrod</option>
+          <option value='rgba(218,165,32,0.5)' selected>semi-transparent goldenrod</option>
+          <option value='white'>white</option>
+          <option value='rgba(255,255,255,0.5)'>semi-transparent white</option>
+          <option value='purple'>purple</option>
+          <option value='rgba(255,0,255,0.5)'>semi-transparent purple</option>
+       </select>
+
+ Line width: <select id='lineWidthSelect'>
+                <option value='1.0'>1.0</option>
+                <option value='2.0'>2.0</option>
+                <option value='3.0'>3.0</option>
+                <option value='4.0'>4.0</option>
+                <option value='5.0'>5.0</option>
+                <option value='6.0'>6.0</option>
+             </select>
+
+  <input id='eraseAllButton' type='button' value='Erase all'/>
+  <input id='snapshotButton' type='button' value='Take snapshot'/>
+  <span id='snapshotInstructions'>(Right-click to save to disk)</span>
 </div>
 
 <canvas id='canvas' width='600' height='300'>

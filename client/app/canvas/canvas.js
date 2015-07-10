@@ -1,4 +1,5 @@
 var drawGrid = require('./canvasHelpers/drawGrid');
+var windowToCanvas = require('./canvasHelpers/windowToCanvas');
 
 module.exports = function() {
   // Declare variables

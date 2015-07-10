@@ -36,7 +36,6 @@ var paths = {
   styleSheets: [
     // './client/lib/**/*.css', 
     './client/lib/normalize.css/normalize.css',
-    // './client/lib/**/*.css',  
     './client/assets/css/*.css'
   ]
 };

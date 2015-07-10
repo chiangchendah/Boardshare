@@ -7,7 +7,7 @@
     // No API key required when not using the peerJS cloud server
     socket.on('port', function(port){
       console.log('port shit is happen');
-      peer = new Peer({host: 'localhost', port: port, path: '/api'});
+      peer = new Peer({host: '/', port: port, path: '/api'});
       peer.on('open', function(id){
         console.log('peer id is: ', id);
         socket.emit('peerId', id);

@@ -58,4 +58,4 @@ $('#language').on('change', function(){
   var language = e.options[e.selectedIndex].value;
   editor.session.setMode("ace/mode/" + language);
 });
-};s
+};

@@ -1,3 +1,4 @@
+var drawingSurfaceImageData;
 function saveDrawingSurface(canvas, context) {
   drawingSurfaceImageData = context.getImageData(0, 0,
     canvas.width, canvas.height);
@@ -7,6 +8,7 @@ function restoreDrawingSurface(canvas, context) {
 }
 
 module.exports = {
+  drawingSurfaceImageData: drawingSurfaceImageData,
   saveDrawingSurface: saveDrawingSurface,
   restoreDrawingSurface: restoreDrawingSurface
 };

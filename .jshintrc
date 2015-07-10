@@ -25,5 +25,6 @@
         "Peer": true,
         "io": true,
         "_": true
+        "CustomEvent": true
     }
 }

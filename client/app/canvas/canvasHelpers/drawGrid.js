@@ -18,9 +18,9 @@ module.exports = function(context, color, stepx, stepy) {
   context.stroke();
 
   context.beginPath();
-  for (var i = stepy + 0.5; i < context.canvas.height; i+= stepy) {
-    context.moveTo(0, i);
-    context.lineTo(context.canvas.width, i);
+  for (var j = stepy + 0.5; j < context.canvas.height; j+= stepy) {
+    context.moveTo(0, j);
+    context.lineTo(context.canvas.width, j);
   }
   context.stroke();
 

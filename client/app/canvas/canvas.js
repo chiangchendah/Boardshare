@@ -12,6 +12,7 @@ module.exports = function() {
   var lineWidthSelect = document.getElementById('lineWidthSelect');
   var eraseAllButton = document.getElementById('eraseAllButton');
   var snapshotButton = document.getElementById('snapshotButton');
+  var selectedFunction;
 
   // Control Event Handlers
   strokeStyleSelect.onchange = function(e) {
@@ -47,6 +48,11 @@ module.exports = function() {
   };
 
   // Initialize
+  context.strokeStyle = strokeStyleSelect.value;
+  context.fillStyle = fillStyleSelect.value;
+  context.lineWidth = lineWidthSelect.value;
+
   drawGrid(context, 'black', 10, 10);
+  selectedFunction = 'lineTool';
 };
 

@@ -10,7 +10,7 @@ var videoInitialized = false;
 
 
 var initialize = function(){
-  initializeVideo();
+  // initializeVideo();
   $('#join-video').on('click', function(e){
     joinVideo();
   });
@@ -19,16 +19,19 @@ var initialize = function(){
 function initializeVideo(cb){
   navigator.getUserMedia = 
     navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  navigator.getUserMedia({audio: true, video: true}, function(stream){
-    videoInitialized = true;
-    $('#my-video').prop('src', URL.createObjectURL(stream)); 
-    window.localStream = stream;
-    if(cb){
-      cb(); 
+  navigator.getUserMedia({audio: true, video: true},
+    function(stream){
+      videoInitialized = true;
+      $('#my-video').prop('src', URL.createObjectURL(stream)); 
+      module.exports.videoStream = stream;
+      if(cb){
+        cb(); 
+      }
+    },
+    function(){
+      console.log('error');
     }
-  }, function(){
-    console.log('error');
-  });
+  );
 }
 
 function joinVideo(){
@@ -36,15 +39,14 @@ function joinVideo(){
   if(!videoInitialized){
     initializeVideo(subRoutine);
     return;
-  } else {
-    subRoutine();
   }
   function subRoutine(){
     var peersToCall = [];
     _.forEach(peer.connections, function(peerObj, peerId){
       var shouldCall = true;
       _.forEach(peerObj, function(conn){
-        if(conn.type === 'media'){
+        console.log(conn);
+        if(conn.type === 'media' && conn.open){
           shouldCall = false;
         }
       });
@@ -53,7 +55,7 @@ function joinVideo(){
       }
     });
     _.forEach(peersToCall, function(id){
-      var call = peer.call(id, window.localStream);
+      var call = peer.call(id, module.exports.videoStream);
       callHandler(call);
     });
   }
@@ -61,13 +63,15 @@ function joinVideo(){
 
 function callHandler(call) {
   call.on('stream', function(stream){
-    var vid = $('<video class="peer-vid" autoplay></vid>');
-    $('#video-container').append(vid);
+    var container = $('<div class="peer-vid-container">');
+    var vid = $('<video class="peer-vid" autoplay controls>');
+    $('#video-container').append(container);
+    container.append(vid);
     vid.prop('src', URL.createObjectURL(stream));
   });
 }
 
 module.exports = {
   callHandler: callHandler,
-  initialize: initialize
+  initialize: initialize,
 };

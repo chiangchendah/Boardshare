@@ -1,11 +1,17 @@
 var helpers = require('./peerHelpers');
 var _ = require('lodash');
 var socket = io();
-var peer;
+var callHandler = require('../video/video').callHandler;
+
+// todo: don't identify peers by peerjs id, use metadata
+// on the channel.
+// when connecting do something like:
+// peer.connect(id, {metadata: whatever});
+
 
 socket.on('env', function(env, port){
   if (env === 'production'){
-    peer = new Peer({
+    exports.peer = new Peer({
       host:'/', 
       secure:true, 
       port:443, 
@@ -18,24 +24,27 @@ socket.on('env', function(env, port){
       }
     });
   } else {
-    peer = new Peer({host: '/', port: port, path: '/api'});
+    exports.peer = new Peer({host: '/', port: port, path: '/api'});
   }
-  peer.on('open', function(id){
+  exports.peer.on('open', function(id){
     console.log('peer id is: ', id);
     socket.emit('peerId', id);
   });
-  peer.on('connection', function(dataChannel){
+  exports.peer.on('connection', function(dataChannel){
     helpers.setDataListeners(dataChannel);
     helpers.dataConnections[dataChannel.id] = dataChannel;
+  });
+  exports.peer.on('call', function(call){
+    console.log('incoming call');
+    call.answer(window.localStream);
+    callHandler(call);
   });
 });
 
 socket.on('peerIds', function(ids){
   _.forEach(ids, function(id){
-    var dataChannel = peer.connect(id);
+    var dataChannel = exports.peer.connect(id);
     helpers.setDataListeners(dataChannel);
     helpers.dataConnections[dataChannel.id] = dataChannel;
   });
 });
-
-module.exports = peer;

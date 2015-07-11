@@ -17,14 +17,14 @@ exports.setDataListeners = function(peerDataConnection){
   });
   peerDataConnection.on('data', function(data){
     if (data.chat) {
-      $('#messages').append($('<li>').text(peerConnection.id + ': ' + data.chat));
+      $('#messages').append($('<li>').text(peerDataConnection.id + ': ' + data.chat));
     }
     // console.log(data);
   });
   peerDataConnection.on('close', function(){
-    delete exports.dataConnections[peerConnection.id];
+    delete exports.dataConnections[peerDataConnection.id];
   });
-  peerConnection.on('error', function(err){
+  peerDataConnection.on('error', function(err){
     console.log(err);
   });
 };

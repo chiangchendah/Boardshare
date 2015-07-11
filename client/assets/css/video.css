@@ -1,0 +1,10 @@
+#video-chat {float: right; width: 49%;}
+.peer-vid { margin: 15px; width: 200px; height: auto; display: block;}
+
+#my-video {
+  margin: 15px;
+  width: 200px;
+  height: auto;
+  background-color: #eee;
+  display: block;
+}

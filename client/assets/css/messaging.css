@@ -7,15 +7,5 @@
 #messages { background: white; list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
-#messages-container { height: 600px; width: 50%; overflow: auto; background: yellow }
+#messages-container { height: 600px; width: 100%; overflow: auto; background: yellow }
 #text-chat{float: left; width: 49%}
-#video-chat {float: right; width: 49%;}
-.peer-vid { margin: 15px; width: 100px; height: auto; display: inline-block;}
-
-#my-video {
-  margin: 15px;
-  width: 100px;
-  height: auto;
-  background-color: #eee;
-  display: inline-block;
-}

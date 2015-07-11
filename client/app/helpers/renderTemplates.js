@@ -1,7 +1,7 @@
 // Renders all templates inside index.html using getTemplates
 var getTemplates = require('./getTemplates');
 var drawCanvas = require('../canvas/canvas');
-var editor = require('../editor/editor');
+var editor = require('../editor/editor').initialize;
 var chat = require('../messaging/messaging');
 var video = require('../video/video').initialize;
 

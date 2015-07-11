@@ -1,5 +1,8 @@
-module.exports = function() {
-  var editor = ace.edit("editor");
+module.exports.initialize = function(){
+  var dataConnections = require('../helpers/peerHelpers').dataConnections;
+  var emitDataToPeers = require('../helpers/peerHelpers').emitDataToPeers;
+  module.exports.editor = ace.edit("editor");
+  var editor = module.exports.editor;
   editor.setTheme("ace/theme/monokai");
   editor.session.setMode("ace/mode/javascript");
 
@@ -8,9 +11,15 @@ module.exports = function() {
   editor.getSession().setTabSize(2);
   editor.getSession().setUseWrapMode(true);
 
-  editor.on('change', function(data){
+  module.exports.editor.setByAPI = false;
+
+  editor.on('change', function(){
+    if(!editor.setByAPI) {
+      emitDataToPeers(dataConnections, { editor: editor.getValue() });  
+    }
+    
     // console.log(data);  //data.data.text === whatever's in the editor
-                        //data.data.action === "insertText"
+                           //data.data.action === "insertText"
   });
 
   //extensions
@@ -54,4 +63,3 @@ module.exports = function() {
     editor.session.setMode("ace/mode/" + language);
   });
 };
-

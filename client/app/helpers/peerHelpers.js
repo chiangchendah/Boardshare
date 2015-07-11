@@ -15,11 +15,20 @@ exports.setDataListeners = function(peerDataConnection){
   peerDataConnection.on('open', function(){
     // maybe do something
   });
+
+  // { editor: "some string" }
+  // { chat: "string" }
   peerDataConnection.on('data', function(data){
     if (data.chat) {
       $('#messages').append($('<li>').text(peerDataConnection.id + ': ' + data.chat));
     }
-    // console.log(data);
+    if(data.editor) {
+      var editor = require('../editor/editor').editor;
+      editor.setByAPI = true;
+      editor.setValue(data.editor);
+      editor.clearSelection();
+      editor.setByAPI = false;
+    }
   });
   peerDataConnection.on('close', function(){
     delete exports.dataConnections[peerDataConnection.id];

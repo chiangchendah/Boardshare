@@ -13,6 +13,7 @@ module.exports = function() {
   var eraseAllButton = document.getElementById('eraseAllButton');
   var snapshotButton = document.getElementById('snapshotButton');
   var selectedFunction;
+  var SHADOW_COLOR = 'rgba(0,0,0,0.7)',
 
   // Control Event Handlers
   strokeStyleSelect.onchange = function(e) {

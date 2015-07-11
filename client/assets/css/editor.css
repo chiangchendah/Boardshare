@@ -1,6 +1,12 @@
+#text-editor {
+  width: 49%;
+  float: left;
+  background: orange;
+}
+
 #editor {
   height: 500px;
-  width: 83%;
+  width: auto;
 }
 
 #options {

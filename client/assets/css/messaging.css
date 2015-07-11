@@ -7,5 +7,5 @@
 #messages { background: white; list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
-#messages-container { height: 600px; width: 100%; overflow: auto; background: yellow }
+#messages-container { height: 300px; width: 100%; overflow: auto; background: yellow }
 #text-chat{float: left; width: 49%}

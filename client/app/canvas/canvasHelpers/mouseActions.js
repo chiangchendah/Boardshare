@@ -4,9 +4,12 @@ var selectedFunction = 'lineTool';
 var mousedown = {};
 var lastX, lastY;
 
+var drawGuidewires = require('./guidewires');
+
+
 function mouseDownInCanvas(loc, canvas, context) {
-  dragging = true;
   drawingSurface.save(canvas, context);
+  dragging = true;
   mousedown.x = loc.x;
   mousedown.y = loc.y;
   if (selectedFunction === 'lineTool') {
@@ -18,6 +21,7 @@ function mouseDownInCanvas(loc, canvas, context) {
 }
 function mouseMoveInCanvas(loc, canvas, context) {
   if (dragging) {
+    drawingSurface.restore(canvas, context);
     context.lineTo(loc.x, loc.y);
     context.stroke();
   }
@@ -25,9 +29,9 @@ function mouseMoveInCanvas(loc, canvas, context) {
   lastY = loc.y;
 }
 function mouseUpInCanvas(loc, canvas, context) {
-
+  context.stroke();
+  // drawingSurface.restore(canvas, context);
   dragging = false;
-
 }
 module.exports = {
   mouseDownInCanvas: mouseDownInCanvas,

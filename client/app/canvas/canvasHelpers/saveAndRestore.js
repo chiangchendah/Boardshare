@@ -4,7 +4,6 @@ function saveDrawingSurface(canvas, context) {
     canvas.width, canvas.height);
 }
 function restoreDrawingSurface(canvas, context) {
-  console.log(drawingSurfaceImageData);
   context.putImageData(drawingSurfaceImageData, 0, 0);
 }
 

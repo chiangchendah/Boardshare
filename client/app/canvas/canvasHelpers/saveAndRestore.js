@@ -8,7 +8,6 @@ function restoreDrawingSurface(canvas, context) {
 }
 
 module.exports = {
-  drawingSurfaceImageData: drawingSurfaceImageData,
   save: saveDrawingSurface,
   restore: restoreDrawingSurface
 };

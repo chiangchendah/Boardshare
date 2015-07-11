@@ -9,7 +9,7 @@ var gulp = require('gulp');
 var cssmin = require('gulp-cssmin');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
-// var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
@@ -85,7 +85,9 @@ function bundle() {
 function bundleProduction() {
   return b.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('main.js'))
+    .pipe(source('main.min.js'))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('./client/dist/'));
 }
 
@@ -101,7 +103,6 @@ var b = watchify(browserify(opts));
 // i.e. b.transform(coffeeify);
 
 gulp.task('js', bundle); // so you can run gulpjs to build on the file
-
 gulp.task('js-deploy', bundleProduction);
 
 b.on('update', bundle); // on any update, runs bundler

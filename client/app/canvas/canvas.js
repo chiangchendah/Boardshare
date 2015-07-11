@@ -1,7 +1,7 @@
 var drawGrid = require('./canvasHelpers/drawGrid');
 var mouseActions = require('./canvasHelpers/mouseActions');
 var getCoords = require('./canvasHelpers/getCoords');
-var drawingSurface = ('./canvasHelpers/saveAndRestore');
+var drawingSurface = require('./canvasHelpers/saveAndRestore');
 
 module.exports = function() {
   // Declare variables

@@ -1,0 +1,11 @@
+.top:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.bottom:after {
+  content: "";
+  display: table;
+  clear: both;
+}

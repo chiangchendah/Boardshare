@@ -1,6 +1,9 @@
 #paint-canvas {
+  width: 49%;
+  float: right;
   display: inline-block;
   border: solid 1px black;
+  background: blue;
 }
 #canvas {
   display: block;

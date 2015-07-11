@@ -36,8 +36,11 @@ socket.on('env', function(env, port){
   });
   exports.peer.on('call', function(call){
     console.log('incoming call');
-    call.answer(window.localStream);
-    callHandler(call);
+    var stream = require('../video/video').videoStream;
+    if(stream){
+      call.answer(stream);
+      callHandler(call);
+    }
   });
 });
 

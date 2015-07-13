@@ -24,6 +24,7 @@ function mouseMoveInCanvas(loc, canvas, context) {
     drawingSurface.restore(canvas, context);
     context.lineTo(loc.x, loc.y);
     context.stroke();
+    drawGuidewires(loc.x, loc.y, canvas, context);
   }
   lastX = loc.x;
   lastY = loc.y;

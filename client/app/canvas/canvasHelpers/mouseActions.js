@@ -2,8 +2,6 @@ var drawingSurface = require('./saveAndRestore');
 var dragging = false;
 var mousedown = {};
 var lastX, lastY;
-
-var selectedFunction = 'line';
 var drawGuidewires = require('./guidewires');
 
 function cursorOffCanvas(loc, epsilon) {
@@ -13,19 +11,24 @@ function cursorOffCanvas(loc, epsilon) {
   }
   return false;
 }
-function mouseDownInCanvas(loc) {
-  drawingSurface.save();
+function mouseDownInCanvas(loc, tool) {
   dragging = true;
+
+  drawingSurface.save();
   mousedown.x = loc.x;
   mousedown.y = loc.y;
-  if (selectedFunction === 'line') {
+
+  if (tool === 'line') {
     context.beginPath();
     context.moveTo(loc.x, loc.y);
+  } else if (tool === 'eraser') {
+    console.log('using eraser');
   }
+
   lastX = loc.x;
   lastY = loc.y;
 }
-function mouseMoveInCanvas(loc) {
+function mouseMoveInCanvas(loc, tool) {
   if (dragging) {
     if (cursorOffCanvas(loc, 5)) {
       dragging = false;
@@ -37,12 +40,13 @@ function mouseMoveInCanvas(loc) {
   lastX = loc.x;
   lastY = loc.y;
 }
-function mouseUpInCanvas(loc) {
-  context.stroke();
+function mouseUpInCanvas(loc, tool) {
+  // context.stroke();
   // drawingSurface.restore();
   dragging = false;
 }
 module.exports = {
+  lastCoords: {lastX: lastX, lastY, lastY},
   mouseDownInCanvas: mouseDownInCanvas,
   mouseMoveInCanvas: mouseMoveInCanvas,
   mouseUpInCanvas: mouseUpInCanvas

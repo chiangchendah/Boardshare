@@ -1,7 +1,9 @@
 var drawGrid = require('./canvasHelpers/drawGrid');
+var drawBackground = require('./canvasHelpers/drawBackground');
 var mouseActions = require('./canvasHelpers/mouseActions');
 var getCoords = require('./canvasHelpers/getCoords');
 var drawingSurface = require('./canvasHelpers/saveAndRestore');
+
 
 module.exports = function() {
   // Declare variables
@@ -15,7 +17,7 @@ module.exports = function() {
   var snapshotButton = document.getElementById('snapshotButton');
   var undoButton = document.getElementById('undoButton');
 
-  var selectedFunction;
+  var selectedFunction = toolSelect.value || 'line';
   var SHADOW_COLOR = 'rgba(0,0,0,0.7)';
 
   // Control Event Handlers
@@ -30,7 +32,6 @@ module.exports = function() {
   };
   toolSelect.onchange = function(e) {
     selectedFunction = toolSelect.value;
-    console.log(selectedFunction);
   };
   eraseAllButton.onclick = function(e) {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -44,17 +45,17 @@ module.exports = function() {
   // Canvas Event Handlers
   canvas.onmousedown = function(e) {
     getCoords(e, function(loc) {
-      mouseActions.mouseDownInCanvas(loc, canvas, context);
+      mouseActions.mouseDownInCanvas(loc, selectedFunction);
     });
   };
   canvas.onmousemove = function(e) {
     getCoords(e, function(loc) {
-      mouseActions.mouseMoveInCanvas(loc, canvas, context);
+      mouseActions.mouseMoveInCanvas(loc, selectedFunction);
     });  
   };
   canvas.onmouseup = function(e) {
     getCoords(e, function(loc) {
-      mouseActions.mouseUpInCanvas(loc, canvas, context);
+      mouseActions.mouseUpInCanvas(loc, selectedFunction);
     });
   };
 
@@ -64,6 +65,6 @@ module.exports = function() {
   context.lineWidth = lineWidthSelect.value;
 
   drawGrid(context, 'black', 10, 10);
-  selectedFunction = 'lineTool';
+  drawBackground();
 };
 

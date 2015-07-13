@@ -1,18 +1,19 @@
-var dataConnections = require('../helpers/peerHelpers').dataConnections;
-var setDataListeners = require('../helpers/peerHelpers').setDataListeners;
-var emitDataToPeers = require('../helpers/peerHelpers').emitDataToPeers;
-var _ = require('lodash');
+var remotePeers = require('../helpers/remotePeers');
 
-module.exports = function(){
+exports.initialize = function(){
   $('#messages-form').on('submit', function(e){
     e.preventDefault();
     var msg = $('#m').val();
     if(msg === ''){
       return false;
     }
-    emitDataToPeers(dataConnections, { chat: msg });
+    remotePeers.sendData({chat: msg});
     $('#m').val('');
     $('#messages').append($('<li>').text('me' + ': ' + msg));
     return false;
   });
+};
+
+exports.appendMessage = function(name, data) {
+  $('#messages').append($('<li>').text(name + ': ' + data));
 };

@@ -1,6 +1,5 @@
 module.exports.initialize = function(){
-  var dataConnections = require('../helpers/peerHelpers').dataConnections;
-  var emitDataToPeers = require('../helpers/peerHelpers').emitDataToPeers;
+  var remotePeers = require('../helpers/remotePeers');
   module.exports.editor = ace.edit("editor");
   var editor = module.exports.editor;
   editor.setTheme("ace/theme/monokai");
@@ -15,11 +14,8 @@ module.exports.initialize = function(){
 
   editor.on('change', function(){
     if(!editor.setByAPI) {
-      emitDataToPeers(dataConnections, { editor: editor.getValue() });  
+      remotePeers.sendData({editor: editor.getValue()});
     }
-    
-    // console.log(data);  //data.data.text === whatever's in the editor
-                           //data.data.action === "insertText"
   });
 
   //extensions
@@ -62,4 +58,10 @@ module.exports.initialize = function(){
     var language = this.options[this.selectedIndex].value;
     editor.session.setMode("ace/mode/" + language);
   });
+  module.exports.updateEditorByAPI = function(data){
+    editor.setByAPI = true;
+    editor.setValue(data);
+    editor.clearSelection();
+    editor.setByAPI = false;
+  };
 };

@@ -1,6 +1,4 @@
-var dataConnections = require('../helpers/peerHelpers').dataConnections;
-var setDataListeners = require('../helpers/peerHelpers').setDataListeners;
-var emitDataToPeers = require('../helpers/peerHelpers').emitDataToPeers;
+var remotePeers = require('../helpers/remotePeers');
 var _ = require('lodash');
 var videoInitialized = false;
 
@@ -16,18 +14,24 @@ var initialize = function(){
   });
 };
 
+// gets cam permission and initializes media stream
 function initializeVideo(cb){
-  navigator.getUserMedia = 
+  navigator.getUserMedia =
     navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  navigator.getUserMedia({audio: true, video: true},
+  // getUserMedia takes 3 args: options hash, success cb, fail cb;
+  navigator.getUserMedia(
+    // options
+    {audio: true, video: true},
+    // success cb, has media stream
     function(stream){
       videoInitialized = true;
-      $('#my-video').prop('src', URL.createObjectURL(stream)); 
+      $('#my-video').prop('src', URL.createObjectURL(stream));
       module.exports.videoStream = stream;
       if(cb){
-        cb(); 
+        cb();
       }
     },
+    // fail callback (usually happens when user disallows cam access)
     function(){
       console.log('error');
     }
@@ -35,29 +39,13 @@ function initializeVideo(cb){
 }
 
 function joinVideo(){
-  var peer = require('../helpers/peerConnection').peer;
+  var rtc = require('../helpers/peerConnection').rtc;
   if(!videoInitialized){
-    initializeVideo(subRoutine);
+    initializeVideo(callPeers);
     return;
   }
-  function subRoutine(){
-    var peersToCall = [];
-    _.forEach(peer.connections, function(peerObj, peerId){
-      var shouldCall = true;
-      _.forEach(peerObj, function(conn){
-        console.log(conn);
-        if(conn.type === 'media' && conn.open){
-          shouldCall = false;
-        }
-      });
-      if(shouldCall){
-        peersToCall.push(peerId);
-      }
-    });
-    _.forEach(peersToCall, function(id){
-      var call = peer.call(id, module.exports.videoStream);
-      callHandler(call);
-    });
+  function callPeers(){
+    remotePeers.call(module.exports.videoStream, callHandler);
   }
 }
 
@@ -69,6 +57,7 @@ function callHandler(call) {
     container.append(vid);
     vid.prop('src', URL.createObjectURL(stream));
   });
+  return call;
 }
 
 module.exports = {

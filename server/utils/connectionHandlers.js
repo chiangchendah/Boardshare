@@ -14,3 +14,14 @@ exports.returnPeerIds = function(socket, peerId){
 exports.removePeerId = function(socket){
   boardshare.removePeerId(socket.id);
 };
+
+
+(function test(){
+  var count = 0;
+  return setInterval(function(){
+    count++
+    var dash = ' ----- ';
+    var message = dash + 'Minute ' + count + dash + 'Peer IDs: ' + JSON.stringify( boardshare.getIds() );
+    console.log(message);
+  }, 60000);
+})();

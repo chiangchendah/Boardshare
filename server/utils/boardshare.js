@@ -15,3 +15,7 @@ exports.Boardshare.prototype.addPeerId = function(socketId, peerId) {
 exports.Boardshare.prototype.removePeerId = function(socketId) {
   delete this.peerIds[socketId];
 };
+
+exports.Boardshare.prototype.getIds = function () {
+  return this.peerIds
+};

@@ -10,9 +10,11 @@ module.exports = function() {
   var strokeStyleSelect = document.getElementById('strokeStyleSelect');
   var fillStyleSelect = document.getElementById('fillStyleSelect');
   var lineWidthSelect = document.getElementById('lineWidthSelect');
+  var toolSelect = document.getElementById('toolSelect');
   var eraseAllButton = document.getElementById('eraseAllButton');
   var snapshotButton = document.getElementById('snapshotButton');
   var undoButton = document.getElementById('undoButton');
+
   var selectedFunction;
   var SHADOW_COLOR = 'rgba(0,0,0,0.7)';
 
@@ -25,6 +27,10 @@ module.exports = function() {
   };
   lineWidthSelect.onchange = function(e) {
     context.lineWidth = lineWidthSelect.value;
+  };
+  toolSelect.onchange = function(e) {
+    selectedFunction = toolSelect.value;
+    console.log(selectedFunction);
   };
   eraseAllButton.onclick = function(e) {
     context.clearRect(0, 0, canvas.width, canvas.height);

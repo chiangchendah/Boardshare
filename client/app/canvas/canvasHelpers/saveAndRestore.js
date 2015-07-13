@@ -1,9 +1,9 @@
 var drawingSurfaceImageData;
-function saveDrawingSurface(canvas, context) {
+function saveDrawingSurface() {
   drawingSurfaceImageData = context.getImageData(0, 0,
     canvas.width, canvas.height);
 }
-function restoreDrawingSurface(canvas, context) {
+function restoreDrawingSurface() {
   context.putImageData(drawingSurfaceImageData, 0, 0);
 }
 

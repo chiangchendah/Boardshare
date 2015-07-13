@@ -16,17 +16,17 @@ function updateRubberbandRectangle(loc) {
     rubberbandUlhc.y = loc.y;
   }
 }
-function drawRubberBandLine(loc, context) {
+function drawRubberBandLine(loc) {
   context.beginPath();
   context.moveTo(mousedown.x, mousedown.y);
   context.lineTo(loc.x, loc.y);
   context.stroke();
 }
-function drawRubberBandRectangle(context) {
+function drawRubberBandRectangle() {
   context.strokeRect(rubberbandUlhc.x, rubberbandUlhc.y,
                       rubberbandW, rubberbandH);
 }
-function drawRubberbandCircle(loc, context) {
+function drawRubberbandCircle(loc) {
   var angle = Math.atan(rubberbandH/rubberbandW);
   var radius = rubberbandH / Math.sin(angle);
    
@@ -38,17 +38,17 @@ function drawRubberbandCircle(loc, context) {
   context.arc(mousedown.x, mousedown.y, radius, 0, Math.PI*2, false); 
   context.stroke();
 }
-function drawRubberband(loc, context, tool) {
+function drawRubberband(loc, tool) {
   context.save();
   context.strokeStyle = 'brown';
   context.lineWidth = 1;
 
   if (tool === 'rectangle') {
-    drawRubberbandRectangle(context);
+    drawRubberbandRectangle();
   } else if (tool === 'line' || tool === 'curve') {
-    drawRubberbandLine(loc, context);
+    drawRubberbandLine(loc);
   } else if (tool === 'circle') {
-    drawRubberbandCircle(loc, context);
+    drawRubberbandCircle(loc);
   }
 
   context.restore();

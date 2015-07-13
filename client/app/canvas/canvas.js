@@ -12,6 +12,7 @@ module.exports = function() {
   var lineWidthSelect = document.getElementById('lineWidthSelect');
   var eraseAllButton = document.getElementById('eraseAllButton');
   var snapshotButton = document.getElementById('snapshotButton');
+  var undoButton = document.getElementById('undoButton');
   var selectedFunction;
   var SHADOW_COLOR = 'rgba(0,0,0,0.7)';
 
@@ -29,6 +30,9 @@ module.exports = function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawGrid(context, 'black', 10, 10);
     drawingSurface.save(canvas, context);
+  };
+  undoButton.onclick = function(e) {
+    // TODO
   };
 
   // Canvas Event Handlers

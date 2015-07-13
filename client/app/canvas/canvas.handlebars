@@ -40,13 +40,22 @@
 
   <input id='eraseAllButton' type='button' value='Erase all'/>
   <input id='snapshotButton' type='button' value='Take snapshot'/>
+  <input id='undoButton' type='button' value='Undo' />
   <span id='snapshotInstructions'>(Right-click to save to disk)</span>
 </div>
 
 <select id='options'>
   <option value='drawLine'>Drawline</option>
+  <option value='eraser'>Eraser</option>
+  <option></option>
 </select>
 
 <canvas id='canvas' width='600' height='300'>
   <h1>Canvas is not supported in your browser.</h1>
 </canvas>
+
+<script>
+// Set our element as a global
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+</script>

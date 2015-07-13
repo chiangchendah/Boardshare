@@ -7,8 +7,8 @@ var lastX, lastY;
 var drawGuidewires = require('./guidewires');
 
 
-function mouseDownInCanvas(loc, canvas, context) {
-  drawingSurface.save(canvas, context);
+function mouseDownInCanvas(loc) {
+  drawingSurface.save();
   dragging = true;
   mousedown.x = loc.x;
   mousedown.y = loc.y;
@@ -19,19 +19,18 @@ function mouseDownInCanvas(loc, canvas, context) {
   lastX = loc.x;
   lastY = loc.y;
 }
-function mouseMoveInCanvas(loc, canvas, context) {
+function mouseMoveInCanvas(loc) {
   if (dragging) {
-    drawingSurface.restore(canvas, context);
+    drawingSurface.restore();
     context.lineTo(loc.x, loc.y);
     context.stroke();
-    drawGuidewires(loc.x, loc.y, canvas, context);
   }
   lastX = loc.x;
   lastY = loc.y;
 }
-function mouseUpInCanvas(loc, canvas, context) {
+function mouseUpInCanvas(loc) {
   context.stroke();
-  // drawingSurface.restore(canvas, context);
+  // drawingSurface.restore();
   dragging = false;
 }
 module.exports = {

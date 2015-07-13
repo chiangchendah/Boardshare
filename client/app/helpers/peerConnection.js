@@ -1,53 +1,42 @@
 var helpers = require('./peerHelpers');
+var remotePeers = require('./remotePeers');
+var RemotePeer = require('./remotePeer');
 var _ = require('lodash');
 var socket = io();
 var callHandler = require('../video/video').callHandler;
 
-// todo: don't identify peers by peerjs id, use metadata
-// on the channel.
-// when connecting do something like:
-// peer.connect(id, {metadata: whatever});
+var rtc;
 
 
 socket.on('env', function(env, port){
   if (env === 'production'){
-    exports.peer = new Peer({
-      host:'/', 
-      secure:true, 
-      port:443, 
-      key: 'peerjs', 
-      path: '/api', 
-      config: {
-        'iceServers': [
-        { url: 'stun:stun.l.google.com:19302' } 
-        ]
-      }
-    });
+    exports.rtc = new Peer({ host:'/', secure:true, port:443, path: '/api' });
+    rtc = exports.rtc;
   } else {
-    exports.peer = new Peer({host: '/', port: port, path: '/api'});
+    exports.rtc = new Peer({ host: '/', port: port, path: '/api' });
+    rtc = exports.rtc;
   }
-  exports.peer.on('open', function(id){
+  rtc.on('open', function(id){
     console.log('peer id is: ', id);
     socket.emit('peerId', id);
   });
-  exports.peer.on('connection', function(dataChannel){
-    helpers.setDataListeners(dataChannel);
-    helpers.dataConnections[dataChannel.id] = dataChannel;
+  rtc.on('connection', function(dataConnection){
+    var remotePeer = new RemotePeer(dataConnection.peer, dataConnection);
   });
-  exports.peer.on('call', function(call){
-    console.log('incoming call');
+  rtc.on('call', function(call){
     var stream = require('../video/video').videoStream;
     if(stream){
       call.answer(stream);
       callHandler(call);
+      remotePeers.getPeer(call.peer).mediaConnection = call;
     }
   });
 });
 
 socket.on('peerIds', function(ids){
   _.forEach(ids, function(id){
-    var dataChannel = exports.peer.connect(id);
-    helpers.setDataListeners(dataChannel);
-    helpers.dataConnections[dataChannel.id] = dataChannel;
+    if (! remotePeers.alreadyExists(id)) {
+      var remotePeer = new RemotePeer(id, rtc.connect(id));
+    }
   });
 });

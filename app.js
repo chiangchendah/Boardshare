@@ -3,13 +3,16 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var reqUtils = require('./server/utils/connectionHandlers');
-
+var connHandlers = require('./server/utils/connectionHandlers');
+var router = require('./server/routes/routes');
+var path = require('path');
 var expressPeerServer = require('peer').ExpressPeerServer;
 
 app.set('port', (process.env.PORT || 9000));
 
-app.use(express.static(__dirname + '/client'));
+router(app);
+
+app.use(express.static(path.join(__dirname, '/client')));
 
 var peerOptions = {
   debug: false
@@ -18,18 +21,23 @@ var peerOptions = {
 app.use('/api', expressPeerServer(server, peerOptions));
 
 io.on('connection', function(socket){
+  exports.socket = socket;
   // emit port to user so they can initiate peerjs stuff
   socket.emit('env', process.env.NODE_ENV, app.get('port'));
   // user giving server their peer id
-  socket.on('peerId', function(peerId){
-    reqUtils.returnPeerIds(socket, peerId);
+  socket.on('rtcReady', function(peerId, boardId){
+    socket.join(boardId);
+    socket.board = boardId;
+    connHandlers.returnPeerIds(socket, peerId, boardId);
   });
 
   socket.on('disconnect', function(){
-    reqUtils.removePeerId(socket);
+    connHandlers.removePeerId(socket);
   });
 });
 
 server.listen(app.get('port'), function(){
   console.log('Server running at localhost: ', app.get('port'));
 });
+
+exports.app = app;

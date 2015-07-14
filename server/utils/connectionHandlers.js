@@ -3,7 +3,6 @@ var BoardShare = require('./boardShare');
 
 
 exports.returnPeerIds = function(socket, peerId, boardId){
-  console.log(peerId, boardId);
   var board = boardShares.get(boardId);
   board && socket.emit('peerIds', board.peerIds);
   board && board.addPeerId(socket.id, peerId);

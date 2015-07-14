@@ -1,9 +1,9 @@
 var Hashids = require('hashids'),
-    hashids = new Hashids('salty travers');
+    hashids = new Hashids('salty travers', 7);
 var boardShares = require('./boardShares');
 
 BoardShare = function(){
-  this.id = hashids.encode(Math.floor(Math.random() * 1e9));
+  this.id = hashids.encode(Math.floor(Math.random() * 1e5));
   this.peerIds = {};
   boardShares.addBoard(this);
 };

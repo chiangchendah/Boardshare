@@ -26,7 +26,9 @@ module.exports = function() {
     mouseDownInCanvas(loc, selectedFunction);
   });
   canvas.on('mouse:move', function(obj) {
-    if (!dragging) return;
+    if (!dragging) {
+      return;
+    }
     var loc = canvas.getPointer(obj.e);
     mouseMoveInCanvas(loc, selectedFunction);
   });

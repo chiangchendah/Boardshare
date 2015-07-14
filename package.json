@@ -24,6 +24,7 @@
     "bower": "^1.4.1",
     "browserify": "^10.2.4",
     "express": "^4.13.1",
+    "fabric-browserify": "^1.4.13",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssmin": "^0.1.7",

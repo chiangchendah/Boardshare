@@ -20,7 +20,7 @@ module.exports.initialize = function(){
 
   //extensions
   $('#settings').on('click', function(){
-      editor.execCommand('showSettingsMenu');
+    editor.execCommand('showSettingsMenu');
   });
 
   //menu functionality

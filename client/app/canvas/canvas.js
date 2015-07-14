@@ -2,6 +2,10 @@
 
 module.exports = function() {
   var canvas = new fabric.Canvas('canvas', {selection: false});
+  var state = [];
+  var mods = 0;
+  canvas.counter = 0;
+
   fabric.Object.prototype.selectable = false;
 
   var backgroundColorSelect = document.getElementById('backgroundColor');
@@ -41,7 +45,6 @@ module.exports = function() {
     console.log('object added');
   });
   canvas.on('object:modified', function(e) {
-    console.log('object modified');
   });
 
   toolSelect.onchange = function() {
@@ -68,6 +71,36 @@ module.exports = function() {
   clearAllButton.onclick = function() {
     canvas.clear();
   };
+  undoButton.onclick = function() {
+    undo();
+  };
+  redoButton.onclick = function() {
+    redo();
+  };
+
+  var updateState = function(savehistory) {
+    if (savehistory === true) {
+      state.push(JSON.stringify(canvas));
+      console.log(state.length);
+    }
+  };
+
+  var undo = function() {
+    if (mods < state.length) {
+      canvas.clear().renderAll();
+      canvas.loadFromJSON(state[state.length - 1 - mods - 1], canvas.renderAll.bind(canvas));
+      mods += 1;
+    }
+  };
+  var redo = function() {
+    if (mods > 0) {
+      canvas.clear().renderAll();
+      canvas.loadFromJSON(state[state.length - 1 - mods + 1], canvas.renderAll.bind(canvas));
+      mods -= 1;
+    }
+  };
+
+  // Brushes
   var pencilBrush = new fabric.PencilBrush(canvas);
   var eraserBrush = new fabric.CircleBrush(canvas);
   var brushes = {
@@ -93,6 +126,7 @@ module.exports = function() {
       canvas.freeDrawingBrush.color = '#fff';
       canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
     }
+    canvas.counter++;
   };
   var mouseMoveInCanvas = function(loc, tool) {
     if (tool === 'rect') {
@@ -103,7 +137,7 @@ module.exports = function() {
     canvas.renderAll();
   };
   var mouseUpInCanvas = function(loc, tool) {
-
+    updateState(true);
   };
   var createRect = function(top, left, width, height) {
       return new fabric.Rect({

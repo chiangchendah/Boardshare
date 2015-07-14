@@ -45,7 +45,7 @@ module.exports = function() {
   });
 
   toolSelect.onchange = function() {
-    if (this.value !== 'pencil') {
+    if (this.value !== 'pencil' && this.value !== 'eraser') {
       canvas.isDrawingMode = false;
     } else {
       canvas.isDrawingMode = true;
@@ -69,8 +69,10 @@ module.exports = function() {
     canvas.clear();
   };
   var pencilBrush = new fabric.PencilBrush(canvas);
+  var eraserBrush = new fabric.CircleBrush(canvas);
   var brushes = {
-    pencil: pencilBrush
+    pencil: pencilBrush,
+    eraser: eraserBrush
   };
 
 
@@ -86,6 +88,10 @@ module.exports = function() {
     } else if (tool === 'line') {
       line = createLine(loc);
       canvas.add(line);
+    } else if (tool === 'eraser') {
+      canvas.freeDrawingBrush = brushes.eraser;
+      canvas.freeDrawingBrush.color = '#fff';
+      canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
     }
   };
   var mouseMoveInCanvas = function(loc, tool) {

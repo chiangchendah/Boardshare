@@ -40,9 +40,10 @@ module.exports = function() {
     mouseUpInCanvas(loc, selectedFunction);
   });
   canvas.on('object:added', function(e) {
-    console.log('object added');
+
   });
   canvas.on('object:modified', function(e) {
+
   });
 
   toolSelect.onchange = function() {
@@ -79,7 +80,6 @@ module.exports = function() {
   var updateState = function(savehistory) {
     if (savehistory === true) {
       state.push(JSON.stringify(canvas));
-      console.log(state.length);
     }
   };
   var undo = function() {

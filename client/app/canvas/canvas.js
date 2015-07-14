@@ -1,8 +1,10 @@
-// var fabric = require('fabric-browserify').fabric;
-
 module.exports = function() {
   var canvas = new fabric.Canvas('canvas', {selection: false});
   fabric.Object.prototype.selectable = false;
+  canvas.counter = 0;
+
+  var state = [];
+  var mods = 0;
 
   var backgroundColorSelect = document.getElementById('backgroundColor');
   var strokeColorSelect = document.getElementById('strokeColor');
@@ -15,7 +17,7 @@ module.exports = function() {
 
   var dragging = false;
   var origX, origY;
-  var rect, line;
+  var rect, ellipse, triangle, line;
 
   var selectedFunction = toolSelect.value;
   canvas.isDrawingMode = true;
@@ -38,24 +40,19 @@ module.exports = function() {
     mouseUpInCanvas(loc, selectedFunction);
   });
   canvas.on('object:added', function(e) {
-    console.log('object added');
+
   });
   canvas.on('object:modified', function(e) {
-    console.log('object modified');
+
   });
 
   toolSelect.onchange = function() {
-    if (this.value !== 'pencil') {
+    if (!(this.value in brushes)) {
       canvas.isDrawingMode = false;
     } else {
       canvas.isDrawingMode = true;
     }
     selectedFunction = toolSelect.value;
-  };
-  backgroundColorSelect.onchange = function() {
-    canvas.setBackgroundColor(backgroundColorSelect.value, function() {
-      canvas.renderAll();
-    });
   };
   strokeColorSelect.onchange = function() {
     if (canvas.isDrawingMode) {
@@ -73,49 +70,98 @@ module.exports = function() {
   clearAllButton.onclick = function() {
     canvas.clear();
   };
-  var pencilBrush = new fabric.PencilBrush(canvas);
-  var brushes = {
-    pencil: pencilBrush
+  undoButton.onclick = function() {
+    undo();
+  };
+  redoButton.onclick = function() {
+    redo();
   };
 
+  var updateState = function(savehistory) {
+    if (savehistory === true) {
+      state.push(JSON.stringify(canvas));
+    }
+  };
+  var undo = function() {
+    if (mods < state.length) {
+      canvas.clear().renderAll();
+      canvas.loadFromJSON(state[state.length - 1 - mods - 1], canvas.renderAll.bind(canvas));
+      mods += 1;
+    }
+  };
+  var redo = function() {
+    if (mods > 0) {
+      canvas.clear().renderAll();
+      canvas.loadFromJSON(state[state.length - 1 - mods + 1], canvas.renderAll.bind(canvas));
+      mods -= 1;
+    }
+  };
+
+  // Brushes
+  var pencilBrush = new fabric.PencilBrush(canvas);
+  var eraserBrush = new fabric.CircleBrush(canvas);
+  var brushes = {
+    pencil: pencilBrush,
+    eraser: eraserBrush
+  };
 
   var mouseDownInCanvas = function(loc, tool) {
     origX = loc.x;
     origY = loc.y;
 
-    if (tool === 'pencil') {
-      canvas.freeDrawingBrush = brushes.pencil;
-    } else if (tool === 'rect') {
-      rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
-      canvas.add(rect);
-    } else if (tool === 'line') {
-      line = createLine(loc);
-      canvas.add(line);
+    switch(tool) {
+      case 'pencil':
+        canvas.freeDrawingBrush = brushes.pencil;
+        break;
+      case 'eraser':
+        canvas.freeDrawingBrush = brushes.eraser;
+        canvas.freeDrawingBrush.color = '#fff';
+        canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
+        break;
+      case 'rect':
+        rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
+        canvas.add(rect);
+        break;
+      case 'ellipse':
+        ellipse = createEllipse(loc);
+        canvas.add(ellipse);
+        break;
+      case 'line':
+        line = createLine(loc);
+        canvas.add(line);
+        break;                
     }
+    canvas.counter++;
   };
   var mouseMoveInCanvas = function(loc, tool) {
-    if (tool === 'rect') {
-      updateRect(loc);
-    } else if (tool === 'line') {
-      updateLine(loc);
+    switch(tool) {
+      case 'rect':
+        updateRect(loc);
+        break;
+      case 'ellipse':
+        updateEllipse(loc);
+        break;
+      case 'line':
+        updateLine(loc);
+        break;
     }
     canvas.renderAll();
   };
   var mouseUpInCanvas = function(loc, tool) {
-
+    updateState(true);
   };
   var createRect = function(top, left, width, height) {
-      return new fabric.Rect({
-        top: top,
-        left: left,
-        width: width,
-        height: height,
-        fill: fillColorSelect.value,
-        stroke: strokeColorSelect.value,
-        strokeWidth: lineWidthSelect.value,
-        angle: 0,
-        transparentCorners: false
-      });
+    return new fabric.Rect({
+      top: top,
+      left: left,
+      width: width,
+      height: height,
+      fill: fillColorSelect.value,
+      stroke: strokeColorSelect.value,
+      strokeWidth: lineWidthSelect.value,
+      angle: 0,
+      transparentCorners: false
+    });
   };
   var updateRect = function(loc) {
     if (origX > loc.x) {
@@ -128,6 +174,29 @@ module.exports = function() {
     rect.set({ height: Math.abs(origY - loc.y) });
   };
 
+  var createEllipse = function(loc) {
+    return new fabric.Ellipse({
+      top: loc.y,
+      left: loc.x,
+      originY: 'top',
+      originX: 'center',
+      rx: 1,
+      ry: 1,
+      fill: fillColorSelect.value,
+      stroke: strokeColorSelect.value,
+      strokeWidth: lineWidthSelect.value
+    });
+  };
+  var updateEllipse = function(loc) {
+    if (origX > loc.x) {
+      ellipse.set({ left: Math.abs(loc.x) });
+    }
+    if (origY > loc.y) {
+      ellipse.set({ top: Math.abs(loc.y) });
+    }
+    ellipse.set({rx: Math.abs(origX - loc.x)});
+    ellipse.set({ry: Math.abs(origY - loc.y)});
+  };
   var createLine = function(loc) {
     return new fabric.Line([loc.x, loc.y, loc.x, loc.y], {
       strokeWidth: lineWidthSelect.value,
@@ -141,78 +210,3 @@ module.exports = function() {
     line.set({x2: loc.x, y2: loc.y});
   };
 };
-
-
-
-
-
-// var drawGrid = require('./canvasHelpers/drawGrid');
-// var drawBackground = require('./canvasHelpers/drawBackground').drawBackground;
-// var mouseActions = require('./canvasHelpers/mouseActions');
-// var getCoords = require('./canvasHelpers/getCoords');
-// var drawingSurface = require('./canvasHelpers/saveAndRestore');
-
-
-// module.exports = function() {
-//   // Declare variables
-//   var canvas = document.getElementById('canvas');
-//   var context = canvas.getContext('2d');
-//   var strokeStyleSelect = document.getElementById('strokeStyleSelect');
-//   var fillStyleSelect = document.getElementById('fillStyleSelect');
-//   var lineWidthSelect = document.getElementById('lineWidthSelect');
-//   var toolSelect = document.getElementById('toolSelect');
-//   var eraseAllButton = document.getElementById('eraseAllButton');
-//   var snapshotButton = document.getElementById('snapshotButton');
-//   var undoButton = document.getElementById('undoButton');
-
-//   var selectedFunction = toolSelect.value || 'line';
-//   var SHADOW_COLOR = 'rgba(0,0,0,0.7)';
-
-//   // Control Event Handlers
-//   strokeStyleSelect.onchange = function(e) {
-//     context.strokeStyle = strokeStyleSelect.value;
-//   };
-//   fillStyleSelect.onchange = function(e) {
-//     context.fillStyle = fillStyleSelect.value;
-//   };
-//   lineWidthSelect.onchange = function(e) {
-//     context.lineWidth = lineWidthSelect.value;
-//   };
-//   toolSelect.onchange = function(e) {
-//     selectedFunction = toolSelect.value;
-//   };
-//   eraseAllButton.onclick = function(e) {
-//     context.clearRect(0, 0, canvas.width, canvas.height);
-//     drawGrid(context, 'black', 10, 10);
-//     drawingSurface.save(canvas, context);
-//   };
-//   undoButton.onclick = function(e) {
-//     // TODO
-//   };
-
-//   // Canvas Event Handlers
-//   canvas.onmousedown = function(e) {
-//     getCoords(e, function(loc) {
-//       mouseActions.mouseDownInCanvas(loc, selectedFunction);
-//     });
-//   };
-//   canvas.onmousemove = function(e) {
-//     getCoords(e, function(loc) {
-//       mouseActions.mouseMoveInCanvas(loc, selectedFunction);
-//     });  
-//   };
-//   canvas.onmouseup = function(e) {
-//     getCoords(e, function(loc) {
-//       mouseActions.mouseUpInCanvas(loc, selectedFunction);
-//     });
-//   };
-
-//   // Initialize
-//   context.strokeStyle = strokeStyleSelect.value;
-//   context.fillStyle = fillStyleSelect.value;
-//   context.lineWidth = lineWidthSelect.value;
-
-//   drawGrid(context, 'black', 10, 10);
-//   drawBackground();
-// };
-

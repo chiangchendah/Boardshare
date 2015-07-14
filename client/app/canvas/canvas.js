@@ -52,11 +52,6 @@ module.exports = function() {
     }
     selectedFunction = toolSelect.value;
   };
-  backgroundColorSelect.onchange = function() {
-    canvas.setBackgroundColor(backgroundColorSelect.value, function() {
-      canvas.renderAll();
-    });
-  };
   strokeColorSelect.onchange = function() {
     if (canvas.isDrawingMode) {
       canvas.freeDrawingBrush.color = strokeColorSelect.value;

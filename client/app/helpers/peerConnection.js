@@ -18,10 +18,18 @@ socket.on('env', function(env, port){
   }
   rtc.on('open', function(id){
     console.log('peer id is: ', id);
-    socket.emit('peerId', id);
+    console.log(window.location.href.slice(-7));
+    socket.emit('rtcReady', id, window.location.href.slice(-7));
+    helpers.stayAlive(rtc);
   });
   rtc.on('connection', function(dataConnection){
     var remotePeer = new RemotePeer(dataConnection.peer, dataConnection);
+  });
+  rtc.on('disconnection', function(id){
+    console.log('disconnected from peer server', id);
+    setTimeout(function(){
+      rtc.reconnect();
+    }, 300);
   });
   rtc.on('call', function(call){
     var stream = require('../video/video').videoStream;
@@ -32,7 +40,6 @@ socket.on('env', function(env, port){
     }
   });
 });
-
 socket.on('peerIds', function(ids){
   _.forEach(ids, function(id){
     if (! remotePeers.alreadyExists(id)) {

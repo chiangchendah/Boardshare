@@ -1,16 +1,15 @@
-var Boardshare = require('./boardshare').Boardshare;
-var boardshares = require('./boardshare').boardshares;
+var boardShares = require('./boardShares');
+var BoardShare = require('./boardShare');
 
-var boardshare = new Boardshare();
-boardshares[ boardshare.boardId ] = boardshare;
 
-exports.returnPeerIds = function(socket, peerId){
-    // give them list with everyone elses peer id
-    socket.emit('peerIds', boardshare.peerIds);
-    // put their id into the list
-    boardshare.addPeerId(socket.id, peerId);
+exports.returnPeerIds = function(socket, peerId, boardId){
+  console.log(peerId, boardId);
+  var board = boardShares.get(boardId);
+  board && socket.emit('peerIds', board.peerIds);
+  board && board.addPeerId(socket.id, peerId);
 };
 
 exports.removePeerId = function(socket){
-  boardshare.removePeerId(socket.id);
+  var board = boardShares.get(socket.board);
+  board && board.removePeerId(socket.id);
 };

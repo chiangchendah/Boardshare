@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Boardshare - A realtime collaborative whiteboard and editor</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="../dist/main.min.css">
+</head>
+
+<body>
+<div class="top">
+  <div id='paint-canvas'></div>
+  <div id='text-editor'></div>
+</div>
+<div class="bottom">
+  <div id='video'></div>
+  <div id='messaging'></div>
+</div>
+
+
+
+  <!-- CDNS -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../lib/jquery/dist/jquery.min.js">\x3C/script>')</script>
+  <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+
+  <script src='../lib/peerjs/peer.min.js'></script>
+  <script src='../lib/ace-builds/src-min-noconflict/ace.js'></script>
+  <script src='../lib/handlebars/handlebars.min.js'></script>
+  <script src='../dist/main.js'></script>
+
+  <script type="text/javascript">
+    $('document').ready(function () {
+      console.log('doc ready');
+      var id = window.location.href.slice(-7);
+      if (window.history.replaceState) {
+        window.history.replaceState(null, 'boardshare', id);
+      }
+    })
+  </script>
+</body>
+
+</html>

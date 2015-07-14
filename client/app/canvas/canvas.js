@@ -1,12 +1,10 @@
-// var fabric = require('fabric-browserify').fabric;
-
 module.exports = function() {
   var canvas = new fabric.Canvas('canvas', {selection: false});
-  var state = [];
-  var mods = 0;
+  fabric.Object.prototype.selectable = false;
   canvas.counter = 0;
 
-  fabric.Object.prototype.selectable = false;
+  var state = [];
+  var mods = 0;
 
   var backgroundColorSelect = document.getElementById('backgroundColor');
   var strokeColorSelect = document.getElementById('strokeColor');
@@ -19,7 +17,7 @@ module.exports = function() {
 
   var dragging = false;
   var origX, origY;
-  var rect, line;
+  var rect, ellipse, triangle, line;
 
   var selectedFunction = toolSelect.value;
   canvas.isDrawingMode = true;
@@ -48,7 +46,7 @@ module.exports = function() {
   });
 
   toolSelect.onchange = function() {
-    if (this.value !== 'pencil' && this.value !== 'eraser') {
+    if (!(this.value in brushes)) {
       canvas.isDrawingMode = false;
     } else {
       canvas.isDrawingMode = true;
@@ -84,7 +82,6 @@ module.exports = function() {
       console.log(state.length);
     }
   };
-
   var undo = function() {
     if (mods < state.length) {
       canvas.clear().renderAll();
@@ -108,31 +105,45 @@ module.exports = function() {
     eraser: eraserBrush
   };
 
-
   var mouseDownInCanvas = function(loc, tool) {
     origX = loc.x;
     origY = loc.y;
 
-    if (tool === 'pencil') {
-      canvas.freeDrawingBrush = brushes.pencil;
-    } else if (tool === 'rect') {
-      rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
-      canvas.add(rect);
-    } else if (tool === 'line') {
-      line = createLine(loc);
-      canvas.add(line);
-    } else if (tool === 'eraser') {
-      canvas.freeDrawingBrush = brushes.eraser;
-      canvas.freeDrawingBrush.color = '#fff';
-      canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
+    switch(tool) {
+      case 'pencil':
+        canvas.freeDrawingBrush = brushes.pencil;
+        break;
+      case 'eraser':
+        canvas.freeDrawingBrush = brushes.eraser;
+        canvas.freeDrawingBrush.color = '#fff';
+        canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
+        break;
+      case 'rect':
+        rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
+        canvas.add(rect);
+        break;
+      case 'ellipse':
+        ellipse = createEllipse(loc);
+        canvas.add(ellipse);
+        break;
+      case 'line':
+        line = createLine(loc);
+        canvas.add(line);
+        break;                
     }
     canvas.counter++;
   };
   var mouseMoveInCanvas = function(loc, tool) {
-    if (tool === 'rect') {
-      updateRect(loc);
-    } else if (tool === 'line') {
-      updateLine(loc);
+    switch(tool) {
+      case 'rect':
+        updateRect(loc);
+        break;
+      case 'ellipse':
+        updateEllipse(loc);
+        break;
+      case 'line':
+        updateLine(loc);
+        break;
     }
     canvas.renderAll();
   };
@@ -140,17 +151,17 @@ module.exports = function() {
     updateState(true);
   };
   var createRect = function(top, left, width, height) {
-      return new fabric.Rect({
-        top: top,
-        left: left,
-        width: width,
-        height: height,
-        fill: fillColorSelect.value,
-        stroke: strokeColorSelect.value,
-        strokeWidth: lineWidthSelect.value,
-        angle: 0,
-        transparentCorners: false
-      });
+    return new fabric.Rect({
+      top: top,
+      left: left,
+      width: width,
+      height: height,
+      fill: fillColorSelect.value,
+      stroke: strokeColorSelect.value,
+      strokeWidth: lineWidthSelect.value,
+      angle: 0,
+      transparentCorners: false
+    });
   };
   var updateRect = function(loc) {
     if (origX > loc.x) {
@@ -163,6 +174,29 @@ module.exports = function() {
     rect.set({ height: Math.abs(origY - loc.y) });
   };
 
+  var createEllipse = function(loc) {
+    return new fabric.Ellipse({
+      top: loc.y,
+      left: loc.x,
+      originY: 'top',
+      originX: 'center',
+      rx: 1,
+      ry: 1,
+      fill: fillColorSelect.value,
+      stroke: strokeColorSelect.value,
+      strokeWidth: lineWidthSelect.value
+    });
+  };
+  var updateEllipse = function(loc) {
+    if (origX > loc.x) {
+      ellipse.set({ left: Math.abs(loc.x) });
+    }
+    if (origY > loc.y) {
+      ellipse.set({ top: Math.abs(loc.y) });
+    }
+    ellipse.set({rx: Math.abs(origX - loc.x)});
+    ellipse.set({ry: Math.abs(origY - loc.y)});
+  };
   var createLine = function(loc) {
     return new fabric.Line([loc.x, loc.y, loc.x, loc.y], {
       strokeWidth: lineWidthSelect.value,

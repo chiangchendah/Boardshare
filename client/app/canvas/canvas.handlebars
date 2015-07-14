@@ -1,3 +1,4 @@
+{{!-- Our modifiers --}}
 Background color: <input type='color' id='backgroundColor' value='#ffffff' />
 Line color:       <input type='color' id='strokeColor' value='#000000' />
 Fill Color:       <input type='color' id='fillColor' value='#ffffff' />
@@ -9,10 +10,12 @@ Line width: <select id='lineWidth'>
                 <option value='5.0'>5.0</option>
                 <option value='6.0'>6.0</option>
             </select>
+{{!-- Special function buttons --}}
 <input id='clearAll' type='button' value='clear' />
 <input id='undo' type='button' value='undo' />
 <input id='redo' type='button' value='redo' />
 
+{{!-- All our drawing tools go here --}}
 <select id='toolSelect'>
   <option value='pencil'>Pencil</option>
   <option value='line'>Drawline</option>
@@ -22,6 +25,7 @@ Line width: <select id='lineWidth'>
   <option value='eraser'>Eraser</option>
 </select>
 
+{{!-- The Canvas --}}
 <canvas id='canvas' width='650' height='400'>
   <h1>Canvas is not supported in your browser.</h1>
 </canvas>

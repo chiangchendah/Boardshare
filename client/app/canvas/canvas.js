@@ -55,7 +55,7 @@ exports.initialize = function() {
     } else {
       canvas.isDrawingMode = true;
       canvas.freeDrawingBrush.color = strokeColorSelect.value;
-      canvas.freeDrawingBrush.width = lineWidthSelect.value
+      canvas.freeDrawingBrush.width = lineWidthSelect.value;
     }
     selectedFunction = toolSelect.value;
   };

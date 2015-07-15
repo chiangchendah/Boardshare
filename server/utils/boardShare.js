@@ -1,5 +1,5 @@
 var Hashids = require('hashids'),
-    hashids = new Hashids('salty travers');
+    hashids = new Hashids('salty travers', 7);
 var boardShares = require('./boardShares');
 
 BoardShare = function(){

@@ -18,8 +18,7 @@ socket.on('env', function(env, port){
   }
   rtc.on('open', function(id){
     console.log('peer id is: ', id);
-    console.log(window.location.href.slice(-7));
-    socket.emit('rtcReady', id, window.location.href.slice(-7));
+    socket.emit('rtcReady', id, (/\w+$/).exec(window.location.href)[0]);
     helpers.stayAlive(rtc);
   });
   rtc.on('connection', function(dataConnection){

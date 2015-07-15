@@ -6,25 +6,15 @@ module.exports = function(app){
   app.get('/start', function(req, res){
     var board = new BoardShare();
     var id = encodeURIComponent(board.id);
-    res.redirect('/board?boardId=' + id);
-  });
-  app.get('/board', function(req, res){
-    var id = req.query.boardId;
-    console.log(id);
-    if (boardShares.boardExists(id)) {
-      console.log('joining board: ', id);
-    } else {
-
-    }
-    res.sendFile(path.join(__dirname, '../../client/app/board.html'));
+    res.redirect('/' + id);
   });
   app.get('/:id', function(req, res){
-    var id = encodeURIComponent(req.params.id);
-    if (!boardShares.boardExists(id)) {
-      res.sendStatus(404);
+    var id = req.params.id;
+    if (boardShares.boardExists(id)) {
+      console.log('joining board: ', id);
+      res.sendFile(path.join(__dirname, '../../client/app/board.html'));
     } else {
-      res.redirect('/board?boardId=' + id);
+      res.sendStatus(404);
     }
-    console.log('id route', id);
   });
 };

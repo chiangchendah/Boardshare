@@ -7,13 +7,6 @@
   <title>Boardshare - A realtime collaborative whiteboard and editor</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- moved this here so it changes url before any other stuff happens -->
-  <script type="text/javascript">
-      var id = (/\w+$/).exec(window.location.href)[0];
-      if (window.history.replaceState) {
-        window.history.replaceState(null, 'boardshare', id);
-      }
-  </script>
   <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
   <!-- Place favicon.ico in the root directory -->
   <link rel="stylesheet" href="../dist/main.min.css">
@@ -44,7 +37,7 @@
   if (window.location.href.indexOf('localhost') > -1) {
     document.write('<script src="../dist/main.js"><\/script>')
   } else {
-    document.write('<script src="../dist/main.min.js"><\/script>')    
+    document.write('<script src="../dist/main.min.js"><\/script>')
   }
   </script>
 

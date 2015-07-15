@@ -28,6 +28,7 @@ var paths = {
     './server/**/*.js', 
     './client/**/*.js', 
     './test/**/*.js',
+    '!./test/client/mainSpec.js',
     '!./client/lib/**/*.js', 
     '!./client/dist/**/*.js', 
     'gulpfile.js', 
@@ -60,7 +61,7 @@ gulp.task('test:server', function() {
     .pipe(mocha({reporter: 'nyan'}))
       .on('error', gutil.log)
       .once('end', function(){
-        process.exit();
+        process.exit(0);
       });
 });
 
@@ -90,19 +91,31 @@ function bundleProduction() {
     .pipe(uglify())
     .pipe(gulp.dest('./client/dist/'));
 }
-
+function bundleTest() {
+  return bTest.bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('mainSpec.js'))
+    .pipe(gulp.dest('./test/client/'));
+}
 
 // add custom browserify options here
 var customOpts = {
   entries: ['./client/app/entry.js'],
   debug: true
 };
+var customOptsTest = {
+  entries: ['./client/app/entry.js', './test/client/entrySpec.js'],
+  debug: true
+};
 var opts = lodash.assign({}, watchify.args, customOpts);
+var optsTest = lodash.assign({}, watchify.args, customOptsTest);
 var b = watchify(browserify(opts));
+var bTest = watchify(browserify(optsTest));
 // add transformations here
 // i.e. b.transform(coffeeify);
 
 gulp.task('js', bundle); // so you can run gulpjs to build on the file
+gulp.task('js-test', bundleTest);
 gulp.task('js-deploy', bundleProduction);
 
 b.on('update', bundle); // on any update, runs bundler
@@ -148,7 +161,7 @@ gulp.task('deploy', ['js-deploy', 'stylesheets'], function(){
 });
 
 gulp.task('watch', function(){
-  gulp.watch(['./test/**/*.js'], ['test']);
+  gulp.watch(['./test/**/*.js', '!./test/client/mainSpec.js'], ['js-test']);
   gulp.watch(paths.clientScripts, ['js']);
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });

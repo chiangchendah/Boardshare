@@ -1,5 +1,8 @@
-module.exports = function() {
+var remotePeers = require('../helpers/remotePeers');
+
+exports.initialize = function() {
   var canvas = new fabric.Canvas('canvas', {selection: false});
+  exports.canvas = canvas;
   fabric.Object.prototype.selectable = false;
   canvas.counter = 0;
 
@@ -69,6 +72,8 @@ module.exports = function() {
   };
   clearAllButton.onclick = function() {
     canvas.clear();
+    updateState(true);
+    remotePeers.sendData({canvas: state[state.length-1]});
   };
   undoButton.onclick = function() {
     undo();
@@ -85,14 +90,20 @@ module.exports = function() {
   var undo = function() {
     if (mods < state.length) {
       canvas.clear().renderAll();
-      canvas.loadFromJSON(state[state.length - 1 - mods - 1], canvas.renderAll.bind(canvas));
+      var currentState = state[state.length - 1 - mods - 1];
+      // Rerender user's state
+      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
+      // Send over to peers
+      remotePeers.sendData({canvas: currentState});
       mods += 1;
     }
   };
   var redo = function() {
     if (mods > 0) {
       canvas.clear().renderAll();
-      canvas.loadFromJSON(state[state.length - 1 - mods + 1], canvas.renderAll.bind(canvas));
+      var currentState = state[state.length - 1 - mods + 1];
+      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
+      remotePeers.sendData({canvas: currentState});
       mods -= 1;
     }
   };
@@ -149,6 +160,7 @@ module.exports = function() {
   };
   var mouseUpInCanvas = function(loc, tool) {
     updateState(true);
+    remotePeers.sendData({canvas: state[state.length-1]});
   };
   var createRect = function(top, left, width, height) {
     return new fabric.Rect({

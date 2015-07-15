@@ -54,7 +54,9 @@ RemotePeer.prototype.addDataEventListeners = function () {
       updateEditor(data.editor);
     }
     if (data.canvas) {
-      // canvas stuff here
+      var canvas = require('../canvas/canvas').canvas;
+      canvas.loadFromJSON(data.canvas);
+      canvas.renderAll();
     }
     if (data.name) {
       this.name = name;

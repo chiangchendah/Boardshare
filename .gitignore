@@ -4,6 +4,7 @@
 ### node etc ###
 
 # Logs
+npm-debug.log
 logs
 *.log
 

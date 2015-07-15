@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 module.exports.initialize = function(){
   var remotePeers = require('../helpers/remotePeers');
   module.exports.editor = ace.edit("editor");

@@ -1,5 +1,6 @@
-var remotePeers = require('../helpers/remotePeers');
+var $ = require('jquery');
 var _ = require('lodash');
+var remotePeers = require('../helpers/remotePeers');
 var videoInitialized = false;
 
 // todo: switch over to keeping track of connections manually instead

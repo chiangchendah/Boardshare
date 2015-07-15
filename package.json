@@ -22,9 +22,9 @@
   "homepage": "https://github.com/Boardshare/Boardshare",
   "dependencies": {
     "bower": "^1.4.1",
+    "handlebars":"^3.0.3",
     "browserify": "^10.2.4",
     "express": "^4.13.1",
-    "fabric-browserify": "^1.4.13",
     "hashids": "1.0.2",
     "interact.js": "^1.2.4",
     "jquery": "^2.1.4",

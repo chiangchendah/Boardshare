@@ -12,11 +12,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4",
-    "handlebars": "~3.0.3",
-    "lodash": "~3.10.0",
-    "peerjs": "~0.3.14",
     "normalize.css": "~3.0.3",
-    "ace-builds": "~1.1.9"
+    "ace-builds": "~1.1.9",
+    "fabric": "~1.5.0"
   }
 }

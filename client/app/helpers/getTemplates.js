@@ -1,6 +1,8 @@
-// Allows us to dynamically render templates with just clientside code
+/* Allows us to dynamically render templates with just clientside code */
 
 // Create event to signal when template is rendered
+var $ = require('jquery');
+var Handlebars = require('handlebars');
 var onTemplateRender = new CustomEvent('templateRendered');
 
 module.exports = function(path, container, callback) {

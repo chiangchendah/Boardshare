@@ -1,3 +1,4 @@
+var fabric = require('../../lib/fabric/dist/fabric').fabric;
 var remotePeers = require('../helpers/remotePeers');
 
 exports.initialize = function() {

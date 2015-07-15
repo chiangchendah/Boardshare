@@ -1,4 +1,3 @@
-
 var BoardShares = function () {
   this._storage = {};
   this._count = 0;

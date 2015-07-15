@@ -1,4 +1,4 @@
-var _ = require('lodash');
+var forEach = require('lodash/collection/forEach');
 
 var RemotePeers = function(){
   this._storage = {};
@@ -28,19 +28,19 @@ RemotePeers.prototype.getPeer = function (remotePeerId) {
 };
 
 RemotePeers.prototype.sendData = function (data) {
-  _.forEach(this._storage, function(remotePeer){
+  forEach(this._storage, function(remotePeer){
     remotePeer.sendData(data);
   });
 };
 
 RemotePeers.prototype.call = function (stream, cb) {
-  _.forEach(this._storage, function(remotePeer){
+  forEach(this._storage, function(remotePeer){
     remotePeer.call(stream, cb);
   });
 };
 
 RemotePeers.prototype.endCalls = function () {
-  _.forEach(this._storage, function(remotePeer){
+  forEach(this._storage, function(remotePeer){
     remotePeer.endCall();
   });
 };

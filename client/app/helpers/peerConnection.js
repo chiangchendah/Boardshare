@@ -1,12 +1,12 @@
+var forEach = require('lodash/collection/forEach');
+var Peer = require('peerjs');
+var socket = require('socket.io-client')();
 var helpers = require('./peerHelpers');
 var remotePeers = require('./remotePeers');
 var RemotePeer = require('./remotePeer');
-var _ = require('lodash');
-var socket = io();
 var callHandler = require('../video/video').callHandler;
 
 var rtc;
-
 
 socket.on('env', function(env, port){
   if (env === 'production'){
@@ -17,7 +17,7 @@ socket.on('env', function(env, port){
     rtc = exports.rtc;
   }
   rtc.on('open', function(id){
-    console.log('peer id is: ', id);
+    // console.log('peer id is: ', id);
     socket.emit('rtcReady', id, (/\w+$/).exec(window.location.href)[0]);
     helpers.stayAlive(rtc);
   });
@@ -40,7 +40,7 @@ socket.on('env', function(env, port){
   });
 });
 socket.on('peerIds', function(ids){
-  _.forEach(ids, function(id){
+  forEach(ids, function(id){
     if (! remotePeers.alreadyExists(id)) {
       var remotePeer = new RemotePeer(id, rtc.connect(id));
     }

@@ -37,6 +37,7 @@ var paths = {
   styleSheets: [
     // './client/lib/**/*.css', 
     './client/lib/normalize.css/normalize.css',
+    './client/lib/fontawesome/css/font-awesome.css',
     './client/assets/css/*.css'
   ]
 };
@@ -147,6 +148,11 @@ gulp.task('stylesheets', function(){
     .pipe(gulp.dest('./client/dist'));
 });
 
+gulp.task('fonts', function() {
+  return gulp.src(['./client/lib/fontawesome/fonts/fontawesome-webfont.*'])
+    .pipe(gulp.dest('./client/dist/'));
+});
+
 gulp.task('dev', function(){
   nodemon({
     script: './app.js', 
@@ -156,7 +162,7 @@ gulp.task('dev', function(){
   });
 });
 
-gulp.task('deploy', ['js-deploy', 'stylesheets'], function(){
+gulp.task('deploy', ['js-deploy', 'stylesheets', 'fonts'], function(){
   process.exit(0);
 });
 

@@ -1,8 +1,8 @@
 #paint-canvas {
-  width: 50%;
+  width: 49.9%;
   float: right;
   display: inline-block;
-  border: solid 1px black;
+  /*border: solid 1px black;*/
 }
 #canvas {
   display: block;
@@ -17,4 +17,4 @@
 }
 .left-options li {
   padding: 0 0 15px 0;
-}  
+}

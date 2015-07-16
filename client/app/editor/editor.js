@@ -38,41 +38,41 @@ module.exports.initialize = function(){
     editor.execCommand('showSettingsMenu');
   });
 
-  // //menu functionality
-  // $('#fontSize').on('change', function(){
-  //   var fontSize = this.options[this.selectedIndex].value;
-  //   editor.setFontSize(parseInt(fontSize));
-  // });
-  //
-  // $('#wordWrap').on('change', function(){
-  //   var wordWrap = this.options[this.selectedIndex].value;
-  //   if (wordWrap === "false"){
-  //     wordWrap = false;
-  //   } else {
-  //     wordWrap = true;
-  //   }
-  //   editor.getSession().setUseWrapMode(wordWrap);
-  // });
-  //
-  // $('#tabSize').on('change', function(){
-  //   var tabSize = this.options[this.selectedIndex].value;
-  //   editor.getSession().setTabSize(tabSize);
-  // });
-  //
-  // $('#highlightActiveLine').on('change', function(){
-  //   var highlightActiveLine = this.options[this.selectedIndex].value;
-  //   if (highlightActiveLine === "false"){
-  //     highlightActiveLine = false;
-  //   } else {
-  //     highlightActiveLine = true;
-  //   }
-  //   editor.setHighlightActiveLine(highlightActiveLine);
-  // });
-  // 
-  // $('#language').on('change', function(){
-  //   var language = this.options[this.selectedIndex].value;
-  //   editor.session.setMode("ace/mode/" + language);
-  // });
+  //menu functionality
+  $('#fontSize').on('change', function(){
+    var fontSize = this.options[this.selectedIndex].value;
+    editor.setFontSize(parseInt(fontSize));
+  });
+
+  $('#wordWrap').on('change', function(){
+    var wordWrap = this.options[this.selectedIndex].value;
+    if (wordWrap === "false"){
+      wordWrap = false;
+    } else {
+      wordWrap = true;
+    }
+    editor.getSession().setUseWrapMode(wordWrap);
+  });
+
+  $('#tabSize').on('change', function(){
+    var tabSize = this.options[this.selectedIndex].value;
+    editor.getSession().setTabSize(tabSize);
+  });
+
+  $('#highlightActiveLine').on('change', function(){
+    var highlightActiveLine = this.options[this.selectedIndex].value;
+    if (highlightActiveLine === "false"){
+      highlightActiveLine = false;
+    } else {
+      highlightActiveLine = true;
+    }
+    editor.setHighlightActiveLine(highlightActiveLine);
+  });
+
+  $('#language').on('change', function(){
+    var language = this.options[this.selectedIndex].value;
+    editor.session.setMode("ace/mode/" + language);
+  });
   module.exports.updateEditorByAPI = function(data){
     editor.setByAPI = true;
     // editor.setValue(data);

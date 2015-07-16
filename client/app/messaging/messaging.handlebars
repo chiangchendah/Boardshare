@@ -1,64 +1,21 @@
-<div id="text-chat">
-  <div id="messages-container">
-    <ul id="messages"></ul>
-  </div>
-  <form id="messages-form" action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
-  </form>
-</div>
-
-<div class='chat'>
+<div class='chat draggable'>
   <header>
     <h2 class='title'>
-      <a href='http://www.elegantthemes.com/'>ElegantThemes</a>
+      <a href='#'>Chatbox</a>
     </h2>
     <ul class='tools'>
       <li>
         <a class='fa fa-gear' href='#'></a>
       </li>
-      <li>
-        <a class='fa fa-search' href='#'></a>
-      </li>
     </ul>
   </header>
   <div class='body'>
-    <div class='search'>
-      <input placeholder='Search...' type='text'>
-    </div>
-    <ul>
-      <li>
-        <a class='thumbnail' href='#'>
-          NR
-        </a>
-        <div class='content'>
-          <h3>Nick Roach</h3>
-          <span class='preview'>hey how are things going on the...</span>
-          <span class='meta'>
-            2h ago &middot;
-            <a href='#'>Category</a>
-            &middot;
-            <a href='#'>Reply</a>
-          </span>
-        </div>
-      </li>
-      <li>
-        <a class='thumbnail' href='#'>
-          KS
-        </a>
-        <div class='content'>
-          <h3>Kenny Sing</h3>
-          <span class='preview'>make sure you take a look at the...</span>
-          <span class='meta'>
-            3h ago &middot;
-            <a href='#'>Category</a>
-            &middot;
-            <a href='#'>Reply</a>
-          </span>
-        </div>
-      </li>
-    </ul>
+    <ul id='messages' class='message-list'></ul>
   </div>
   <footer>
-    <a href='#'>View All Messages</a>
+    <form id='messages-form' class='message-form'>
+      <input id='m' type='text' placeholder='Type a message here' class='message-input' />
+      <button class='message-button'>Send</button>
+    </form>
   </footer>
 </div>

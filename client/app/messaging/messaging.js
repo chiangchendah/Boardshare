@@ -1,7 +1,17 @@
 var $ = require('jquery');
 var remotePeers = require('../helpers/remotePeers');
 
+// Helper function to create chats
+function createChat(name, data) {
+  return $('<li>').append(
+    $('<div>', {'class': 'content'}).append(
+      $('<h3>', {'text': name})
+    ).append($('<span>', {'class': 'preview', 'text': data}))
+  );
+}
+
 exports.initialize = function(){
+  var chatBody = $('.body')[0];
   $('#messages-form').on('submit', function(e){
     e.preventDefault();
     var msg = $('#m').val();
@@ -10,11 +20,16 @@ exports.initialize = function(){
     }
     remotePeers.sendData({chat: msg});
     $('#m').val('');
-    $('#messages').append($('<li>').text('me' + ': ' + msg));
+    var chat = createChat('Me', msg);
+    $('#messages').append(chat);
+    chatBody.scrollTop = $('#messages')[0].scrollHeight += 20;
     return false;
   });
 };
 
 exports.appendMessage = function(name, data) {
-  $('#messages').append($('<li>').text(name + ': ' + data));
+  var chat = createChat(name, data);
+  var chatBody = $('.body')[0];
+  $('#messages').append(chat);
+  chatBody.scrollTop = $('#messages')[0].scrollHeight += 20;
 };

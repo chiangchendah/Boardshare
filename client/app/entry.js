@@ -12,6 +12,7 @@ require('./helpers/remotePeers');
 require('./helpers/getTemplates');
 require('./helpers/renderTemplates');
 require('./helpers/resizeElement');
+require('./helpers/makeDraggable');
 
 require('./canvas/canvas');
 require('./editor/editor');

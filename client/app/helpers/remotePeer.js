@@ -50,8 +50,6 @@ RemotePeer.prototype.addDataEventListeners = function () {
       chat.appendMessage(self.name, data.chat);
     }
     if (data.editor) {
-      console.log('receiving data');
-      console.log(data.editor);
       var updateEditor = require('../editor/editor').updateEditorByAPI;
       updateEditor(data.editor);
     }

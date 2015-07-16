@@ -7,18 +7,36 @@
         <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
     </head>
     <body>
+    
+    <div class="top">
+      <div id='paint-canvas'></div>
+      <div id='text-editor'></div>
+    </div>
+    <div class="bottom">
+      <div id='video'></div>
+      <div id='messaging'></div>
+    </div>
+
         <script src='../../node_modules/sinon/lib/sinon.js'></script>
         <script src="../../node_modules/chai/chai.js"></script> 
         <script src="../../node_modules/mocha/mocha.js"></script> 
+<script>
+(function () {
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+</script>
         <script>mocha.setup('bdd')</script> 
-        <script>var expect = chai.expect;</script>
-        <script>
-            describe('true', function () {
-                it('should be true', function () {
-                    expect(true).to.equal(true);
-                });
-            });
-        </script> 
+        <script>var expect = chai.expect;console.log('running tests');</script>
+        <!-- <script src='mainSpec.js'></script> -->
         <script>
             if (window.mochaPhantomJS) {
                 mochaPhantomJS.run();

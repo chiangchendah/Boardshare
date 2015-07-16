@@ -1,36 +1,31 @@
 #video {
-  height: 100px;
-  width: 100%;
-  bottom: 0;
+  height: 300px;
+  width: 49%;
+  float: right;
 }
 
 #video-container {
-  z-index: 999;
+  display: flex;
+  flex-flow: row wrap;
+  background: green;
   /*margin: 0 5px;*/
 }
 
-.peer-vid {
-  height: 150px;
-  display: inline;
+.peer-vid { 
+  width: 200px;
 }
 
 .peer-vid-container {
   /*margin: 0 -5px;*/
   order: 2;
-  display: inline;
 }
 
 #my-video-container {
   /*margin: 0 -5px;*/
-  display: inline;
 }
 
 #my-video {
-  height: 150px;
+  width: 200px;
   background-color: #eee;
   order: 1;
-}
-
-#video button {
-  float: left;
 }

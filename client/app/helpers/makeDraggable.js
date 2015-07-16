@@ -3,7 +3,7 @@ var interact = require('interact.js');
 interact('.draggable')
   .draggable({
     onmove: dragMoveListener
-  });
+  }).allowFrom('.handle');
 
 function dragMoveListener (event) {
   var target = event.target,

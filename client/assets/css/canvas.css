@@ -11,6 +11,9 @@
 #toolSelect {
   width: 85px;
 }
+.modifier {
+  margin: 0 6px 0 6px;
+}
 .left-options {
   position: absolute;
 }
@@ -21,6 +24,7 @@
 .left-options li {
   padding: 0 0 15px 0;
 }
+
 
 @media (max-width: 800px) {
   #paint-canvas {

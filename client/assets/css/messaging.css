@@ -1,15 +1,3 @@
-/*#messaging {width: 100%; background: green;}
-
-#messages { font: 13px Helvetica, Arial;}
-#messages-form { background: red; padding: 3px; position: fixed; bottom: 0; width: 50%; }
-#messages-form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-#messages-form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { background: white; list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-#messages-container { height: 300px; width: 100%; overflow: auto; background: yellow }
-#text-chat{float: left; width: 49%}*/
-
 .chat {
   background: #ffffff;
   width: 300px;

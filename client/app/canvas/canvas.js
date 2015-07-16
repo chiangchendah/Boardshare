@@ -53,6 +53,11 @@ exports.initialize = function() {
   toolSelect.onchange = function() {
     if (!(this.value in brushes)) {
       canvas.isDrawingMode = false;
+      if (this.value === 'cursor') {
+        canvas.forEachObject(function(o) {
+         o.selectable = true;
+        });
+      }
     } else {
       canvas.isDrawingMode = true;
       canvas.freeDrawingBrush.color = strokeColorSelect.value;
@@ -126,6 +131,9 @@ exports.initialize = function() {
     switch(tool) {
       case 'pencil':
         canvas.freeDrawingBrush = brushes.pencil;
+        break;
+      case 'cursor':
+        console.log('selecting');
         break;
       case 'eraser':
         canvas.freeDrawingBrush = brushes.eraser;

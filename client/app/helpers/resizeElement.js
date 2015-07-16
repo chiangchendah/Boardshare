@@ -1,32 +1,32 @@
-var interact = require('interact.js');
+// var interact = require('interact.js');
 
-function makeResizable(elementIdentifier) {
-  interact(elementIdentifier)
-    // Make element resizeable
-    .resizable({
-      edges: {left: true, right: true, bottom: true, top: true}
-    })
-    .on('resizemove', function(event) {
-      var target = event.target;
-      var x = (parseFloat(target.getAttribute('data-x')) || 0);
-      var y = (parseFloat(target.getAttribute('data-y')) || 0);
+// function makeResizable(elementIdentifier) {
+//   interact(elementIdentifier)
+//     // Make element resizeable
+//     .resizable({
+//       edges: {left: true, right: true, bottom: true, top: true}
+//     })
+//     .on('resizemove', function(event) {
+//       var target = event.target;
+//       var x = (parseFloat(target.getAttribute('data-x')) || 0);
+//       var y = (parseFloat(target.getAttribute('data-y')) || 0);
 
-      // Update style
-      target.style.width = event.rect.width + 'px';
-      target.style.height = event.rect.height + 'px';
+//       // Update style
+//       target.style.width = event.rect.width + 'px';
+//       target.style.height = event.rect.height + 'px';
 
-      // Translate top/left edges
-      x += event.deltaRect.left;
-      y += event.deltaRect.top;
+//       // Translate top/left edges
+//       x += event.deltaRect.left;
+//       y += event.deltaRect.top;
 
-      target.style.webkitTransform = target.style.transform = 
-        'translate(' + x + 'px,' + y + 'px)';
+//       target.style.webkitTransform = target.style.transform = 
+//         'translate(' + x + 'px,' + y + 'px)';
 
-      target.setAttribute('data-x', x);
-      target.setAttribute('data-y', y);
-      target.textContent = event.rect.width + '×' + event.rect.height;
-    });
-}
+//       target.setAttribute('data-x', x);
+//       target.setAttribute('data-y', y);
+//       target.textContent = event.rect.width + '×' + event.rect.height;
+//     });
+// }
 /*
 * Question: Why make a seperate function for a canvas?
 * Canvas has two size properties: the size of the drawing surface

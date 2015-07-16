@@ -13,6 +13,7 @@ module.exports.initialize = function(){
   editor.getSession().setTabSize(2);
   editor.getSession().setUseWrapMode(true);
 
+  window.editor = editor;
   window.doc = editor.getSession().getDocument();
 
   module.exports.editor.setByAPI = false;
@@ -21,15 +22,14 @@ module.exports.initialize = function(){
   // "range":{"start":{"row":0,"column":0},
   // "end":{"row":0,"column":1}},"text":"a"}}"
   editor.on('change', function(obj){
-    console.log(obj);
-
     var data = obj.data;
     var action = data.action;
     var start = data.range.start;
+    var end = data.range.end;
     var text = data.text;
 
     if(!editor.setByAPI) {
-      remotePeers.sendData({editor: {start: start, text: text, action: action}});
+      remotePeers.sendData({editor: {start: start, end: end, text: text, action: action}});
     }
   });
 
@@ -76,14 +76,14 @@ module.exports.initialize = function(){
   module.exports.updateEditorByAPI = function(data){
     editor.setByAPI = true;
     // editor.setValue(data);
+    var start = data.start;
+    var end = data.end;
+    var text = data.text;
+
     if (data.action === 'insertText') {
-      console.log('inserting text');
-      var start = data.start;
-      var text = data.text;
       doc.insert(start, text);
     } else if (data.action === 'removeText') {
-      // var range;
-      console.log('removing text');
+      doc.remove({start: start, end: end});
     }
     editor.clearSelection();
     editor.setByAPI = false;

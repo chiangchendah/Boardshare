@@ -8,6 +8,9 @@
   display: block;
   border: solid 1px red;
 }
+#toolSelect {
+  width: 85px;
+}
 .left-options {
   position: absolute;
 }
@@ -17,4 +20,11 @@
 }
 .left-options li {
   padding: 0 0 15px 0;
+}
+
+@media (max-width: 800px) {
+  #paint-canvas {
+    display: block;
+    width: 100%;
+  }
 }

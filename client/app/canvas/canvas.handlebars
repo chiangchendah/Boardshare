@@ -10,22 +10,22 @@ Line width: <select id='lineWidth'>
                 <option value='6.0'>6.0</option>
             </select>
 {{!-- Special function buttons --}}
-<input id='clearAll' type='button' value='clear' />
-<input id='undo' type='button' value='undo' />
-<input id='redo' type='button' value='redo' />
+<button id='clearAll'><i class='fa fa-trash-o'></i></button>
+<button id='undo'><i class='fa fa-reply'></i></button>
+<button id='redo'><i class='fa fa-share'></i></button>
 
 {{!-- All our drawing tools go here --}}
 <select id='toolSelect'>
   <option value='pencil'>Pencil</option>
   <option value='line'>Drawline</option>
-  <option value='cursor'>Cursor</option>
+  {{!-- <option value='cursor'>Cursor</option> --}}
   <option value='rect'>Rectangles</option>
   <option value='ellipse'>Ellipse</option>
-  <option value='triangle'>Triangle</option>
+  {{!-- <option value='triangle'>Triangle</option> --}}
   <option value='eraser'>Eraser</option>
 </select>
 
 {{!-- The Canvas --}}
-<canvas id='canvas' width='650' height='400'>
+<canvas id='canvas' width='650' height='600'>
   <h1>Canvas is not supported in your browser.</h1>
 </canvas>

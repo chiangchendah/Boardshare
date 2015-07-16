@@ -11,3 +11,10 @@
 
 #options {
 }
+
+@media (max-width: 800px) {
+  #text-editor {
+    display: block;
+    width: 100% !important;
+  }
+}

@@ -23,7 +23,12 @@
 
     <!-- <script src='../lib/ace-builds/src-min-noconflict/ace.js'></script> -->
     <script src='../lib/ace-builds/src-noconflict/ace.js'></script>
-
-    <script src='../dist/getScriptSrc.js'></script>
+    <script>
+      if (window.location.href.indexOf('localhost') > -1) {
+        document.write('<script src="../dist/main.js"><\/script>');
+      } else {
+        document.write('<script src="../dist/main.min.js"><\/script>');
+      }
+    </script>
   </body>
 </html>

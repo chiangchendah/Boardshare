@@ -7,16 +7,29 @@ module.exports.initialize = function(){
   editor.setTheme("ace/theme/monokai");
   editor.session.setMode("ace/mode/javascript");
 
+
   //setting defaults
   var editSession = ace.createEditSession('ff', 'javascript');
   editor.getSession().setTabSize(2);
   editor.getSession().setUseWrapMode(true);
 
+  window.editor = editor;
+  window.doc = editor.getSession().getDocument();
+
   module.exports.editor.setByAPI = false;
 
-  editor.on('change', function(){
+  // "{"data":{"action":"insertText",
+  // "range":{"start":{"row":0,"column":0},
+  // "end":{"row":0,"column":1}},"text":"a"}}"
+  editor.on('change', function(obj){
+    var data = obj.data;
+    var action = data.action;
+    var start = data.range.start;
+    var end = data.range.end;
+    var text = data.text;
+
     if(!editor.setByAPI) {
-      remotePeers.sendData({editor: editor.getValue()});
+      remotePeers.sendData({editor: {start: start, end: end, text: text, action: action}});
     }
   });
 
@@ -62,7 +75,16 @@ module.exports.initialize = function(){
   });
   module.exports.updateEditorByAPI = function(data){
     editor.setByAPI = true;
-    editor.setValue(data);
+    // editor.setValue(data);
+    var start = data.start;
+    var end = data.end;
+    var text = data.text;
+
+    if (data.action === 'insertText') {
+      doc.insert(start, text);
+    } else if (data.action === 'removeText') {
+      doc.remove({start: start, end: end});
+    }
     editor.clearSelection();
     editor.setByAPI = false;
   };

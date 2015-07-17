@@ -20,12 +20,7 @@
     "expr": true,
     "white": true,
     "globals": {
-        "$": true,
-        "Handlebars": true,
         "document": true,
-        "Peer": true,
-        "io": true,
-        "_": true,
         "CustomEvent": true
     }
 }

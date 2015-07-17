@@ -55,7 +55,13 @@ RemotePeer.prototype.addDataEventListeners = function () {
     }
     if (data.canvas) {
       var canvas = require('../canvas/canvas').canvas;
-      canvas.loadFromJSON(data.canvas);
+      if (data.canvas.state) {
+        canvas.state = data.canvas.state;
+      }
+      if (data.canvas.mods) {
+        canvas.mods = data.canvas.mods;
+      }
+      canvas.loadFromJSON(data.canvas.currentState);
       canvas.renderAll();
     }
     if (data.name) {

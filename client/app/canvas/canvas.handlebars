@@ -1,30 +1,36 @@
 {{!-- Our modifiers --}}
-Line color:       <input type='color' id='strokeColor' value='#000000' />
-Fill Color:       <input type='color' id='fillColor' value='#ffffff' />
-Line width: <select id='lineWidth'>
-                <option value='1.0'>1.0</option>
-                <option value='2.0'>2.0</option>
-                <option value='3.0'>3.0</option>
-                <option value='4.0'>4.0</option>
-                <option value='5.0'>5.0</option>
-                <option value='6.0'>6.0</option>
-            </select>
+<i class='fa fa-circle-thin modifier'></i>
+{{!-- <input type='color' id='strokeColor' value='#000000' /> --}}
+<input type='text' id='strokeColor' value='#000' />
+<i class='fa fa-circle modifier'></i>
+{{!-- <input type='color' id='fillColor' value='#ffffff' /> --}}
+<input type='text' id='fillColor' value='#fff' />
+<i class='fa fa-text-width modifier'></i>
+<select id='lineWidth'>
+  <option value='1.0'>1.0</option>
+  <option value='2.0'>2.0</option>
+  <option value='3.0'>3.0</option>
+  <option value='4.0'>4.0</option>
+  <option value='5.0'>5.0</option>
+  <option value='6.0'>6.0</option>
+</select>
 {{!-- Special function buttons --}}
-<input id='clearAll' type='button' value='clear' />
-<input id='undo' type='button' value='undo' />
-<input id='redo' type='button' value='redo' />
+<button id='undo'><i class='fa fa-undo'></i></button>
+<button id='redo'><i class='fa fa-repeat'></i></button>
+<button id='clearAll'><i class='fa fa-trash-o'></i></button>
 
 {{!-- All our drawing tools go here --}}
 <select id='toolSelect'>
-  <option value='pencil'>Pencil</option>
-  <option value='line'>Drawline</option>
-  <option value='rect'>Rectangles</option>
-  <option value='ellipse'>Ellipse</option>
-  <option value='triangle'>Triangle</option>
-  <option value='eraser'>Eraser</option>
+  <option value='pencil'><i class='fa fa-pencil'></i>Pencil</option>
+  <option value='line'><i class='fa fa-minus'></i>Drawline</option>
+  <option value='cursor'><i class='fa fa-hand-o-up'></i>Cursor</option>
+  <option value='rect'><i class='fa fa-square-o'></i>Rectangles</option>
+  <option value='ellipse'><i class='fa fa-circle-o'></i>Ellipse</option>
+  <option value='triangle'><i class='fa'></i>Triangle</option>
+  <option value='eraser'><i class='fa fa-eraser'></i>Eraser</option>
 </select>
 
 {{!-- The Canvas --}}
-<canvas id='canvas' width='650' height='400'>
+<canvas id='canvas' width='650' height='600'>
   <h1>Canvas is not supported in your browser.</h1>
 </canvas>

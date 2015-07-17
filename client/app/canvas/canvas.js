@@ -1,4 +1,6 @@
+var $ = require('jquery');
 var fabric = require('../../lib/fabric/dist/fabric').fabric;
+var spectrum = require('../../lib/spectrum/spectrum')($);$.fn.spectrum.load = false;
 var remotePeers = require('../helpers/remotePeers');
 
 exports.initialize = function() {
@@ -7,8 +9,8 @@ exports.initialize = function() {
   fabric.Object.prototype.selectable = false;
   canvas.counter = 0;
 
-  var state = [];
-  var mods = 0;
+  canvas.state = [];
+  canvas.mods = 0;
 
   var backgroundColorSelect = document.getElementById('backgroundColor');
   var strokeColorSelect = document.getElementById('strokeColor');
@@ -18,6 +20,25 @@ exports.initialize = function() {
   var clearAllButton = document.getElementById('clearAll');
   var undoButton = document.getElementById('undo');
   var redoButton = document.getElementById('redo');
+  // Brushes
+  var pencilBrush = new fabric.PencilBrush(canvas);
+  var eraserBrush = new fabric.CircleBrush(canvas);
+  var brushes = {
+    pencil: pencilBrush,
+    eraser: eraserBrush
+  };
+
+  // Set color inputs using colorpicker plugin(for transparency)
+  $(strokeColorSelect).spectrum({
+    preferredFormat: 'rgb',
+    showAlpha: true,
+    color: '#000'
+  });
+  $(fillColorSelect).spectrum({
+    preferredFormat: 'rgb',
+    showAlpha: true,
+    color: '#fff'
+  });
 
   var dragging = false;
   var origX, origY;
@@ -76,7 +97,8 @@ exports.initialize = function() {
   clearAllButton.onclick = function() {
     canvas.clear();
     updateState(true);
-    remotePeers.sendData({canvas: state[state.length-1]});
+    remotePeers
+      .sendData({canvas: {currentState: canvas.state[canvas.state.length-1]}});
   };
   undoButton.onclick = function() {
     undo();
@@ -87,37 +109,30 @@ exports.initialize = function() {
 
   var updateState = function(savehistory) {
     if (savehistory === true) {
-      state.push(JSON.stringify(canvas));
+      canvas.state.push(JSON.stringify(canvas));
     }
   };
   var undo = function() {
-    if (mods < state.length) {
+    if (canvas.mods < canvas.state.length) {
       canvas.clear().renderAll();
-      var currentState = state[state.length - 1 - mods - 1];
+      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods - 1];
       // Rerender user's state
       canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
       // Send over to peers
-      remotePeers.sendData({canvas: currentState});
-      mods += 1;
+      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
+      canvas.mods += 1;
     }
   };
   var redo = function() {
-    if (mods > 0) {
+    if (canvas.mods > 0) {
       canvas.clear().renderAll();
-      var currentState = state[state.length - 1 - mods + 1];
+      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods + 1];
       canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
-      remotePeers.sendData({canvas: currentState});
-      mods -= 1;
+      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
+      canvas.mods -= 1;
     }
   };
 
-  // Brushes
-  var pencilBrush = new fabric.PencilBrush(canvas);
-  var eraserBrush = new fabric.CircleBrush(canvas);
-  var brushes = {
-    pencil: pencilBrush,
-    eraser: eraserBrush
-  };
 
   var mouseDownInCanvas = function(loc, tool) {
     origX = loc.x;
@@ -126,6 +141,9 @@ exports.initialize = function() {
     switch(tool) {
       case 'pencil':
         canvas.freeDrawingBrush = brushes.pencil;
+        break;
+      case 'cursor':
+        console.log('selecting');
         break;
       case 'eraser':
         canvas.freeDrawingBrush = brushes.eraser;
@@ -163,7 +181,12 @@ exports.initialize = function() {
   };
   var mouseUpInCanvas = function(loc, tool) {
     updateState(true);
-    remotePeers.sendData({canvas: state[state.length-1]});
+    var data = {};
+    data.canvas = {
+      state: canvas.state,
+      currentState: canvas.state[canvas.state.length-1]
+    };
+    remotePeers.sendData(data);
   };
   var createRect = function(top, left, width, height) {
     return new fabric.Rect({

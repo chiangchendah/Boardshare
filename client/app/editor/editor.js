@@ -8,7 +8,7 @@ module.exports.initialize = function(){
   console.log(editor);
   var firepad = Firepad.fromACE(firepadRef, editor);
   
-  editor.setTheme("ace/theme/monokai");
+  editor.setTheme("ace/theme/twilight");
   //extensions
   $('#settings').on('click', function(){
     editor.execCommand('showSettingsMenu');

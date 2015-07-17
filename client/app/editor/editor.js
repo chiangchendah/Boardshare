@@ -7,7 +7,6 @@ module.exports.initialize = function(){
   editor.setTheme("ace/theme/monokai");
   editor.session.setMode("ace/mode/javascript");
 
-
   //setting defaults
   var editSession = ace.createEditSession('ff', 'javascript');
   editor.getSession().setTabSize(2);

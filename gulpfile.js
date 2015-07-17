@@ -38,6 +38,7 @@ var paths = {
     // './client/lib/**/*.css', 
     './client/lib/normalize.css/normalize.css',
     './client/lib/fontawesome/css/font-awesome.css',
+    './client/lib/spectrum/spectrum.css',
     './client/assets/css/*.css'
   ]
 };

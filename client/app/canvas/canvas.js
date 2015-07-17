@@ -1,4 +1,6 @@
+var $ = require('jquery');
 var fabric = require('../../lib/fabric/dist/fabric').fabric;
+var spectrum = require('../../lib/spectrum/spectrum')($);$.fn.spectrum.load = false;
 var remotePeers = require('../helpers/remotePeers');
 
 exports.initialize = function() {
@@ -18,6 +20,18 @@ exports.initialize = function() {
   var clearAllButton = document.getElementById('clearAll');
   var undoButton = document.getElementById('undo');
   var redoButton = document.getElementById('redo');
+
+  // Set color inputs using colorpicker plugin(for transparency)
+  $(strokeColorSelect).spectrum({
+    preferredFormat: 'rgb',
+    showAlpha: true,
+    color: '#000'
+  });
+  $(fillColorSelect).spectrum({
+    preferredFormat: 'rgb',
+    showAlpha: true,
+    color: '#fff'
+  });
 
   var dragging = false;
   var origX, origY;

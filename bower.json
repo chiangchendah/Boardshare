@@ -15,6 +15,7 @@
     "normalize.css": "~3.0.3",
     "ace-builds": "~1.1.9",
     "fabric": "~1.5.0",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "spectrum": "~1.7.0"
   }
 }

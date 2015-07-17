@@ -1,37 +1,14 @@
 var $ = require('jquery');
 
 module.exports.initialize = function(){
-  var remotePeers = require('../helpers/remotePeers');
-  module.exports.editor = ace.edit("editor");
-  var editor = module.exports.editor;
-  editor.setTheme("ace/theme/monokai");
-  editor.session.setMode("ace/mode/javascript");
-
-  //setting defaults
-  var editSession = ace.createEditSession('ff', 'javascript');
-  editor.getSession().setTabSize(2);
-  editor.getSession().setUseWrapMode(true);
-
-  window.editor = editor;
-  window.doc = editor.getSession().getDocument();
-
-  module.exports.editor.setByAPI = false;
-
-  // "{"data":{"action":"insertText",
-  // "range":{"start":{"row":0,"column":0},
-  // "end":{"row":0,"column":1}},"text":"a"}}"
-  editor.on('change', function(obj){
-    var data = obj.data;
-    var action = data.action;
-    var start = data.range.start;
-    var end = data.range.end;
-    var text = data.text;
-
-    if(!editor.setByAPI) {
-      remotePeers.sendData({editor: {start: start, end: end, text: text, action: action}});
-    }
-  });
-
+  var ext = ((/\w+$/).exec(window.location.href)[0]);
+  var firepadRef = new Firebase('glowing-heat-8297.firebaseIO.com/firepads/' + ext);
+  console.log(ace);
+  var editor = ace.edit('firepad');
+  console.log(editor);
+  var firepad = Firepad.fromACE(firepadRef, editor);
+  
+  editor.setTheme("ace/theme/twilight");
   //extensions
   $('#settings').on('click', function(){
     editor.execCommand('showSettingsMenu');
@@ -72,19 +49,5 @@ module.exports.initialize = function(){
   //   var language = this.options[this.selectedIndex].value;
   //   editor.session.setMode("ace/mode/" + language);
   // });
-  module.exports.updateEditorByAPI = function(data){
-    editor.setByAPI = true;
-    // editor.setValue(data);
-    var start = data.start;
-    var end = data.end;
-    var text = data.text;
 
-    if (data.action === 'insertText') {
-      doc.insert(start, text);
-    } else if (data.action === 'removeText') {
-      doc.remove({start: start, end: end});
-    }
-    editor.clearSelection();
-    editor.setByAPI = false;
-  };
 };

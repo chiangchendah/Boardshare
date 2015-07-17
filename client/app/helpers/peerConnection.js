@@ -11,11 +11,10 @@ var rtc;
 socket.on('env', function(env, port){
   if (env === 'production'){
     exports.rtc = new Peer({ host:'/', secure:true, port:443, path: '/api' });
-    rtc = exports.rtc;
   } else {
     exports.rtc = new Peer({ host: '/', port: port, path: '/api' });
-    rtc = exports.rtc;
   }
+  rtc = exports.rtc;
   rtc.on('open', function(id){
     // console.log('peer id is: ', id);
     socket.emit('rtcReady', id, (/\w+$/).exec(window.location.href)[0]);

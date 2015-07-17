@@ -1,6 +1,7 @@
 var path = require('path');
 var BoardShare = require('../utils/boardShare');
 var boardShares = require('../utils/boardShares');
+var db = require('../db/db.js');
 
 module.exports = function(app){
   app.get('/start', function(req, res){

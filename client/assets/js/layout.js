@@ -41,14 +41,12 @@
 					ev.stopPropagation();
 					if ( classie.has( ev.target, 'back-left' ) ) {
 						classie.remove( layout, 'open-right' );
-						classie.remove( layout, 'open-middle' );
 						classie.add( layout, 'close-right' );
 					} else if ( classie.has( ev.target, 'back-middle' ) ) {
 						classie.remove( layout, 'open-middle' );
 						classie.add( layout, 'close-middle' );
 					} else if ( classie.has( ev.target, 'back-right' ) ) {
 						classie.remove( layout, 'open-left' );
-						classie.remove( layout, 'open-middle' );
 						classie.add( layout, 'close-left' );
 					}
 				};

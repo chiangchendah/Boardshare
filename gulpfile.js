@@ -25,17 +25,18 @@ var paths = {
     './server/**/*.js'
   ],
   allScripts: [
-    './server/**/*.js', 
-    './client/**/*.js', 
+    './server/**/*.js',
+    './client/**/*.js',
     './test/**/*.js',
     '!./test/client/mainSpec.js',
-    '!./client/lib/**/*.js', 
-    '!./client/dist/**/*.js', 
-    'gulpfile.js', 
+    '!./client/lib/**/*.js',
+    '!./client/dist/**/*.js',
+    '!./client/assets/js/helpers/layout.modernizr.custom.js',
+    'gulpfile.js',
     'app.js'
   ],
   styleSheets: [
-    // './client/lib/**/*.css', 
+    // './client/lib/**/*.css',
     './client/lib/normalize.css/normalize.css',
     './client/lib/fontawesome/css/font-awesome.css',
     './client/lib/spectrum/spectrum.css',
@@ -106,7 +107,7 @@ var customOpts = {
   debug: true
 };
 var customOptsTest = {
-  entries: ['./client/app/entry.js', './test/client/entrySpec.js'],
+  entries: [/*'./client/app/entry.js',*/ './test/client/entrySpec.js'],
   debug: true
 };
 var opts = lodash.assign({}, watchify.args, customOpts);
@@ -156,7 +157,7 @@ gulp.task('fonts', function() {
 
 gulp.task('dev', function(){
   nodemon({
-    script: './app.js', 
+    script: './app.js',
     ext: 'js css html handlebars',
   }).on('restart', function(){
     console.log('server restarted...');
@@ -176,4 +177,3 @@ gulp.task('watch', function(){
 gulp.task('default', ['js', 'stylesheets', 'watch'], function() {
   gulp.start('dev');
 });
-

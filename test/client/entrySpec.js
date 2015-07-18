@@ -1,5 +1,5 @@
 require('./customEventPolyfill');
 require('./canvasSpec');
 require('./editorSpec');
-require('./messagingSpec');
+require('./remotePeer');
 require('./videoSpec');

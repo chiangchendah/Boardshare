@@ -16,6 +16,8 @@ var mocha = require('gulp-mocha');
 var mochaPhantomjs = require('gulp-mocha-phantomjs');
 var nodemon = require('gulp-nodemon');
 var gutil = require('gulp-util');
+var gulpDoxx = require('gulp-doxx');
+var path = require('path');
 
 var paths = {
   clientScripts: [
@@ -124,6 +126,19 @@ gulp.task('js-deploy', bundleProduction);
 b.on('update', bundle); // on any update, runs bundler
 b.on('log', gutil.log);
 
+//'./client/app/helpers/remotePeer.js'
+gulp.task('docs', function () {
+  gulp.src([
+    './server/**/*.js',
+    './client/app/**/*.js',
+    '!./client/app/entry.js',
+    './README.md'])
+    .pipe(gulpDoxx({
+      title: 'BoardShare',
+      urlPrefix: path.join(__dirname, '/doc')
+    }))
+    .pipe(gulp.dest('./doc'));
+});
 
 // gulp.task('scripts', function(){
 //   var b = browserify({

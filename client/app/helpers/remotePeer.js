@@ -1,6 +1,12 @@
 var remotePeers = require('./remotePeers');
 var chat = require('../messaging/messaging');
 
+/**
+ * Create a new remote peer and add to remote peers collection
+ * @param      {String}   id the peer ID of the remote peer
+ * @param      {Object}   dc data connection to the remote peer
+ * @return     {Object}   a new remote peer
+ */
 var RemotePeer = function(id, dc){
   this.id = id;
   this.dataConnection = dc || null;
@@ -14,11 +20,22 @@ var RemotePeer = function(id, dc){
   }
 };
 
+/**
+ * Send a data object to a connected remote peer
+ * @param      {Object}   data any data you want to send,
+ *   should be namespaced to feature e.g. {chat: 'string', canvas: {...}}
+ */
 RemotePeer.prototype.sendData = function (data) {
   return this.dataConnection.open && this.dataConnection.send(data);
 };
 
-// videoStream is a WebRTC stream from getUserMedia
+
+/**
+ * Create an array of all the right files in the source dir
+ * @param      {Object}   videoStream WebRTC video stream from getUserMedia()
+ * @param      {Function} cb callback
+ * @return     {Object}   Peer JS mediaConnection
+ */
 RemotePeer.prototype.call = function (videoStream, cb) {
   var rtc = require('./peerConnection').rtc;
   if (this.mediaConnection === null) {
@@ -29,7 +46,9 @@ RemotePeer.prototype.call = function (videoStream, cb) {
     return this.mediaConnection;
   }
 };
-
+/**
+ * End the call with the remote peer and dereference the mediaConnection
+ */
 RemotePeer.prototype.endCall = function () {
   if (this.mediaConnection !== null) {
     this.mediaConnection.close();
@@ -37,14 +56,17 @@ RemotePeer.prototype.endCall = function () {
   }
 };
 
+/**
+ * Add listeners on the data connection and respond to incoming data
+ */
 RemotePeer.prototype.addDataEventListeners = function () {
   var self = this;
   this.dataConnection.on('open', function(){
     // maybe do something like have a list of conncted parties
   });
 
-  // { editor: "some string" }
-  // { chat: "string" }
+  // namespace the incoming data to your feature
+  // e.g. { chat: "string", canvas: "..." }
   this.dataConnection.on('data', function(data){
     if (data.chat) {
       chat.appendMessage(self.name, data.chat);

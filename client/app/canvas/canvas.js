@@ -1,17 +1,38 @@
+// Libraries
 var $ = require('jquery');
 var fabric = require('../../lib/fabric/dist/fabric').fabric;
 var spectrum = require('../../lib/spectrum/spectrum')($);$.fn.spectrum.load = false;
+// WebRTC
 var remotePeers = require('../helpers/remotePeers');
+// Helpers
+var stateManager = require('./canvasHelpers/stateManager');
+var shapes = require('./canvasHelpers/shapes');
+var makeColorInputs = require('./canvasHelpers/makeColorInputs');
+var uploadImage = require('./canvasHelpers/uploadImage');
+var lineTool = require('./canvasHelpers/lineTool');
+var getBrushes = require('./canvasHelpers/getBrushes');
 
+// On template render
 exports.initialize = function() {
-  var canvas = new fabric.Canvas('canvas', {selection: false});
-  exports.canvas = canvas;
+  // All objects rendered are unselectable
   fabric.Object.prototype.selectable = false;
+
+  // Wrap our canvas with fabric
+  var canvas = new fabric.Canvas('canvas', {
+    hoverCursor: 'pointer',
+    selection: false
+  });
+  exports.canvas = canvas;
+  
+  // Keep track of our canvas state
   canvas.counter = 0;
-
-  canvas.state = [];
   canvas.mods = 0;
+  canvas.state = [];
+  canvas.isDrawingMode = true;
+  canvas.isDragging = false;
+  canvas.brushes = getBrushes(canvas);
 
+  // Grab all of our DOM elements
   var backgroundColorSelect = document.getElementById('backgroundColor');
   var strokeColorSelect = document.getElementById('strokeColor');
   var fillColorSelect = document.getElementById('fillColor');
@@ -20,47 +41,31 @@ exports.initialize = function() {
   var clearAllButton = document.getElementById('clearAll');
   var undoButton = document.getElementById('undo');
   var redoButton = document.getElementById('redo');
-  // Brushes
-  var pencilBrush = new fabric.PencilBrush(canvas);
-  var eraserBrush = new fabric.CircleBrush(canvas);
-  var brushes = {
-    pencil: pencilBrush,
-    eraser: eraserBrush
-  };
+  var imageUpload = document.getElementById('imageUpload');
+  makeColorInputs(
+    {input: strokeColorSelect, color: '#000'}, 
+    {input: fillColorSelect, color: '#fff'}
+  );
 
-  // Set color inputs using colorpicker plugin(for transparency)
-  $(strokeColorSelect).spectrum({
-    preferredFormat: 'rgb',
-    showAlpha: true,
-    color: '#000'
-  });
-  $(fillColorSelect).spectrum({
-    preferredFormat: 'rgb',
-    showAlpha: true,
-    color: '#fff'
-  });
 
-  var dragging = false;
   var origX, origY;
   var rect, ellipse, triangle, line;
-
   var selectedFunction = toolSelect.value;
-  canvas.isDrawingMode = true;
 
   canvas.on('mouse:down', function(obj) {
-    dragging = true;
+    canvas.isDragging = true;
     var loc = canvas.getPointer(obj.e);
     mouseDownInCanvas(loc, selectedFunction);
   });
   canvas.on('mouse:move', function(obj) {
-    if (!dragging) {
+    if (!canvas.isDragging) {
       return;
     }
     var loc = canvas.getPointer(obj.e);
     mouseMoveInCanvas(loc, selectedFunction);
   });
   canvas.on('mouse:up', function(obj) {
-    dragging = false;
+    canvas.isDragging = false;
     var loc = canvas.getPointer(obj.e);
     mouseUpInCanvas(loc, selectedFunction);
   });
@@ -72,8 +77,11 @@ exports.initialize = function() {
   });
 
   toolSelect.onchange = function() {
-    if (!(this.value in brushes)) {
+    if (!(this.value in canvas.brushes)) {
       canvas.isDrawingMode = false;
+      if (this.value === 'cursor') {
+        console.log(canvas.getObjects());
+      }
     } else {
       canvas.isDrawingMode = true;
       canvas.freeDrawingBrush.color = strokeColorSelect.value;
@@ -96,70 +104,58 @@ exports.initialize = function() {
   };
   clearAllButton.onclick = function() {
     canvas.clear();
-    updateState(true);
+    stateManager.updateState(canvas);
     remotePeers
       .sendData({canvas: {currentState: canvas.state[canvas.state.length-1]}});
   };
   undoButton.onclick = function() {
-    undo();
+    stateManager.undo(canvas);
   };
   redoButton.onclick = function() {
-    redo();
+    stateManager.redo(canvas);
   };
-
-  var updateState = function(savehistory) {
-    if (savehistory === true) {
-      canvas.state.push(JSON.stringify(canvas));
-    }
-  };
-  var undo = function() {
-    if (canvas.mods < canvas.state.length) {
-      canvas.clear().renderAll();
-      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods - 1];
-      // Rerender user's state
-      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
-      // Send over to peers
-      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
-      canvas.mods += 1;
-    }
-  };
-  var redo = function() {
-    if (canvas.mods > 0) {
-      canvas.clear().renderAll();
-      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods + 1];
-      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
-      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
-      canvas.mods -= 1;
-    }
-  };
+  // imageUpload.onchange = function(e) {
+  //   uploadImage(e, canvas, function() {
+  //     stateManager.updateState(canvas);
+  //     remotePeers.sendData({canvas: {
+  //       state: canvas.state,
+  //       currentState: canvas.state[canvas.state.length-1]
+  //     }});
+  //   });
+  // };
 
 
   var mouseDownInCanvas = function(loc, tool) {
     origX = loc.x;
     origY = loc.y;
+    var options = {
+      lineWidth: lineWidthSelect.value,
+      strokeColor: strokeColorSelect.value,
+      fillColor: fillColorSelect.value
+    };
 
     switch(tool) {
       case 'pencil':
-        canvas.freeDrawingBrush = brushes.pencil;
+        canvas.freeDrawingBrush = canvas.brushes.pencil;
         break;
       case 'cursor':
         console.log('selecting');
         break;
       case 'eraser':
-        canvas.freeDrawingBrush = brushes.eraser;
+        canvas.freeDrawingBrush = canvas.brushes.eraser;
         canvas.freeDrawingBrush.color = '#fff';
         canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
         break;
       case 'rect':
-        rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
+        rect = shapes.createRect(loc, options);
         canvas.add(rect);
         break;
       case 'ellipse':
-        ellipse = createEllipse(loc);
+        ellipse = shapes.createEllipse(loc, options);
         canvas.add(ellipse);
         break;
       case 'line':
-        line = createLine(loc);
+        line = lineTool.createLine(loc, options);
         canvas.add(line);
         break;                
     }
@@ -168,83 +164,24 @@ exports.initialize = function() {
   var mouseMoveInCanvas = function(loc, tool) {
     switch(tool) {
       case 'rect':
-        updateRect(loc);
+        shapes.updateRect(rect, loc, origX, origY);
         break;
       case 'ellipse':
-        updateEllipse(loc);
+        shapes.updateEllipse(ellipse, loc, origX, origY);
         break;
       case 'line':
-        updateLine(loc);
+        lineTool.updateLine(line, loc);
         break;
     }
     canvas.renderAll();
   };
   var mouseUpInCanvas = function(loc, tool) {
-    updateState(true);
+    stateManager.updateState(canvas);
     var data = {};
     data.canvas = {
       state: canvas.state,
       currentState: canvas.state[canvas.state.length-1]
     };
     remotePeers.sendData(data);
-  };
-  var createRect = function(top, left, width, height) {
-    return new fabric.Rect({
-      top: top,
-      left: left,
-      width: width,
-      height: height,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      strokeWidth: lineWidthSelect.value,
-      angle: 0,
-      transparentCorners: false
-    });
-  };
-  var updateRect = function(loc) {
-    if (origX > loc.x) {
-      rect.set({ left: Math.abs(loc.x) });
-    }
-    if (origY > loc.y) {
-      rect.set({ top: Math.abs(loc.y) });
-    }
-    rect.set({ width: Math.abs(origX - loc.x) });
-    rect.set({ height: Math.abs(origY - loc.y) });
-  };
-
-  var createEllipse = function(loc) {
-    return new fabric.Ellipse({
-      top: loc.y,
-      left: loc.x,
-      originY: 'top',
-      originX: 'center',
-      rx: 1,
-      ry: 1,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      strokeWidth: lineWidthSelect.value
-    });
-  };
-  var updateEllipse = function(loc) {
-    if (origX > loc.x) {
-      ellipse.set({ left: Math.abs(loc.x) });
-    }
-    if (origY > loc.y) {
-      ellipse.set({ top: Math.abs(loc.y) });
-    }
-    ellipse.set({rx: Math.abs(origX - loc.x)});
-    ellipse.set({ry: Math.abs(origY - loc.y)});
-  };
-  var createLine = function(loc) {
-    return new fabric.Line([loc.x, loc.y, loc.x, loc.y], {
-      strokeWidth: lineWidthSelect.value,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      originX: 'left',
-      originY: 'top'
-    });
-  };
-  var updateLine = function(loc) {
-    line.set({x2: loc.x, y2: loc.y});
   };
 };

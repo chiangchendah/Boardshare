@@ -13,34 +13,44 @@ var shapes = require('./canvasHelpers/shapes');
 var lineTool = require('./canvasHelpers/lineTool');
 var uploadImage = require('./canvasHelpers/uploadImage');
 
-
 exports.initialize = function() {
+  // Wrap our canvas in fabric
   canvas = new fabric.Canvas('canvas', {selection: false});
-  var line, isDown;
-  var strokeColorSelect = document.getElementById('strokeColor');
-  var fillColorSelect = document.getElementById('fillColor');
-  var lineWidthSelect = document.getElementById('lineWidth');
+  exports.canvas = canvas;
+  // All the DOM elements
+  canvas.selectors = require('./canvasHelpers/getSelectors');
+  canvas.brushes = getBrushes(canvas);
+  // Keep track of our canvas state
+  canvas.counter = 0;
+  canvas.mods = 0;
+  canvas.state = [];
+  canvas.isDrawingMode = true;
+  canvas.isDragging = false;
+  // Our color input plugin that allows for transparency
   makeColorInputs(
-    {input: strokeColorSelect, color: '#000'},
-    {input: fillColorSelect, color: '#fff'}
+    {input: canvas.selectors.stroke, color: '#000'},
+    {input: canvas.selectors.fill, color: '#fff'}
   );
+  var utils = require('./canvasHelpers/utils');
 
-  strokeColorSelect.onchange = function() {
-    var obj = canvas.getActiveObject();
-    if (obj) {
-      obj.stroke = this.value;
-      canvas.renderAll();
-    }
+  // Event Handlers for UI changes
+  canvas.selectors.stroke.onchange = function() { 
+    utils.updateModifier.call(this, 'stroke'); 
   };
+  canvas.selectors.fill.onchange = function(){ 
+    utils.updateModifier.call(this, 'fill'); 
+  };
+  canvas.selectors.lineWidth.onchange = function(){ 
+    utils.updateModifier.call(this, 'strokeWidth'); 
+  }; 
+  canvas.selectors.tool.onchange = function() {
+    console.log(this.value);
+    // utils.setTool();
+    console.log(canvas.selectors.stroke.value);
+  };
+  
+  var line, isDown;
 
-  lineWidthSelect.onchange = function() {
-    var obj = canvas.getActiveObject();
-    if (obj) {
-      console.log(obj.getStrokeWidth());
-      obj.set({strokeWidth: this.value});
-      canvas.renderAll();
-    }
-  }
 
   $('#selectMode').on('click', function() {
     canvas.forEachObject(function(o) {

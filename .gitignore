@@ -37,3 +37,14 @@ client/lib
 # Floobits
 .floo
 .flooignore
+
+# doxx
+doc/client
+doc/server
+doc/index.html
+doc/README.md.html
+
+# refs
+# put any personal notes or resources whatever in here
+
+refs/

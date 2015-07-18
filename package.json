@@ -27,6 +27,7 @@
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssmin": "^0.1.7",
+    "gulp-doxx": "0.0.4",
     "gulp-jshint": "^1.11.2",
     "gulp-mocha": "^2.1.2",
     "gulp-mocha-phantomjs": "^0.6.1",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "doxx": "^1.4.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4"
   }

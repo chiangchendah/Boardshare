@@ -1,21 +1,21 @@
 var forEach = require('lodash/collection/forEach');
-
+ 
 var RemotePeers = function(){
   this._storage = {};
-  this._numPeers = 0;
+  this._count = 0;
 };
 
 RemotePeers.prototype.addPeer = function (remotePeer) {
   if (!this.alreadyExists(remotePeer.id)) {
     this._storage[ remotePeer.id ] = remotePeer;
-    this._numPeers++;
+    this._count++;
   }
 };
 
 RemotePeers.prototype.removePeer = function (remotePeerId) {
   if (this.alreadyExists(remotePeerId)) {
     delete this._storage[ remotePeerId ];
-    this._numPeers--;
+    this._count--;
   }
 };
 

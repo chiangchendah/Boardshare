@@ -43,6 +43,7 @@ doc/client
 doc/server
 doc/index.html
 doc/README.md.html
+doc/.git*
 
 # refs
 # put any personal notes or resources whatever in here

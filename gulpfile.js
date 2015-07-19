@@ -141,7 +141,7 @@ gulp.task('docs', function () {
   gulp.src(paths.doxx)
     .pipe(gulpDoxx({
       title: 'BoardShare',
-      urlPrefix: path.join(__dirname, '/doc')
+      urlPrefix: 'http://boardshare.github.io/boardshare-docs'
     }))
     .pipe(gulp.dest('./doc'));
 });

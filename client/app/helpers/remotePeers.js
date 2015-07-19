@@ -43,6 +43,7 @@ RemotePeers.prototype.alreadyExists = function (remotePeerId) {
 /**
  * Get a remote peer from the collection
  * @param      {String}   remotePeerId the ID of the remote peer
+ * @return     {Object}   remote peer instance
  */
 RemotePeers.prototype.getPeer = function (remotePeerId) {
   return this._storage[ remotePeerId ];

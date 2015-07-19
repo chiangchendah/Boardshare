@@ -1,9 +1,14 @@
 var remotePeers = require('../../helpers/remotePeers');
+var canvas = require('../canvas').canvas;
 
-exports.updateState = function(canvas) {
+exports.updateState = function(clear) {
+  if (clear) {
+    canvas.clear();
+  }
   canvas.state.push(JSON.stringify(canvas));
+  remotePeers.sendData({canvas: {currentState: canvas.state[canvas.state.length-1]}})
 };
-exports.undo = function(canvas) {
+exports.undo = function() {
   if (canvas.mods < canvas.state.length) {
     canvas.clear().renderAll();
     var currentState = canvas.state[canvas.state.length - 1 - canvas.mods - 1];
@@ -14,7 +19,7 @@ exports.undo = function(canvas) {
     canvas.mods += 1;
   }
 };
-exports.redo = function(canvas) {
+exports.redo = function() {
   if (canvas.mods > 0) {
     canvas.clear().renderAll();
     var currentState = canvas.state[canvas.state.length - 1 - canvas.mods + 1];

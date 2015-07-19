@@ -5,6 +5,11 @@ var canvas = require('../canvas').canvas;
 exports.updateModifier = function(modifier) {
   var value = this.value;
 
+  // Floats ruin the selection sizing of canvas object
+  if ( !(isNaN(this.value)) ) {
+    value = +value;
+  }
+
   // Handle case where we're in drawing mode
   if (canvas.isDrawingMode) {
     if (modifier === 'stroke') {
@@ -12,11 +17,6 @@ exports.updateModifier = function(modifier) {
     } else if (modifier === 'strokeWidth') {
       canvas.freeDrawingBrush.width = value;
     }
-  }
-
-  // Floats ruin the selection sizing of canvas object
-  if ( !(isNaN(this.value)) ) {
-    value = +value;
   }
 
   // Update attribute

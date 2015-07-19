@@ -6,7 +6,6 @@ $.fn.spectrum.load = false; // Don't polyfill HTML5 color inputs
 // WebRTC
 var remotePeers = require('../helpers/remotePeers');
 // Helpers
-var stateManager = require('./canvasHelpers/stateManager');
 var makeColorInputs = require('./canvasHelpers/makeColorInputs');
 var getBrushes = require('./canvasHelpers/getBrushes');
 var shapes = require('./canvasHelpers/shapes');
@@ -31,7 +30,9 @@ exports.initialize = function() {
     {input: canvas.selectors.stroke, color: '#000'},
     {input: canvas.selectors.fill, color: '#fff'}
   );
+  // Imports that require template to have been rendered
   var utils = require('./canvasHelpers/utils');
+  var stateManager = require('./canvasHelpers/stateManager');
 
   // Event Handlers for UI changes
   canvas.selectors.stroke.onchange = function() { 
@@ -45,8 +46,16 @@ exports.initialize = function() {
   }; 
   canvas.selectors.tool.onchange = function() {
     console.log(this.value);
-    // utils.setTool();
-    console.log(canvas.selectors.stroke.value);
+    // utils.setTool.call(this);
+  };
+  canvas.selectors.clear.onclick = function() {
+    stateManager.updateState(true);
+  };
+  canvas.selectors.undo.onclick = function() {
+    stateManager.undo();
+  };
+  canvas.selectors.redo.onclick = function() {
+    stateManager.redo();
   };
   
   var line, isDown;
@@ -57,7 +66,7 @@ exports.initialize = function() {
       o.selectable = true;
     });
     canvas.isDrawingMode = false;
-    canvas.selection= true;
+    canvas.selection = true;
     canvas.off('mouse:down');
     canvas.off('mouse:move');
     canvas.off('mouse:up');
@@ -66,7 +75,6 @@ exports.initialize = function() {
     });
     canvas.on('object:selected', function(o) {
       console.log(o);
-      console.log(canvas.getActiveObject());
     });
   });
   $('#editMode').on('click', function() {
@@ -220,6 +228,7 @@ exports.initialize = function() {
 //   var mouseDownInCanvas = function(loc, tool) {
 //     origX = loc.x;
 //     origY = loc.y;
+
 //     var options = {
 //       lineWidth: lineWidthSelect.value,
 //       strokeColor: strokeColorSelect.value,

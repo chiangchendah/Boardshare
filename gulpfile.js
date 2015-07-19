@@ -20,6 +20,16 @@ var gulpDoxx = require('gulp-doxx');
 var path = require('path');
 
 var paths = {
+  /** anything you do or don't want documented by doxx
+   * add files as you document them so we don't generate a bunch of crap for no
+   * reason
+   */
+  doxx: [
+    './client/app/helpers/remote*.js',
+    './client/app/helpers/peerHelpers.js',
+    '!./client/app/entry.js',
+    './README.md'
+  ],
   clientScripts: [
     './client/app/**/*.js'
   ],
@@ -128,11 +138,7 @@ b.on('log', gutil.log);
 
 //'./client/app/helpers/remotePeer.js'
 gulp.task('docs', function () {
-  gulp.src([
-    './server/**/*.js',
-    './client/app/**/*.js',
-    '!./client/app/entry.js',
-    './README.md'])
+  gulp.src(paths.doxx)
     .pipe(gulpDoxx({
       title: 'BoardShare',
       urlPrefix: path.join(__dirname, '/doc')

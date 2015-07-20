@@ -23,7 +23,9 @@
   "dependencies": {
     "bower": "^1.4.1",
     "browserify": "^10.2.4",
+    "connect-mongo": "^0.8.2",
     "express": "^4.13.1",
+    "express-session": "^1.11.3",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssmin": "^0.1.7",
@@ -41,6 +43,8 @@
     "jquery": "^2.1.4",
     "lodash": "^3.10.0",
     "mongoose": "^4.0.7",
+    "passport": "^0.2.2",
+    "passport-github2": "^0.1.9",
     "path": "^0.11.14",
     "peer": "^0.2.8",
     "peerjs": "^0.3.14",

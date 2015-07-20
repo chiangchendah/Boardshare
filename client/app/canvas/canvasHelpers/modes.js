@@ -55,31 +55,4 @@ exports.editMode = function(drawingMode) {
     var loc = canvas.getPointer(options.e);
     mouseEvents.up(loc);
   });
-
-  // canvas.on('mouse:down', function(o){
-  //   isDown = true;
-  //   var pointer = canvas.getPointer(o.e);
-  //   var points = [pointer.x, pointer.y, pointer.x, pointer.y];
-  //   line = new fabric.Line(points, {
-  //     strokeWidth: 5,
-  //     fill: 'red',
-  //     stroke: 'red',
-  //     originX: 'center',
-  //     originY: 'center'
-  //   });
-  //   canvas.add(line);
-  //   console.log(canvas.getActiveObject());
-  // });
-
-  // canvas.on('mouse:move', function(o) {
-  //   if (!isDown) return;
-  //   var pointer = canvas.getPointer(o.e);
-  //   line.set({x2: pointer.x, y2: pointer.y});
-  //   canvas.renderAll(); 
-  // });
-
-  // canvas.on('mouse:up', function(){
-  //   isDown = false;
-  // });
-
 };

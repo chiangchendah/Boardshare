@@ -31,7 +31,7 @@ RemotePeer.prototype.sendData = function (data) {
 
 
 /**
- * Create an array of all the right files in the source dir
+ * Initiate a video conference with the remote peer
  * @param      {Object}   videoStream WebRTC video stream from getUserMedia()
  * @param      {Function} cb callback
  * @return     {Object}   Peer JS mediaConnection

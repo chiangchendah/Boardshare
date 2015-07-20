@@ -14,17 +14,6 @@ module.exports.initialize = function(){
     editor.execCommand('showSettingsMenu');
   });
 
-  $('#single').on('click', function(){
-    $('.fire').removeClass('fireSplit');
-    $('.fire').attr('id="fireSingle"');
-  });
-
-  $('#split').on('click', function() {
-    $('.fire').removeAttr('id');
-    $('.fire').addClass('fireSplitLeft');
-    $('#firepad2').show();
-  });
-
   // //menu functionality
   // $('#fontSize').on('change', function(){
   //   var fontSize = this.options[this.selectedIndex].value;

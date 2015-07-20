@@ -9,7 +9,6 @@ var remotePeers = require('../helpers/remotePeers');
 var makeColorInputs = require('./canvasHelpers/makeColorInputs');
 var getBrushes = require('./canvasHelpers/getBrushes');
 var shapes = require('./canvasHelpers/shapes');
-var lineTool = require('./canvasHelpers/lineTool');
 var uploadImage = require('./canvasHelpers/uploadImage');
 
 exports.initialize = function() {
@@ -66,8 +65,10 @@ exports.initialize = function() {
     } else {
       modes.editMode();
     }
-    // utils.setTool.call(this);
   };  
+
+  // Initialize our canvas tool as a pencil
+  modes.editMode(true);
 };
 
 

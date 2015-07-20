@@ -28,32 +28,3 @@ exports.updateModifier = function(modifier) {
     canvas.renderAll();
   }
 };
-exports.setTool = function() {
-  if (this.value === 'cursor') {
-    setEditMode();
-  }
-};
-
-function setEditMode() {
-  canvas.forEachObject(function(o) {
-    o.selectable = true;
-  });
-  canvas.isDrawingMode = false;
-  canvas.selection = true;
-  canvas.off('mouse:down');
-  canvas.off('mouse:move');
-  canvas.off('mouse:up');
-  canvas.forEachObject(function(obj){
-    obj.setCoords();
-  });
-  canvas.on('object:selected', function(o) {
-    console.log(o);
-  });
-};
-function unsetEditMode() {
-  canvas.forEachObject(function(o) {
-    o.selectable = false;
-  });
-  canvas.isDrawingMode = false;
-  canvas.selection = false; 
-}

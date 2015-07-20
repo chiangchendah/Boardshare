@@ -6,6 +6,7 @@ var shapes = require('./shapes');
 exports.down = function(loc) {
   canvas.origX = loc.x;
   canvas.origY = loc.y;
+
   var options = {
     strokeColor: toolSelect.stroke.value,
     fillColor: toolSelect.fill.value,
@@ -18,26 +19,33 @@ exports.down = function(loc) {
       canvas.add(canvas.shape);
       break;
     case 'rect':
+      canvas.shape = shapes.createRect(loc, options);
+      canvas.add(canvas.shape);
       break;
     case 'ellipse':
+      canvas.shape = shapes.createEllipse(loc, options);
+      canvas.add(canvas.shape);      
       break;
     case 'triangle':
       break;
   }
 };
 exports.move = function(loc) {
+  var shape = canvas.shape;
   switch(canvas.selectedTool) {
     case 'line':
-      console.log('mouse move line');
-      shapes.updateLine(canvas.shape, loc);
+      shapes.updateLine(shape, loc);
       break;
     case 'rect':
+      shapes.updateRect(shape, loc);
       break;
     case 'ellipse':
+      shapes.updateEllipse(shape, loc);
       break;
     case 'triangle':
       break;
   }
+  canvas.renderAll();
 };
 exports.up = function(loc) {
   stateManager.updateState();

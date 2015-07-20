@@ -1,6 +1,7 @@
 var canvas = require('../canvas').canvas;
 var toolSelect = require('./getSelectors');
 var mouseEvents = require('./mouseEvents');
+var stateManager = require('./stateManager');
 
 /**
 * Set canvas to select mode and remove event handlers
@@ -23,6 +24,9 @@ exports.selectMode = function() {
     obj.setCoords();
   });
   // TODO add object select copy/paste/delete
+  canvas.on('object:modified', function() {
+    stateManager.updateState();
+  });
 };
 /**
 * Set canvas to edit mode and add event handler

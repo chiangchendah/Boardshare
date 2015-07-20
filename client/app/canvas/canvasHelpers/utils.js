@@ -1,4 +1,5 @@
 var canvas = require('../canvas').canvas;
+var stateManager = require('./stateManager');
 
 /**
 * Updates modifiers value.
@@ -23,11 +24,34 @@ exports.updateModifier = function(modifier) {
     }
   }
 
-  // Update attribute
-  if (canvas.getActiveObject) {
+  // Update selected object
+  var obj = canvas.getActiveObject();
+  if (obj) {
     var options = {};
     options[modifier] = value;
     obj.set(options);
+    canvas.fire('object:modified');
     canvas.renderAll();
+  }
+};
+/**
+* Deletes the currently selected object
+*/
+exports.deleteObject = function() {
+  if (canvas.getActiveObject()) {
+    canvas.remove(canvas.getActiveObject());
+    stateManager.updateState();
+  }
+};
+/**
+* Copies the currently selected object
+*/
+exports.copyObject = function() {
+  var obj = canvas.getActiveObject();
+  if (obj) {
+    var object = obj.clone();
+    object.set("top", object.top+15);
+    object.set("left", object.left+15);
+    canvas.add(object);
   }
 };

@@ -2,7 +2,7 @@ var db = require('../db/db.js');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
-var GitHubStrategy = require('passport-github2').Strategy;
+var GitHubStrategy = require('p-gh-boardshare').Strategy;
 
 /* Credentials for Passport */
 var GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || '9b718b46500e52b18413';

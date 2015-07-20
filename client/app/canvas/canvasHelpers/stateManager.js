@@ -9,7 +9,7 @@ exports.updateState = function(clear) {
   remotePeers.sendData({canvas: {
     state: canvas.state,
     currentState: canvas.state[canvas.state.length-1]
-  }})
+  }});
 };
 exports.undo = function() {
   if (canvas.mods < canvas.state.length) {

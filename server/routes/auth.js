@@ -83,4 +83,4 @@ module.exports = function(app) {
       // Successful authentication, redirect home.
       res.redirect('/');
     });
-}
+};

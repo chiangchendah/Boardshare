@@ -10,7 +10,6 @@ require('./helpers/remotePeer');
 require('./helpers/remotePeers');
 require('./helpers/getTemplates');
 require('./helpers/renderTemplates');
-require('./helpers/colorPicker');
 require('./helpers/resizeElement');
 require('./helpers/makeDraggable');
 

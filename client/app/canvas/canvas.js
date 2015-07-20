@@ -1,250 +1,72 @@
+// Libraries
 var $ = require('jquery');
 var fabric = require('../../lib/fabric/dist/fabric').fabric;
-var spectrum = require('../../lib/spectrum/spectrum')($);$.fn.spectrum.load = false;
+var spectrum = require('../../lib/spectrum/spectrum')($);
+$.fn.spectrum.load = false; // Don't polyfill HTML5 color inputs
+// WebRTC
 var remotePeers = require('../helpers/remotePeers');
+// Helpers
+var makeColorInputs = require('./canvasHelpers/makeColorInputs');
+var getBrushes = require('./canvasHelpers/getBrushes');
+var shapes = require('./canvasHelpers/shapes');
+var uploadImage = require('./canvasHelpers/uploadImage');
 
 exports.initialize = function() {
-  var canvas = new fabric.Canvas('canvas', {selection: false});
+  // Wrap our canvas in fabric
+  canvas = new fabric.Canvas('canvas', {selection: false});
   exports.canvas = canvas;
-  fabric.Object.prototype.selectable = false;
+  // All the DOM elements
+  canvas.selectors = require('./canvasHelpers/getSelectors');
+  canvas.brushes = getBrushes(canvas);
+  // Keep track of our canvas state
   canvas.counter = 0;
-
-  canvas.state = [];
   canvas.mods = 0;
-
-  var backgroundColorSelect = document.getElementById('backgroundColor');
-  var strokeColorSelect = document.getElementById('strokeColor');
-  var fillColorSelect = document.getElementById('fillColor');
-  var lineWidthSelect = document.getElementById('lineWidth');
-  var toolSelect = document.getElementById('toolSelect');
-  var clearAllButton = document.getElementById('clearAll');
-  var undoButton = document.getElementById('undo');
-  var redoButton = document.getElementById('redo');
-  // Brushes
-  var pencilBrush = new fabric.PencilBrush(canvas);
-  var eraserBrush = new fabric.CircleBrush(canvas);
-  var brushes = {
-    pencil: pencilBrush,
-    eraser: eraserBrush
-  };
-
-  // Set color inputs using colorpicker plugin(for transparency)
-  $(strokeColorSelect).spectrum({
-    preferredFormat: 'rgb',
-    showAlpha: true,
-    color: '#000'
-  });
-  $(fillColorSelect).spectrum({
-    preferredFormat: 'rgb',
-    showAlpha: true,
-    color: '#fff'
-  });
-
-  var dragging = false;
-  var origX, origY;
-  var rect, ellipse, triangle, line;
-
-  var selectedFunction = toolSelect.value;
+  canvas.state = [];
   canvas.isDrawingMode = true;
+  canvas.isDragging = false;
+  canvas.selectedTool = '';
+  // Our color input plugin that allows for transparency
+  makeColorInputs(
+    {input: canvas.selectors.stroke, color: '#000'},
+    {input: canvas.selectors.fill, color: '#fff'}
+  );
+  // Imports that require template to have been rendered
+  var utils = require('./canvasHelpers/utils');
+  var stateManager = require('./canvasHelpers/stateManager');
+  var modes = require('./canvasHelpers/modes');
 
-  canvas.on('mouse:down', function(obj) {
-    dragging = true;
-    var loc = canvas.getPointer(obj.e);
-    mouseDownInCanvas(loc, selectedFunction);
-  });
-  canvas.on('mouse:move', function(obj) {
-    if (!dragging) {
-      return;
-    }
-    var loc = canvas.getPointer(obj.e);
-    mouseMoveInCanvas(loc, selectedFunction);
-  });
-  canvas.on('mouse:up', function(obj) {
-    dragging = false;
-    var loc = canvas.getPointer(obj.e);
-    mouseUpInCanvas(loc, selectedFunction);
-  });
-  canvas.on('object:added', function(e) {
-
-  });
-  canvas.on('object:modified', function(e) {
-
-  });
-
-  toolSelect.onchange = function() {
-    if (!(this.value in brushes)) {
-      canvas.isDrawingMode = false;
+  // Event Handlers for UI changes
+  canvas.selectors.stroke.onchange = function() { 
+    utils.updateModifier.call(this, 'stroke'); 
+  };
+  canvas.selectors.fill.onchange = function(){ 
+    utils.updateModifier.call(this, 'fill'); 
+  };
+  canvas.selectors.lineWidth.onchange = function(){ 
+    utils.updateModifier.call(this, 'strokeWidth'); 
+  }; 
+  canvas.selectors.clear.onclick = function() {
+    stateManager.updateState(true);
+  };
+  canvas.selectors.undo.onclick = function() {
+    stateManager.undo();
+  };
+  canvas.selectors.redo.onclick = function() {
+    stateManager.redo();
+  };
+  canvas.selectors.tool.onchange = function() {
+    // Change our selected tool
+    canvas.selectedTool = this.value;
+    // Change our canvas mode depending on tool
+    if (this.value === 'cursor') {
+      modes.selectMode();
+    } else if (this.value in canvas.brushes) {
+      modes.editMode(true);
     } else {
-      canvas.isDrawingMode = true;
-      canvas.freeDrawingBrush.color = strokeColorSelect.value;
-      canvas.freeDrawingBrush.width = lineWidthSelect.value;
+      modes.editMode();
     }
-    selectedFunction = toolSelect.value;
-  };
-  strokeColorSelect.onchange = function() {
-    if (canvas.isDrawingMode) {
-      canvas.freeDrawingBrush.color = strokeColorSelect.value;
-    }
-  };
-  fillColorSelect.onchange = function() {
+  };  
 
-  };
-  lineWidthSelect.onchange = function() {
-    if (canvas.isDrawingMode) {
-      canvas.freeDrawingBrush.width = lineWidthSelect.value;
-    }
-  };
-  clearAllButton.onclick = function() {
-    canvas.clear();
-    updateState(true);
-    remotePeers
-      .sendData({canvas: {currentState: canvas.state[canvas.state.length-1]}});
-  };
-  undoButton.onclick = function() {
-    undo();
-  };
-  redoButton.onclick = function() {
-    redo();
-  };
-
-  var updateState = function(savehistory) {
-    if (savehistory === true) {
-      canvas.state.push(JSON.stringify(canvas));
-    }
-  };
-  var undo = function() {
-    if (canvas.mods < canvas.state.length) {
-      canvas.clear().renderAll();
-      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods - 1];
-      // Rerender user's state
-      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
-      // Send over to peers
-      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
-      canvas.mods += 1;
-    }
-  };
-  var redo = function() {
-    if (canvas.mods > 0) {
-      canvas.clear().renderAll();
-      var currentState = canvas.state[canvas.state.length - 1 - canvas.mods + 1];
-      canvas.loadFromJSON(currentState, canvas.renderAll.bind(canvas));
-      remotePeers.sendData({canvas: {currentState: currentState, mods: canvas.mods}});
-      canvas.mods -= 1;
-    }
-  };
-
-
-  var mouseDownInCanvas = function(loc, tool) {
-    origX = loc.x;
-    origY = loc.y;
-
-    switch(tool) {
-      case 'pencil':
-        canvas.freeDrawingBrush = brushes.pencil;
-        break;
-      case 'cursor':
-        console.log('selecting');
-        break;
-      case 'eraser':
-        canvas.freeDrawingBrush = brushes.eraser;
-        canvas.freeDrawingBrush.color = '#fff';
-        canvas.freeDrawingBrush.width = lineWidthSelect.value * 20;
-        break;
-      case 'rect':
-        rect = createRect(origY, origX, loc.x-origX, loc.y-origY);
-        canvas.add(rect);
-        break;
-      case 'ellipse':
-        ellipse = createEllipse(loc);
-        canvas.add(ellipse);
-        break;
-      case 'line':
-        line = createLine(loc);
-        canvas.add(line);
-        break;                
-    }
-    canvas.counter++;
-  };
-  var mouseMoveInCanvas = function(loc, tool) {
-    switch(tool) {
-      case 'rect':
-        updateRect(loc);
-        break;
-      case 'ellipse':
-        updateEllipse(loc);
-        break;
-      case 'line':
-        updateLine(loc);
-        break;
-    }
-    canvas.renderAll();
-  };
-  var mouseUpInCanvas = function(loc, tool) {
-    updateState(true);
-    var data = {};
-    data.canvas = {
-      state: canvas.state,
-      currentState: canvas.state[canvas.state.length-1]
-    };
-    remotePeers.sendData(data);
-  };
-  var createRect = function(top, left, width, height) {
-    return new fabric.Rect({
-      top: top,
-      left: left,
-      width: width,
-      height: height,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      strokeWidth: lineWidthSelect.value,
-      angle: 0,
-      transparentCorners: false
-    });
-  };
-  var updateRect = function(loc) {
-    if (origX > loc.x) {
-      rect.set({ left: Math.abs(loc.x) });
-    }
-    if (origY > loc.y) {
-      rect.set({ top: Math.abs(loc.y) });
-    }
-    rect.set({ width: Math.abs(origX - loc.x) });
-    rect.set({ height: Math.abs(origY - loc.y) });
-  };
-
-  var createEllipse = function(loc) {
-    return new fabric.Ellipse({
-      top: loc.y,
-      left: loc.x,
-      originY: 'top',
-      originX: 'center',
-      rx: 1,
-      ry: 1,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      strokeWidth: lineWidthSelect.value
-    });
-  };
-  var updateEllipse = function(loc) {
-    if (origX > loc.x) {
-      ellipse.set({ left: Math.abs(loc.x) });
-    }
-    if (origY > loc.y) {
-      ellipse.set({ top: Math.abs(loc.y) });
-    }
-    ellipse.set({rx: Math.abs(origX - loc.x)});
-    ellipse.set({ry: Math.abs(origY - loc.y)});
-  };
-  var createLine = function(loc) {
-    return new fabric.Line([loc.x, loc.y, loc.x, loc.y], {
-      strokeWidth: lineWidthSelect.value,
-      fill: fillColorSelect.value,
-      stroke: strokeColorSelect.value,
-      originX: 'left',
-      originY: 'top'
-    });
-  };
-  var updateLine = function(loc) {
-    line.set({x2: loc.x, y2: loc.y});
-  };
+  // Initialize our canvas tool as a pencil
+  modes.editMode(true);
 };

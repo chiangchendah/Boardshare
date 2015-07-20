@@ -19,7 +19,32 @@
   }
 }
 
-.fire {
-  width: 700px;
+.fire{
   height: 450px;
+}
+
+.fireSingle {
+  width: 200%;
+}
+
+.fireSplitLeft {
+  width: 100%;
+  float: left;
+}
+
+.fireSplitRight {
+  width: 100%;
+  display: none;
+}
+
+#splitCols {
+  padding-left: 10px;
+}
+
+#settings {
+  float: left;
+}
+
+#firepad2 {
+  display: none;
 }

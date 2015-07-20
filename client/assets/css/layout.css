@@ -65,7 +65,9 @@ Images
 .text-editor {
 	background-image: url('../assets/img/text-editor.svg');
 	background-size: cover;
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
+	width: 1000px;
+	height: 700px;
 }
 
 

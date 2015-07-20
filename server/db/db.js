@@ -6,8 +6,9 @@ mongoose.connect(mongoDB);
 
 var UserSchema = new mongoose.Schema({
   githubId: { type: String, index: { unique: true } },
+  username: String,
   board: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }]
-  // use may have many boards
+  // user may have many boards
 });
 
 var BoardSchema = new mongoose.Schema({
@@ -15,4 +16,7 @@ var BoardSchema = new mongoose.Schema({
   editor: String
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = {
+  board: mongoose.model('board', UserSchema), 
+  user: mongoose.model('user', UserSchema)
+};

@@ -6,7 +6,10 @@ exports.updateState = function(clear) {
     canvas.clear();
   }
   canvas.state.push(JSON.stringify(canvas));
-  remotePeers.sendData({canvas: {currentState: canvas.state[canvas.state.length-1]}})
+  remotePeers.sendData({canvas: {
+    state: canvas.state,
+    currentState: canvas.state[canvas.state.length-1]
+  }})
 };
 exports.undo = function() {
   if (canvas.mods < canvas.state.length) {

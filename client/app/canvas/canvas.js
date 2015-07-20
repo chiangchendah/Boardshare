@@ -25,6 +25,7 @@ exports.initialize = function() {
   canvas.state = [];
   canvas.isDrawingMode = true;
   canvas.isDragging = false;
+  canvas.selectedTool = '';
   // Our color input plugin that allows for transparency
   makeColorInputs(
     {input: canvas.selectors.stroke, color: '#000'},
@@ -33,6 +34,7 @@ exports.initialize = function() {
   // Imports that require template to have been rendered
   var utils = require('./canvasHelpers/utils');
   var stateManager = require('./canvasHelpers/stateManager');
+  var modes = require('./canvasHelpers/modes');
 
   // Event Handlers for UI changes
   canvas.selectors.stroke.onchange = function() { 
@@ -44,10 +46,6 @@ exports.initialize = function() {
   canvas.selectors.lineWidth.onchange = function(){ 
     utils.updateModifier.call(this, 'strokeWidth'); 
   }; 
-  canvas.selectors.tool.onchange = function() {
-    console.log(this.value);
-    // utils.setTool.call(this);
-  };
   canvas.selectors.clear.onclick = function() {
     stateManager.updateState(true);
   };
@@ -57,61 +55,19 @@ exports.initialize = function() {
   canvas.selectors.redo.onclick = function() {
     stateManager.redo();
   };
-  
-  var line, isDown;
-
-
-  $('#selectMode').on('click', function() {
-    canvas.forEachObject(function(o) {
-      o.selectable = true;
-    });
-    canvas.isDrawingMode = false;
-    canvas.selection = true;
-    canvas.off('mouse:down');
-    canvas.off('mouse:move');
-    canvas.off('mouse:up');
-    canvas.forEachObject(function(obj){
-      obj.setCoords();
-    });
-    canvas.on('object:selected', function(o) {
-      console.log(o);
-    });
-  });
-  $('#editMode').on('click', function() {
-    canvas.forEachObject(function(o) {
-      o.selectable = false;
-    });
-    canvas.isDrawingMode = false;
-    canvas.selection = false;
-    canvas.on('mouse:down', function(o){
-      isDown = true;
-      var pointer = canvas.getPointer(o.e);
-      var points = [pointer.x, pointer.y, pointer.x, pointer.y];
-      line = new fabric.Line(points, {
-        strokeWidth: 5,
-        fill: 'red',
-        stroke: 'red',
-        originX: 'center',
-        originY: 'center'
-      });
-      canvas.add(line);
-      console.log(canvas.getActiveObject());
-    });
-
-    canvas.on('mouse:move', function(o) {
-      if (!isDown) return;
-      var pointer = canvas.getPointer(o.e);
-      line.set({x2: pointer.x, y2: pointer.y});
-      canvas.renderAll(); 
-    });
-
-    canvas.on('mouse:up', function(){
-      isDown = false;
-    });
-
-  });
-
-
+  canvas.selectors.tool.onchange = function() {
+    // Change our selected tool
+    canvas.selectedTool = this.value;
+    // Change our canvas mode depending on tool
+    if (this.value === 'cursor') {
+      modes.selectMode();
+    } else if (this.value in canvas.brushes) {
+      modes.editMode(true);
+    } else {
+      modes.editMode();
+    }
+    // utils.setTool.call(this);
+  };  
 };
 
 

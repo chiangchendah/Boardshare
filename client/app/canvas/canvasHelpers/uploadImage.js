@@ -1,6 +1,12 @@
 var fabric = require('../../../lib/fabric/dist/fabric').fabric;
 var canvas = require('../canvas').canvas;
 
+/**
+* Helper function that handles image uploads
+* @param      {Object}   e event object 
+* @param      {Object}   canvas canvas object
+* @param      {Function}   cb a callback that is called on image render
+*/
 module.exports = function(e, canvas, cb) {
   var reader = new FileReader();
 

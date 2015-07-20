@@ -1,6 +1,10 @@
 var canvas = require('../canvas').canvas;
+
 /**
-* When an object is selected and a modifier updated, change attribute
+* Updates modifiers value.
+* Example: when user updates a strokeColor it adds those 
+* changes to the selected object and updates the property for the next object
+* @param      {String}   modifier the type of modifier to update
 */
 exports.updateModifier = function(modifier) {
   var value = this.value;
@@ -20,10 +24,9 @@ exports.updateModifier = function(modifier) {
   }
 
   // Update attribute
-  var obj = canvas.getActiveObject();
-  var options = {};
-  options[modifier] = value;
-  if (obj) {
+  if (canvas.getActiveObject) {
+    var options = {};
+    options[modifier] = value;
     obj.set(options);
     canvas.renderAll();
   }

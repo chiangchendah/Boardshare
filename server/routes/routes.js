@@ -1,8 +1,12 @@
 var path = require('path');
 var BoardShare = require('../utils/boardShare');
 var boardShares = require('../utils/boardShares');
+var db = require('../db/db.js');
+var auth = require('./auth');
 
 module.exports = function(app){
+  auth(app);
+
   app.get('/start', function(req, res){
     var board = new BoardShare();
     var id = encodeURIComponent(board.id);

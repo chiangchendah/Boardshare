@@ -3,9 +3,7 @@ var $ = require('jquery');
 module.exports.initialize = function(){
   var ext = ((/\w+$/).exec(window.location.href)[0]);
   var firepadRef = new Firebase('glowing-heat-8297.firebaseIO.com/firepads/' + ext);
-  console.log(ace);
   var editor = ace.edit('firepad');
-  console.log(editor);
   var firepad = Firepad.fromACE(firepadRef, editor);
   
   editor.setTheme("ace/theme/monokai");

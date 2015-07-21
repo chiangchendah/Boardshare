@@ -36,6 +36,7 @@ body {
 	overflow-x: hidden;
 	min-height: 80%;
 	width: 100%;
+	margin-top: 0;
 }
 
 /* ==========================================================================
@@ -43,7 +44,7 @@ Font
 ========================================================================== */
 
 body {
-	font-family: 'Amatic SC', cursive;
+	/*font-family: 'Amatic SC', cursive;*/
 }
 
 /*'Crimson Text'*/
@@ -112,8 +113,8 @@ a:hover {
 }
 
 body {
-  color: #fff; /* default is white */
-	background: #fdf745;
+  /*color: #fff;  default is white */
+	/*background: #fdf745;*/
 }
 
 /* menu */

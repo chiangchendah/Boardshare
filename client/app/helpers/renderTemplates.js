@@ -5,7 +5,21 @@ var editor = require('../editor/editor').initialize;
 var chat = require('../messaging/messaging').initialize;
 var video = require('../video/video').initialize;
 
-getTemplates('app/canvas/canvas.handlebars', 'paint-canvas', drawCanvas);
-getTemplates('app/editor/editor.handlebars', 'text-editor', editor);
-getTemplates('app/video/video.handlebars', 'video', video);
-getTemplates('app/messaging/messaging.handlebars', 'messaging', chat);
+var routes = {
+  drawCanvas: 'app/canvas/canvas.handlebars',
+  editor: 'app/editor/editor.handlebars',
+  video: 'app/video/video.handlebars',
+  chat: 'app/messaging/messaging.handlebars'
+};
+
+if (window.ENV === 'test') {
+    routes.drawCanvas = '../../client/' + routes.drawCanvas;
+    routes.editor = '../../client/' + routes.editor;
+    routes.video = '../../client/' + routes.video;
+    routes.chat = '../../client/' + routes.chat;
+}
+
+getTemplates(routes.drawCanvas, 'paint-canvas', drawCanvas);
+getTemplates(routes.editor, 'text-editor', editor);
+getTemplates(routes.video, 'video', video);
+getTemplates(routes.chat, 'messaging', chat);

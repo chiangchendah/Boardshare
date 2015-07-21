@@ -5,7 +5,7 @@ var helpers = require('./peerHelpers');
 var remotePeers = require('./remotePeers');
 var RemotePeer = require('./remotePeer');
 var callHandler = require('../video/video').callHandler;
-
+var saveBoard = require('./saveBoard');
 var rtc;
 
 socket.on('env', function(env, port){
@@ -19,6 +19,7 @@ socket.on('env', function(env, port){
     // console.log('peer id is: ', id);
     socket.emit('rtcReady', id, (/\w+$/).exec(window.location.href)[0]);
     helpers.stayAlive(rtc);
+    saveBoard();
   });
   rtc.on('connection', function(dataConnection){
     var remotePeer = new RemotePeer(dataConnection.peer, dataConnection);

@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/Boardshare/Boardshare.svg?branch=master)](https://travis-ci.org/Boardshare/Boardshare)
 
+[Documentation](http://boardshare.github.io/boardshare-docs/)
+
 # Boardshare
 > A collaborative whiteboard and text-editing app 
 

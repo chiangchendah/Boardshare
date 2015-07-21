@@ -9,21 +9,21 @@ var stateManager = require('./stateManager');
 exports.selectMode = function() {
   // Toggle state
   canvas.isDrawingMode = false;
+  // Allow multiselect
+  canvas.selection = true;
 
   // Make each object selectable  
   canvas.forEachObject(function(obj) {
     obj.selectable = true;
   });
-  // Allow multiselect
-  canvas.selection = true;
+  canvas.forEachObject(function(obj){
+    obj.setCoords();
+  });
+  
   // remove event handlers
   canvas.off('mouse:down');
   canvas.off('mouse:move');
   canvas.off('mouse:up');
-  canvas.forEachObject(function(obj){
-    obj.setCoords();
-  });
-  // TODO add object select copy/paste/delete
   canvas.on('object:modified', function() {
     stateManager.updateState();
   });

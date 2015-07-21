@@ -53,5 +53,6 @@ exports.copyObject = function() {
     object.set("top", object.top+15);
     object.set("left", object.left+15);
     canvas.add(object);
+    stateManager.updateState();
   }
 };

@@ -1,50 +1,9 @@
 #text-editor {
   width: 49.9%;
-  height: 100%;
   float: left;
 }
-
-#editor {
+#firepad {
   height: 600px;
   width: auto;
 }
 
-#options {
-}
-
-@media (max-width: 800px) {
-  #text-editor {
-    display: block;
-    width: 100% !important;
-  }
-}
-
-.fire{
-  height: 450px;
-}
-
-.fireSingle {
-  width: 200%;
-}
-
-.fireSplitLeft {
-  width: 100%;
-  float: left;
-}
-
-.fireSplitRight {
-  width: 100%;
-  display: none;
-}
-
-#splitCols {
-  padding-left: 10px;
-}
-
-#settings {
-  float: left;
-}
-
-#firepad2 {
-  display: none;
-}

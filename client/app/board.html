@@ -11,81 +11,13 @@
     <link rel="stylesheet" href="../dist/main.min.css">
     <!-- font -->
     <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    <script src="../assets/js/helpers/layout.modernizr.custom.js"></script>
+    
   </head>
   <body>
-    <div id="layout" class="layout">
-      <!-- selection -->
-      <div class="home">
-        <div class="side side-left">
-          <div class="menu">
-            <div class="profile whiteboard"></div>
-            <h1>
-              <span>Whiteboard</span>
-              <!-- <span>&larr;</span> -->
-            </h1>
-          </div>
-          <div class="overlay"></div>
-        </div>
-        <div class="side side-middle">
-          <div class="menu">
-            <div class="profile video"></div>
-            <h1>
-              <span>Chat</span>
-              <!-- <span>&uarr;</span> -->
-            </h1>
-          </div>
-          <div class="overlay"></div>
-        </div>
-        <div class="side side-right">
-          <div class="menu">
-            <div class="profile text-editor"></div>
-            <h1>
-              <span>Text Editor</span>
-              <!-- <span>&rarr;</span> -->
-            </h1>
-          </div>
-          <div class="overlay"></div>
-        </div>
-      </div><!-- /home -->
-      
-      <!-- content -->
-      <div class="page page-right">
-        <div class="page-inner">
-          <section>
-            <h2>Ace Editor</h2><!-- placeholder -->
-            <div id='text-editor'></div>
-          </section>
-        </div>
-      </div>
-      <div class="page page-middle">
-        <div class="page-inner">
-          <section>
-            <h2>Chat Room</h2><!-- placeholder -->
-            <div id='video'></div>
-            <div id='messaging'></div>
-          </section>
-        </div>
-      </div>
-      <div class="page page-left">
-        <div class="page-inner">
-          <section>
-            <h2>Canvas Whiteboard</h2><!-- placeholder -->
-            <div id='paint-canvas'></div>
-          </section>
-        </div>
-      </div>
-      
-      <!-- navigation -->
-      <a href="#" class="back back-right" title="back to home">&rarr;</a>
-      <a href="#" class="back back-middle" title="back to home">&uarr;</a>
-      <a href="#" class="back back-left" title="back to home">&larr;</a>
-
-    </div><!-- /layout -->
-    <script src="../assets/js/helpers/classie.js"></script>
-    <script src="../assets/js/layout.js"></script>
-
-    <!-- <script src='../lib/ace-builds/src-min-noconflict/ace.js'></script> -->
+    <div id='text-editor'></div>
+    <div id='video'></div>
+    <div id='messaging'></div>
+    <div id='paint-canvas'></div>
     
     <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <script src='../lib/ace-builds/src-noconflict/ace.js'></script>

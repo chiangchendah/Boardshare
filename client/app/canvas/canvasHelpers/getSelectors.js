@@ -5,6 +5,8 @@ var toolSelect = document.getElementById('toolSelect');
 var clearAllButton = document.getElementById('clearAll');
 var undoButton = document.getElementById('undo');
 var redoButton = document.getElementById('redo');
+var copyButton = document.getElementById('copy');
+var deleteButton = document.getElementById('delete');
 var imageUpload = document.getElementById('imageUpload');
 
 module.exports = {
@@ -15,5 +17,7 @@ module.exports = {
   clear: clearAllButton,
   undo: undoButton,
   redo: redoButton,
+  copy: copyButton,
+  delete: deleteButton,
   image: imageUpload
 };

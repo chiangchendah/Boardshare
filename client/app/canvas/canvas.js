@@ -54,6 +54,12 @@ exports.initialize = function() {
   canvas.selectors.redo.onclick = function() {
     stateManager.redo();
   };
+  canvas.selectors.delete.onclick = function() {
+    utils.deleteObject();
+  };
+  canvas.selectors.copy.onclick = function() {
+    utils.copyObject();
+  };
   canvas.selectors.tool.onchange = function() {
     // Change our selected tool
     canvas.selectedTool = this.value;

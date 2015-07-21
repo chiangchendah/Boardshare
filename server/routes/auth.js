@@ -5,6 +5,7 @@ var passport = require('passport');
 var GitHubStrategy = require('p-gh-boardshare').Strategy;
 
 /* Credentials for Passport */
+// don't want to keep these on the repo most likely...
 var GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || '9b718b46500e52b18413';
 var GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '6a19a1034839aed3841bdae699101ec3e66fb288';
 
@@ -25,7 +26,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GitHubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:9000/auth/github/callback"
+    callbackURL: "http://localhost:9000/auth/github/callback" // need a production version of this
   },
   function(accessToken, refreshToken, profile, done) {
 
@@ -38,14 +39,14 @@ passport.use(new GitHubStrategy({
     //   provider: 'github'
     // }
 
-    db.user.findOne({ githubId: profile.id })
+    db.User.findOne({ githubId: profile.id })
       .exec(function (err, user) {
         // user found in database
         if(user) {
           done(null, user);
         }else{
           // create new user
-          user = new db.user({
+          user = new db.User({
             username: profile.username,
             githubId: profile.id,
           });
@@ -72,12 +73,23 @@ module.exports = function(app) {
 
   app.use(passport.initialize()); // initializes passport
   app.use(passport.session()); // used for persistent login sessions
-  
+
+  app.get('/login', function (req, res){
+    res.redirect('/auth/github');
+  });
+
+  app.get('/logout', function (req, res) {
+    req.logout();
+    req.session.destroy(function () {
+      res.redirect('/');
+    });
+  });
+
   /* Passport GitHub routes */
   app.get('/auth/github',
     passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-  app.get('/auth/github/callback', 
+  app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/' }),
     function(req, res) {
       // Successful authentication, redirect home.

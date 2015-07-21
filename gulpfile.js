@@ -1,5 +1,3 @@
-'use strict';
-
 var browserify = require('browserify');
 var watchify = require('watchify');
 var lodash = require('lodash');
@@ -121,7 +119,7 @@ var customOpts = {
   debug: true
 };
 var customOptsTest = {
-  entries: [/*'./client/app/entry.js',*/ './test/client/entrySpec.js'],
+  entries: ['./client/app/entry.js', './test/client/entrySpec.js'],
   debug: true
 };
 var opts = lodash.assign({}, watchify.args, customOpts);

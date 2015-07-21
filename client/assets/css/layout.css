@@ -34,7 +34,7 @@ body {
 .layout {
 	position: relative;
 	overflow-x: hidden;
-	min-height: 80%;
+	min-height: 100%;
 	width: 100%;
 	margin-top: 0;
 }
@@ -67,8 +67,6 @@ Images
 	background-image: url('../assets/img/text-editor.svg');
 	background-size: cover;
 	background-repeat: no-repeat;
-	width: 1000px;
-	height: 700px;
 }
 
 

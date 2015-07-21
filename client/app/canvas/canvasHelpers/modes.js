@@ -2,6 +2,9 @@ var canvas = require('../canvas').canvas;
 var toolSelect = require('./getSelectors');
 var mouseEvents = require('./mouseEvents');
 
+/**
+* Set canvas to select mode and remove event handlers
+*/
 exports.selectMode = function() {
   // Toggle state
   canvas.isDrawingMode = false;
@@ -19,8 +22,12 @@ exports.selectMode = function() {
   canvas.forEachObject(function(obj){
     obj.setCoords();
   });
+  // TODO add object select copy/paste/delete
 };
-
+/**
+* Set canvas to edit mode and add event handler
+* @param      {Boolean}   drawingMode optional: is drawingmode true or not
+*/
 exports.editMode = function(drawingMode) {
   // Account for free drawing
   if (drawingMode) {

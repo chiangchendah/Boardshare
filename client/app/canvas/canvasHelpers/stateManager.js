@@ -1,6 +1,10 @@
 var remotePeers = require('../../helpers/remotePeers');
 var canvas = require('../canvas').canvas;
 
+/**
+* Updates the canvas state array and sends peers this data
+* @param      {Boolean}   clear Optional: decides whether to clear the canvas or not
+*/
 exports.updateState = function(clear) {
   if (clear) {
     canvas.clear();
@@ -11,6 +15,9 @@ exports.updateState = function(clear) {
     currentState: canvas.state[canvas.state.length-1]
   }});
 };
+/**
+* Undo a recently made addition. Goes backwards in state array.
+*/
 exports.undo = function() {
   if (canvas.mods < canvas.state.length) {
     canvas.clear().renderAll();
@@ -22,6 +29,9 @@ exports.undo = function() {
     canvas.mods += 1;
   }
 };
+/**
+* Redo a recently undid change. Goes forwards in state array
+*/
 exports.redo = function() {
   if (canvas.mods > 0) {
     canvas.clear().renderAll();

@@ -3,6 +3,11 @@ var toolSelect = require('./getSelectors');
 var stateManager = require('./stateManager');
 var shapes = require('./shapes');
 
+/**
+* Handle mouse down event while in edit mode
+* checks the selected tool and initializes that event.
+* @param {Object} loc the mouse x and y coordinates
+*/
 exports.down = function(loc) {
   canvas.origX = loc.x;
   canvas.origY = loc.y;
@@ -30,6 +35,11 @@ exports.down = function(loc) {
       break;
   }
 };
+/**
+* Handle mousemove event
+* checks selected tool and calls respective function
+* @param      {Object}   loc the mouse x and y coordinates
+*/
 exports.move = function(loc) {
   var shape = canvas.shape;
   switch(canvas.selectedTool) {
@@ -47,6 +57,10 @@ exports.move = function(loc) {
   }
   canvas.renderAll();
 };
+/**
+* Handles mouseup event
+* @param      {Object}   loc the mouse x and y coordinates
+*/
 exports.up = function(loc) {
   stateManager.updateState();
 };

@@ -27,6 +27,8 @@ var paths = {
   doxx: [
     './client/app/helpers/remote*.js',
     './client/app/helpers/peerHelpers.js',
+    './client/app/canvas/canvasHelpers/*.js',
+    '!./client/app/canvas/canvasHelpers/getSelectors.js',
     '!./client/app/entry.js',
     './README.md'
   ],

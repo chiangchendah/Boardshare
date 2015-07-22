@@ -11,8 +11,11 @@ var socket = require('../../helpers/peerConnection').socket;
 exports.updateState = function(clear) {
   if (clear) {
     canvas.clear();
+    canvas.state.push(JSON.stringify(canvas));
+    canvas.state = canvas.state.slice(canvas.state.length-2);
+  } else {
+    canvas.state.push(JSON.stringify(canvas));
   }
-  canvas.state.push(JSON.stringify(canvas));
   remotePeers.sendData({canvas: {
     state: canvas.state,
     currentState: canvas.state[canvas.state.length-1]

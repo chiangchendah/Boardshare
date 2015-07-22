@@ -8,7 +8,7 @@ var isEmpty = require('lodash/lang/isEmpty');
  * used for the firepad and session URL
  * @return     {Object} An instance of PeerGroup
  */
-PeerGroup = function(id){
+var PeerGroup = function(id){
   // id is used for the socket room as well
   this.id = id;
   this.peerIds = {};

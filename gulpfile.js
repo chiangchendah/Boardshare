@@ -18,16 +18,19 @@ var gulpDoxx = require('gulp-doxx');
 var path = require('path');
 
 var paths = {
-  /** anything you do or don't want documented by doxx
+  /**
+   * anything you do or don't want documented by doxx
    * add files as you document them so we don't generate a bunch of crap for no
    * reason
    */
   doxx: [
     './client/app/helpers/remote*.js',
     './client/app/helpers/peerHelpers.js',
+    './client/app/helpers/saveBoard.js',
     './client/app/canvas/canvasHelpers/*.js',
     '!./client/app/canvas/canvasHelpers/getSelectors.js',
     '!./client/app/entry.js',
+    './server/utils/**/*.js',
     './README.md'
   ],
   clientScripts: [

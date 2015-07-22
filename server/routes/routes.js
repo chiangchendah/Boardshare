@@ -43,7 +43,6 @@ module.exports = function(app){
   });
 
   app.post('/user/boards/:id', isAuthenticated, function (req, res) {
-    console.log('saving board');
     var id = req.params.id;
     var userid = req.user._id;
     User.findById(userid)
@@ -68,12 +67,10 @@ module.exports = function(app){
                   }
                   if (user) {
                     res.sendStatus(201);
-                    console.log('saved board');
                   }
                 });
               } else {
                 res.sendStatus(200);
-                console.log('board already existed');
               }
             });
         }

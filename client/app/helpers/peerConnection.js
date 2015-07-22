@@ -6,9 +6,12 @@ var remotePeers = require('./remotePeers');
 var RemotePeer = require('./remotePeer');
 var callHandler = require('../video/video').callHandler;
 var saveBoard = require('./saveBoard');
+var getUrl = require('./urlGetter');
 var rtc;
+exports.socket = socket;
 
 socket.on('env', function(env, port){
+  socket.emit('getCanvas', { id: getUrl() });
   if (env === 'production'){
     exports.rtc = new Peer({ host:'/', secure:true, port:443, path: '/api' });
   } else {
@@ -17,15 +20,14 @@ socket.on('env', function(env, port){
   rtc = exports.rtc;
   rtc.on('open', function(id){
     // console.log('peer id is: ', id);
-    socket.emit('rtcReady', id, (/\w+$/).exec(window.location.href)[0]);
+    socket.emit('rtcReady', id, getUrl());
     helpers.stayAlive(rtc);
     saveBoard();
   });
   rtc.on('connection', function(dataConnection){
-    var remotePeer = new RemotePeer(dataConnection.peer, dataConnection);
+    new RemotePeer(dataConnection.peer, dataConnection);
   });
   rtc.on('disconnection', function(id){
-    console.log('disconnected from peer server', id);
     setTimeout(function(){
       rtc.reconnect();
     }, 300);
@@ -39,10 +41,15 @@ socket.on('env', function(env, port){
     }
   });
 });
+
+socket.on('updateCanvas', function (data) {
+  var canvas = require('../canvas/canvas').canvas;
+  var state = JSON.parse(data);
+  state && (state = state[state.length-1]);
+  canvas.loadFromJSON(state, canvas.renderAll.bind(canvas));
+});
 socket.on('peerIds', function(ids){
   forEach(ids, function(id){
-    if (! remotePeers.alreadyExists(id)) {
-      var remotePeer = new RemotePeer(id, rtc.connect(id));
-    }
+    ! remotePeers.alreadyExists(id) && new RemotePeer(id, rtc.connect(id));
   });
 });

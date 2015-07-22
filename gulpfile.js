@@ -98,7 +98,7 @@ function bundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
        // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write()) // writes .map file
-    .pipe(gulp.dest('./client/dist/'));
+    .pipe(gulp.dest('./client/dist/js/'));
 }
 
 function bundleProduction() {
@@ -107,7 +107,7 @@ function bundleProduction() {
     .pipe(source('main.min.js'))
     .pipe(buffer())
     .pipe(uglify())
-    .pipe(gulp.dest('./client/dist/'));
+    .pipe(gulp.dest('./client/dist/js/'));
 }
 function bundleTest() {
   return bTest.bundle()
@@ -149,34 +149,23 @@ gulp.task('docs', function () {
     .pipe(gulp.dest('./doc'));
 });
 
-// gulp.task('scripts', function(){
-//   var b = browserify({
-//     entries: './client/app/entry.js',
-//     insertGlobals: true,
-//     debug: true
-//   });
-//   return b.bundle()
-//     .pipe(source('main.min.js'))
-//     .pipe(buffer())
-//     .pipe(sourcemaps.init({loadMaps: true}))
-//       .pipe(uglify())
-//       .on('error', gutil.log)
-//     .pipe(sourcemaps.write())
-//     .pipe(gulp.dest('./client/dist/'));
-// });
+gulp.task('imgs', function() {
+  return gulp.src('./client/assets/img/**/*.svg')
+    .pipe(gulp.dest('./client/dist/img/'));
+});
 
 gulp.task('stylesheets', function(){
   return gulp.src(paths.styleSheets)
     .pipe(concat('main.css'))
-    .pipe(gulp.dest('./client/dist'))
+    .pipe(gulp.dest('./client/dist/css/'))
     .pipe(cssmin())
     .pipe(rename('main.min.css'))
-    .pipe(gulp.dest('./client/dist'));
+    .pipe(gulp.dest('./client/dist/css/'));
 });
 
 gulp.task('fonts', function() {
   return gulp.src(['./client/lib/fontawesome/fonts/fontawesome-webfont.*'])
-    .pipe(gulp.dest('./client/dist/'));
+    .pipe(gulp.dest('./client/dist/fonts/'));
 });
 
 gulp.task('dev', function(){
@@ -188,7 +177,7 @@ gulp.task('dev', function(){
   });
 });
 
-gulp.task('deploy', ['js-deploy', 'stylesheets', 'fonts'], function(){
+gulp.task('deploy', ['js-deploy', 'stylesheets', 'fonts', 'imgs'], function(){
   process.exit(0);
 });
 
@@ -198,6 +187,6 @@ gulp.task('watch', function(){
   gulp.watch(paths.styleSheets, ['stylesheets']);
 });
 
-gulp.task('default', ['js', 'stylesheets', 'watch'], function() {
+gulp.task('default', ['js', 'stylesheets', 'imgs', 'watch'], function() {
   gulp.start('dev');
 });

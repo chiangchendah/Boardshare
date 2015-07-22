@@ -54,17 +54,17 @@ Images
 ========================================================================== */
 .whiteboard {
 	/* Created by Piotr Kołodziejski from the noun project */
-  background-image: url('../assets/img/whiteboard.svg');
+  background-image: url('../img/whiteboard.svg');
   background-size: cover;
   background-repeat: no-repeat;
 }
 .video {
-	background-image: url('../assets/img/video.svg');
+	background-image: url('../img/video.svg');
 	background-size: cover;
 	background-repeat: no-repeat;	
 }
 .text-editor {
-	background-image: url('../assets/img/text-editor.svg');
+	background-image: url('../img/text-editor.svg');
 	background-size: cover;
 	background-repeat: no-repeat;
 }

@@ -16,8 +16,8 @@ exports.updateState = function(clear) {
   } else {
     canvas.state.push(JSON.stringify(canvas));
   }
+  
   remotePeers.sendData({canvas: {
-    state: canvas.state,
     currentState: canvas.state[canvas.state.length-1]
   }});
 

@@ -46,7 +46,7 @@ var paths = {
     '!./test/client/mainSpec.js',
     '!./client/lib/**/*.js',
     '!./client/dist/**/*.js',
-    '!./client/assets/js/helpers/layout.modernizr.custom.js',
+    '!./client/assets/js/**/*.js',
     'gulpfile.js',
     'app.js'
   ],

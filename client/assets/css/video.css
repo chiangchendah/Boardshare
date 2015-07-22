@@ -29,6 +29,7 @@
   height: 150px;
   background-color: #eee;
   order: 1;
+  transform: scaleX(-1);
 }
 
 #video button {

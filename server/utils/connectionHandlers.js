@@ -1,5 +1,6 @@
 var PeerGroup = require('./peerGroup');
 var peerGroups = require('./peerGroups');
+var Board = require('../db/db').Board;
 
 /**
  * Get the peerIds for a boardshare instance and emit them to the socket
@@ -27,6 +28,49 @@ var removePeerId = function(socket){
   }
 };
 
+/**
+ * Saves canvas state to the database
+ * @param      {Object}   socket Socket.io object for the connected client
+ * @param      {Object}   data contains data.id and data.canvasState
+ * @param      {Function}   cb callbacks takes a boolean arg
+ */
+var saveCanvas = function (socket, data, cb) {
+  Board.findOne({url: data.id})
+    .exec(function (error, board) {
+      if (error) {
+        console.error(error);
+      }
+      if (board) {
+        board.canvas = data.canvasState;
+        board.save(function (error, board) {
+          if (error) {
+            console.error(error);
+            cb(false);
+          }
+          if (board) {
+            cb(true);
+          }
+        });
+      } else {
+        cb(false);
+      }
+  });
+};
+
+var getCanvas = function (socket, data, cb) {
+  Board.findOne({url: data.id})
+    .exec(function (error, board) {
+      if (error) {
+        console.error(error);
+      }
+      if (board) {
+        socket.emit('updateCanvas', board.canvas);
+      }
+    });
+};
+
 // put the exports down here so doxx wouldn't get confused
 exports.returnPeerIds = returnPeerIds;
 exports.removePeerId = removePeerId;
+exports.saveCanvas = saveCanvas;
+exports.getCanvas = getCanvas;

@@ -1,5 +1,8 @@
 var remotePeers = require('../../helpers/remotePeers');
 var canvas = require('../canvas').canvas;
+var getUrl = require('../../helpers/urlGetter');
+var socket = require('../../helpers/peerConnection').socket;
+
 
 /**
 * Updates the canvas state array and sends peers this data
@@ -14,6 +17,11 @@ exports.updateState = function(clear) {
     state: canvas.state,
     currentState: canvas.state[canvas.state.length-1]
   }});
+  socket.emit('saveCanvas',
+    {id: getUrl(), canvasState: JSON.stringify(canvas.state)},
+    function (saved) {
+      // can do something once it's saved if you want
+    });
 };
 /**
 * Undo a recently made addition. Goes backwards in state array.

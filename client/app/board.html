@@ -8,10 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
     <!-- Place favicon.ico in the root directory -->
-    <link rel="stylesheet" href="../dist/main.min.css">
-    <!-- font -->
-    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    
+    <link rel="stylesheet" href="../dist/css/main.min.css">
+    <!-- fonts -->
   </head>
   <body>
     <div class='top'>
@@ -22,15 +20,15 @@
       <div id='video'></div>
       <div id='messaging'></div>
     </div>
-    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <script src="//cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <script src='../lib/ace-builds/src-noconflict/ace.js'></script>
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.1.1/firepad.css" />
-    <script src="https://cdn.firebase.com/libs/firepad/1.1.1/firepad.min.js"></script>
+    <link rel="stylesheet" href="//cdn.firebase.com/libs/firepad/1.1.1/firepad.css" />
+    <script src="//cdn.firebase.com/libs/firepad/1.1.1/firepad.min.js"></script>
     <script>
       if (window.location.href.indexOf('localhost') > -1) {
-        document.write('<script src="../dist/main.js"><\/script>');
+        document.write('<script src="../dist/js/main.js"><\/script>');
       } else {
-        document.write('<script src="../dist/main.min.js"><\/script>');
+        document.write('<script src="../dist/js/main.min.js"><\/script>');
       }
     </script>
   </body>

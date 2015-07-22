@@ -31,8 +31,6 @@ exports.down = function(loc) {
       canvas.shape = shapes.createEllipse(loc, options);
       canvas.add(canvas.shape);      
       break;
-    case 'triangle':
-      break;
   }
 };
 /**
@@ -51,8 +49,6 @@ exports.move = function(loc) {
       break;
     case 'ellipse':
       shapes.updateEllipse(shape, loc);
-      break;
-    case 'triangle':
       break;
   }
   canvas.renderAll();

@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
+var config = require('../config');
 
-var mongoDB = process.env.MONGOLAB_URI || "mongodb://localhost/boardshare";
+
+var mongoDB = config.MONGODB_URL;
 
 mongoose.connect(mongoDB);
 var db = mongoose.connection;

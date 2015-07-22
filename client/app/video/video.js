@@ -3,19 +3,19 @@ var _ = require('lodash');
 var remotePeers = require('../helpers/remotePeers');
 var videoInitialized = false;
 
-// todo: switch over to keeping track of connections manually instead
-// of using the built in peer.connections
-// like how we are for data channels
-
-
+/**
+ * Attaches click listener to join video button
+ */
 var initialize = function(){
-  // initializeVideo();
   $('#join-video').on('click', function(e){
     joinVideo();
   });
 };
 
-// gets cam permission and initializes media stream
+/**
+ * Gets camera permission and initializes media stream
+ * @param      {Function}   cb execute callback on successful stream initialization
+ */
 function initializeVideo(cb){
   navigator.getUserMedia =
     navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -28,28 +28,33 @@ function initializeVideo(cb){
       videoInitialized = true;
       $('#my-video').prop('src', URL.createObjectURL(stream));
       module.exports.videoStream = stream;
-      if(cb){
-        cb();
-      }
+      cb && cb();
     },
     // fail callback (usually happens when user disallows cam access)
-    function(){
+    function(arg){
+      console.log(arg);
       console.log('error');
     }
   );
 }
 
+/**
+ * initializes video and calls all connected peers. Video mediaConnection will open
+ * and stream will start if the given peers have opted into the video call as well
+ */
 function joinVideo(){
   var rtc = require('../helpers/peerConnection').rtc;
-  if(!videoInitialized){
-    initializeVideo(callPeers);
-    return;
-  }
+  (!videoInitialized) && initializeVideo(callPeers);
   function callPeers(){
     remotePeers.call(module.exports.videoStream, callHandler);
   }
 }
 
+/**
+ * Adds video to the dom for incoming calls
+ * @param      {Object}   call a peerJS video call
+ * @return     {Object} a peerJS video call
+ */
 function callHandler(call) {
   call.on('stream', function(stream){
     var container = $('<div class="peer-vid-container">');

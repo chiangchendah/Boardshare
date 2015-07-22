@@ -17,8 +17,9 @@ exports.updateState = function(clear) {
     state: canvas.state,
     currentState: canvas.state[canvas.state.length-1]
   }});
+
   socket.emit('saveCanvas',
-    {id: getUrl(), canvasState: JSON.stringify(canvas.state)},
+    {id: getUrl(), canvasState: JSON.stringify([canvas.state[canvas.state.length-1]])},
     function (saved) {
       // can do something once it's saved if you want
     });

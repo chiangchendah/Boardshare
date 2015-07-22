@@ -77,7 +77,7 @@ RemotePeer.prototype.addDataEventListeners = function () {
     }
     if (data.canvas) {
       var canvas = require('../canvas/canvas').canvas;
-      function updatePeerCanvas() {
+      var updatePeerCanvas = function() {
         if (!canvas.isDragging) {
           if (data.canvas.mods) {
             canvas.mods = data.canvas.mods;
@@ -88,7 +88,7 @@ RemotePeer.prototype.addDataEventListeners = function () {
         } else {
           setTimeout(updatePeerCanvas, 50);
         }
-      });
+      };
       updatePeerCanvas();
     }
     if (data.name) {

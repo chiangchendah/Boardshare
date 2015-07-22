@@ -11,8 +11,13 @@ var Board = require('../db/db').Board;
  */
 var returnPeerIds = function(socket, peerId, groupId){
   var group = peerGroups.getGroup(groupId);
-  group && socket.emit('peerIds', group.peerIds);
-  group && group.addPeerId(socket.id, peerId);
+  if (group){
+    socket.emit('peerIds', group.peerIds);
+    group.addPeerId(socket.id, peerId);
+  } else {
+    group = new PeerGroup(groupId);
+    group.addPeerId(peerId);
+  }
 };
 
 /**
@@ -78,7 +83,7 @@ var getCanvas = function (socket, data, cb) {
 var handleError = function (error, res) {
   if (error) {
     console.error(error);
-    res && res.sendStatus(error.status);
+    res && res.sendStatus(500);
   }
 };
 

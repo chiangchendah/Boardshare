@@ -22,9 +22,9 @@ passport.deserializeUser(function(obj, done) {
 
 /* GitHub OAuth */
 passport.use(new GitHubStrategy({
-    clientID: config.GITHUB_CLIENT_ID,
-    clientSecret: config.GITHUB_CLIENT_SECRET,
-    callbackURL: config.GITHUB_CALLBACK_URL // need a production version of this
+    clientID: config.GITHUB_CLIENT_ID || 'travis',
+    clientSecret: config.GITHUB_CLIENT_SECRET || 'travis',
+    callbackURL: config.GITHUB_CALLBACK_URL || 'http://travis-ci.org/auth/callback'
   },
   function(accessToken, refreshToken, profile, done) {
 

@@ -1,6 +1,6 @@
 var remotePeers = require('../../helpers/remotePeers');
 var canvas = require('../canvas').canvas;
-var getUrl = require('../../helpers/urlGetter');
+var URL = require('../../helpers/urlGetter');
 var socket = require('../../helpers/peerConnection').socket;
 
 
@@ -16,13 +16,13 @@ exports.updateState = function(clear) {
   } else {
     canvas.state.push(JSON.stringify(canvas));
   }
-  
+
   remotePeers.sendData({canvas: {
     currentState: canvas.state[canvas.state.length-1]
   }});
 
   socket.emit('saveCanvas',
-    {id: getUrl(), canvasState: JSON.stringify([canvas.state[canvas.state.length-1]])},
+    {id: URL, canvasState: JSON.stringify([canvas.state[canvas.state.length-1]])},
     function (saved) {
       // can do something once it's saved if you want
     });

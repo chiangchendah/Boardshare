@@ -1,9 +1,11 @@
 /**
- * Get the URL hash i.e. boardshare.io/{hash}
- * @return     {String} the url hash
+ * Get the URL hash for the board instance
+ * @return     {String} the 7 digit hash that identifies the board
  */
-var getUrl = function () {
-  return (/\w+$/).exec(window.location.href)[0];
-};
+var URL = (function getURL() {
+  var url = (/\w+$/).exec(window.location.href)[0];
+  (url === undefined || url === null) && console.error('getURL borked again');
+  return url;
+})();
 
-module.exports = getUrl;
+module.exports = URL;

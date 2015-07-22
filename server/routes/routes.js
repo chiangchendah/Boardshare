@@ -8,12 +8,12 @@ var hashids = new Hashids('salty travers', 7);
 var PeerGroup = require('../utils/peerGroup');
 var peerGroups = require('../utils/peerGroups');
 var includes = require('lodash/collection/includes');
+var handleError = require('../utils/connectionHandlers').handleError;
 
 module.exports = function(app){
   auth(app);
 
   app.get('/start', function(req, res){
-    // var board = new BoardShare();
     var hash = hashids.encode(Math.floor(Math.random() * 1e9));
     var peerGroup = new PeerGroup(hash);
     var id = encodeURIComponent(hash);
@@ -22,7 +22,7 @@ module.exports = function(app){
       url: hash,
     });
     board.save(function (error, board) {
-      if (error) { throw error; }
+      handleError(error, res);
     });
     res.redirect('/' + id);
   });
@@ -30,15 +30,8 @@ module.exports = function(app){
   app.get('/user/profile', isAuthenticated, function (req, res) {
     User.findById(req.user._id)
       .exec(function (error, user) {
-        if (error) {
-          console.error(error);
-          res.sendStatus(error.status);
-        }
-        if (user) {
-          res.send(user);
-        } else {
-          res.sendStatus(500);
-        }
+        handleError(error, res);
+        user ? res.send(user) : res.sendStatus(500);
       });
   });
 
@@ -47,27 +40,16 @@ module.exports = function(app){
     var userid = req.user._id;
     User.findById(userid)
       .exec(function (error, user) {
-        if (error) {
-          console.error(error);
-          res.sendStatus(error.status);
-        }
+        handleError(error, res);
         if (user) {
           Board.findOne({url: id})
             .exec(function (error, board) {
-              if (error) {
-                console.error(error);
-                res.sendStatus(error.status);
-              }
-              if ( board && !includes(user.boards, id) ) {
+              handleError(error, res);
+              if (board && !includes(user.boards, id)) {
                 user.boards.push(id);
                 user.save(function (error, user) {
-                  if (error) {
-                    console.error(error);
-                    res.sendStatus(error.status);
-                  }
-                  if (user) {
-                    res.sendStatus(201);
-                  }
+                  handleError(error, res);
+                  user && res.sendStatus(201);
                 });
               } else {
                 res.sendStatus(200);
@@ -79,21 +61,16 @@ module.exports = function(app){
 
   app.get('/:id', function(req, res){
     var id = req.params.id;
-    // look up board for the requested id
     Board.findOne({url: id}, function (error, board) {
-      if (error) { console.error(error); }
+      handleError(error, res);
       if (board) {
         res.sendFile(
           path.join(__dirname, '../../client/app/board.html'),
-          // after file is sent callback
           function (error) {
-            if (error) { res.status(error.status).end(); }
-            if (! peerGroups.groupExists(id)){
-              var peerGroup = new PeerGroup(id);
-            }
+            handleError(error, res);
+            !peerGroups.groupExists(id) && ( new PeerGroup(id) );
           });
       } else {
-        // board not in db
         res.sendStatus(404);
       }
     });

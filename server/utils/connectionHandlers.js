@@ -57,20 +57,34 @@ var saveCanvas = function (socket, data, cb) {
   });
 };
 
+/**
+ * Get the canvas state for a particular board from the DB and emit it on socket
+ * @param      {Object}   socket Socket.io socket of connected client
+ * @param      {Object}   data contains data.id of board
+ */
 var getCanvas = function (socket, data, cb) {
   Board.findOne({url: data.id})
     .exec(function (error, board) {
-      if (error) {
-        console.error(error);
-      }
-      if (board) {
-        socket.emit('updateCanvas', board.canvas);
-      }
+      handleError(error);
+      board && socket.emit('updateCanvas', board.canvas);
     });
+};
+
+/**
+ * Handle DB errors
+ * @param      {Object}   error the error given by the DB
+ * @param      {Object}   res response object from client requesting
+ */
+var handleError = function (error, res) {
+  if (error) {
+    console.error(error);
+    res && res.sendStatus(error.status);
+  }
 };
 
 // put the exports down here so doxx wouldn't get confused
 exports.returnPeerIds = returnPeerIds;
 exports.removePeerId = removePeerId;
+exports.handleError = handleError;
 exports.saveCanvas = saveCanvas;
 exports.getCanvas = getCanvas;

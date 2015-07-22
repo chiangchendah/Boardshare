@@ -20,7 +20,7 @@ exports.initialize = function() {
   canvas.brushes = getBrushes(canvas);
   // Keep track of our canvas state
   canvas.counter = 0;
-  canvas.mods = 1;
+  canvas.mods = 0;
   canvas.state = [];
   canvas.isDrawingMode = true;
   canvas.isDragging = false;

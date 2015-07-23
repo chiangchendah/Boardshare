@@ -1,0 +1,197 @@
+/* ==========================================================================
+Reset
+========================================================================== */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,figure,figcaption { 
+  margin:0;
+  padding:0;
+}
+
+/* ==========================================================================
+App
+========================================================================== */
+body{
+  background: #fff;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+	overflow: hidden;
+}
+a{
+  color: #ddd;
+  text-decoration: none;
+}
+.clr{
+  clear: both;
+}
+
+/* Top Bar */
+.top{
+  background: #fff;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 10;
+  height: 40px;
+}
+.top h1{
+  color: #333;
+  font-size: 20px;
+  line-height: 40px;
+  padding: 0 10px;
+}
+.top h1 span{
+  color: #555;
+  font-size: 12px;
+}
+.main-wrapper{
+  width: 100%;
+  overflow: hidden;
+  margin-top: 40px;
+  outline: none;
+  /* height dynamic */
+}
+.main{
+  position: relative;
+  width: 100%;
+}
+.main a{
+  float: left;
+  width: 210px;
+  height: 210px;
+  position: relative;
+  overflow: hidden;
+  margin: 0px 0px 2px 2px;
+  cursor: move;
+  background: #fff url(../img/thumb_bg.jpg) no-repeat center center;
+  background-size: 110% 110%;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.main a img{
+  opacity: 0.95;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.main > a > span{
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 11px;
+  bottom: -20px;
+  left: 0px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.main a:hover > span{
+  bottom: 0px;
+}
+.main a:hover img{
+  opacity: 0.8;
+}
+.main a:hover{
+  background-size: 100% 100%;
+}
+.content{
+  background: #f9f9f9;
+}
+.content .teaser{
+  text-align: center;
+  background: #333;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.teaser h2{
+  color: #fff;
+  font-size: 26px;
+  line-height: 26px;
+  padding-top: 40%;
+  text-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+}
+.teaser h2 span{
+  text-transform: none;
+  font-size: 16px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  display: block;
+}
+.content .teaser:hover{
+  background: #000;
+}
+.content-view{
+  position: absolute;
+  top: 44px;
+  left: 0px;
+  background: #000;
+  width: 100%;
+  height: 630px; /*dynamic*/
+  display: none;
+}
+.content-view .teaser h2{
+  font-size: 50px;
+  padding: 85px 40px 20px 40px;
+}
+.content-view .teaser span{
+  padding: 20px 0px 0px 5px;
+  font-size: 22px;
+}
+.content-full{
+  font-family: 'Oswald';
+  text-transform: none;
+  line-height: 26px;
+  margin: 0px 40px;
+  border-top: 1px solid #333;
+  padding: 20px 0px;
+	font-size: 16px;
+}
+.content-full p{
+	padding: 5px 0px;
+}
+.preview{
+  overflow: hidden;
+  position: absolute;
+  top: 40px;
+  display: none;
+}
+.preview-descr{
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  z-index: 999;
+  font-size: 50px;
+  text-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+}
+.preview img{
+	position: absolute;
+}
+.close{
+	top: 7px;
+	right: 7px;
+	background: transparent url(../img/close.png) no-repeat center center;
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	opacity: 0.2;
+	z-index: 999;
+  text-indent: -9000px;
+}

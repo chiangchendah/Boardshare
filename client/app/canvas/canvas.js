@@ -4,7 +4,7 @@ var fabric = require('../../lib/fabric/dist/fabric').fabric;
 var spectrum = require('../../lib/spectrum/spectrum')($);
 $.fn.spectrum.load = false; // Don't polyfill HTML5 color inputs
 // WebRTC
-var remotePeers = require('../helpers/remotePeers');
+var remotePeers = require('../peer/remotePeers');
 // Helpers
 var makeColorInputs = require('./canvasHelpers/makeColorInputs');
 var getBrushes = require('./canvasHelpers/getBrushes');
@@ -36,15 +36,15 @@ exports.initialize = function() {
   var modes = require('./canvasHelpers/modes');
 
   // Event Handlers for UI changes
-  canvas.selectors.stroke.onchange = function() { 
-    utils.updateModifier.call(this, 'stroke'); 
+  canvas.selectors.stroke.onchange = function() {
+    utils.updateModifier.call(this, 'stroke');
   };
-  canvas.selectors.fill.onchange = function(){ 
-    utils.updateModifier.call(this, 'fill'); 
+  canvas.selectors.fill.onchange = function(){
+    utils.updateModifier.call(this, 'fill');
   };
-  canvas.selectors.lineWidth.onchange = function(){ 
-    utils.updateModifier.call(this, 'strokeWidth'); 
-  }; 
+  canvas.selectors.lineWidth.onchange = function(){
+    utils.updateModifier.call(this, 'strokeWidth');
+  };
   canvas.selectors.clear.onclick = function() {
     stateManager.updateState(true);
   };
@@ -71,7 +71,7 @@ exports.initialize = function() {
     } else {
       modes.editMode();
     }
-  };  
+  };
 
   // Initialize our canvas tool as a pencil
   modes.editMode(true);

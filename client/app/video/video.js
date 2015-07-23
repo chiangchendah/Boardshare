@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var _ = require('lodash');
-var remotePeers = require('../helpers/remotePeers');
+var remotePeers = require('../peer/remotePeers');
 var videoInitialized = false;
 var localStream;
 
@@ -49,7 +49,7 @@ function initializeVideo(cb){
  * and stream will start if the given peers have opted into the video call as well
  */
 function joinVideo(){
-  var rtc = require('../helpers/peerConnection').rtc;
+  var rtc = require('../peer/peerConnection').rtc;
   (!videoInitialized) && initializeVideo(callPeers);
   function callPeers(){
     remotePeers.call(exports.videoStream, callHandler);
@@ -57,8 +57,9 @@ function joinVideo(){
 }
 
 function leaveVideo() {
-  var rtc = require('../helpers/peerConnection').rtc;
+  var rtc = require('../peer/peerConnection').rtc;
   localStream.stop();
+  localStream = null;
   videoInitialized = false;
   remotePeers.endCalls();
   $('.peer-vid').each(function (index, item) {
@@ -75,16 +76,22 @@ function callHandler(call) {
   call.on('stream', function(stream){
     var container = $('<div class="peer-vid-container">');
     var $vid = $('<video class="peer-vid" autoplay controls>');
-    window.$vid = $vid;
     $vid.data('peer', call.peer);
     $('#video-container').append(container);
     container.append($vid);
     $vid.prop('src', URL.createObjectURL(stream));
+
     call.on('close', function () {
       $vid.remove();
+      remotePeers.getPeer(call.peer).endCall();
     });
 
   });
   return call;
 }
 exports.callHandler = callHandler;
+
+function getStream() {
+  return localStream;
+}
+exports.getStream = getStream;

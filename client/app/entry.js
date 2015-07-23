@@ -4,10 +4,10 @@
 require('lodash');
 require('interact.js');
 // Helpers
-require('./helpers/peerConnection');
-require('./helpers/peerHelpers');
-require('./helpers/remotePeer');
-require('./helpers/remotePeers');
+require('./peer/peerConnection');
+require('./peer/peerHelpers');
+require('./peer/remotePeer');
+require('./peer/remotePeers');
 require('./helpers/getTemplates');
 require('./helpers/renderTemplates');
 require('./helpers/resizeElement');

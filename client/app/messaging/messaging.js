@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var remotePeers = require('../helpers/remotePeers');
+var remotePeers = require('../peer/remotePeers');
 
 // Helper function to create chats
 function createChat(name, data) {

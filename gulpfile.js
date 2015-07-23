@@ -24,8 +24,8 @@ var paths = {
    * reason
    */
   doxx: [
-    './client/app/helpers/remote*.js',
-    './client/app/helpers/peerHelpers.js',
+    './client/app/peer/remote*.js',
+    './client/app/peer/peerHelpers.js',
     './client/app/helpers/saveBoard.js',
     './client/app/canvas/canvasHelpers/*.js',
     '!./client/app/canvas/canvasHelpers/getSelectors.js',
@@ -139,7 +139,7 @@ gulp.task('js-deploy', bundleProduction);
 b.on('update', bundle); // on any update, runs bundler
 b.on('log', gutil.log);
 
-//'./client/app/helpers/remotePeer.js'
+//'./client/app/peer/remotePeer.js'
 gulp.task('docs', function () {
   gulp.src(paths.doxx)
     .pipe(gulpDoxx({

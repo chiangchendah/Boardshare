@@ -38,21 +38,21 @@ RemotePeer.prototype.sendData = function (data) {
  */
 RemotePeer.prototype.call = function (videoStream, cb) {
   var rtc = require('./peerConnection').rtc;
-  if (this.mediaConnection === null) {
+  if (! this.mediaConnection) {
     return cb(this.mediaConnection = rtc.call(this.id, videoStream));
   } else if (this.mediaConnection && !this.mediaConnection.open) {
     return cb(this.mediaConnection = rtc.call(this.id, videoStream));
-  } else if (this.mediaConnection && !this.mediaConnection.open) {
-    return this.mediaConnection;
+  } else if (this.mediaConnection && this.mediaConnection.open) {
+    return cb(this.mediaConnection);
   }
 };
 /**
  * End the call with the remote peer and dereference the mediaConnection
  */
 RemotePeer.prototype.endCall = function () {
-  if (this.mediaConnection !== null) {
+  if (this.mediaConnection) {
     this.mediaConnection.close();
-    this.mediaConnection = null;
+    delete this.mediaConnection;
   }
 };
 

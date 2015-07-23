@@ -1,5 +1,6 @@
 var stayinAlive = false;
 
+
 /**
  * Keep the PeerJS socket connection alive (only applicable to heroku)
  * @param      {Object}   rtc instance of PeerJS Peer()

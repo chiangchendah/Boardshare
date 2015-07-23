@@ -84,6 +84,12 @@ RemotePeer.prototype.addDataEventListeners = function () {
           }
           canvas.state.push(data.canvas.currentState);
           canvas.loadFromJSON(data.canvas.currentState);
+          if (canvas.selectedTool !== 'cursor') {
+            canvas.selection = false;
+            canvas.forEachObject(function(o) {
+              o.selectable = false;
+            });
+          }
           canvas.renderAll();
         } else {
           setTimeout(updatePeerCanvas, 50);

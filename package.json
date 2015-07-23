@@ -55,12 +55,12 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "vinyl-transform": "^1.0.0",
-    "watchify": "^3.2.3"
-  },
-  "devDependencies": {
+    "watchify": "^3.2.3",
     "chai": "^3.0.0",
     "doxx": "^1.4.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4"
+  },
+  "devDependencies": {
   }
 }

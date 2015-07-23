@@ -6,21 +6,22 @@ var remotePeers = require('./remotePeers');
 var RemotePeer = require('./remotePeer');
 var callHandler = require('../video/video').callHandler;
 var saveBoard = require('./saveBoard');
-var getUrl = require('./urlGetter');
+var URL = require('./urlGetter');
 var rtc;
 exports.socket = socket;
 
 socket.on('env', function(env, port){
-  socket.emit('getCanvas', { id: getUrl() });
+  socket.emit('getCanvas', { id: URL });
   if (env === 'production'){
     exports.rtc = new Peer({ host:'/', secure:true, port:443, path: '/api' });
   } else {
     exports.rtc = new Peer({ host: '/', port: port, path: '/api' });
   }
-  rtc = exports.rtc;
+  window.rtc = rtc = exports.rtc;
+
   rtc.on('open', function(id){
     // console.log('peer id is: ', id);
-    socket.emit('rtcReady', id, getUrl());
+    socket.emit('rtcReady', id, URL);
     helpers.stayAlive(rtc);
     saveBoard();
   });

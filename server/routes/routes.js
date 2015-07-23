@@ -35,7 +35,10 @@ module.exports = function(app){
       });
   });
 
-  app.post('/user/boards/:id', isAuthenticated, function (req, res) {
+  app.post('/user/boards/:id', function (req, res) {
+    if (!req.isAuthenticated() ) {
+      return res.sendStatus(200);
+    }
     var id = req.params.id;
     var userid = req.user._id;
     User.findById(userid)

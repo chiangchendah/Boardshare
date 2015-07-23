@@ -2,6 +2,7 @@ var $ = require('jquery');
 var _ = require('lodash');
 var remotePeers = require('../helpers/remotePeers');
 var videoInitialized = false;
+var localStream;
 
 /**
  * Attaches click listener to join video button
@@ -10,7 +11,11 @@ var initialize = function(){
   $('#join-video').on('click', function(e){
     joinVideo();
   });
+  $('#leave-video').on('click', function (e) {
+    leaveVideo();
+  });
 };
+exports.initialize = initialize;
 
 /**
  * Gets camera permission and initializes media stream
@@ -26,8 +31,9 @@ function initializeVideo(cb){
     // success cb, has media stream
     function(stream){
       videoInitialized = true;
+      localStream = stream;
       $('#my-video').prop('src', URL.createObjectURL(stream));
-      module.exports.videoStream = stream;
+      exports.videoStream = stream;
       cb && cb();
     },
     // fail callback (usually happens when user disallows cam access)
@@ -46,8 +52,18 @@ function joinVideo(){
   var rtc = require('../helpers/peerConnection').rtc;
   (!videoInitialized) && initializeVideo(callPeers);
   function callPeers(){
-    remotePeers.call(module.exports.videoStream, callHandler);
+    remotePeers.call(exports.videoStream, callHandler);
   }
+}
+
+function leaveVideo() {
+  var rtc = require('../helpers/peerConnection').rtc;
+  localStream.stop();
+  videoInitialized = false;
+  remotePeers.endCalls();
+  $('.peer-vid').each(function (index, item) {
+    $(item).remove();
+  });
 }
 
 /**
@@ -58,15 +74,17 @@ function joinVideo(){
 function callHandler(call) {
   call.on('stream', function(stream){
     var container = $('<div class="peer-vid-container">');
-    var vid = $('<video class="peer-vid" autoplay controls>');
+    var $vid = $('<video class="peer-vid" autoplay controls>');
+    window.$vid = $vid;
+    $vid.data('peer', call.peer);
     $('#video-container').append(container);
-    container.append(vid);
-    vid.prop('src', URL.createObjectURL(stream));
+    container.append($vid);
+    $vid.prop('src', URL.createObjectURL(stream));
+    call.on('close', function () {
+      $vid.remove();
+    });
+
   });
   return call;
 }
-
-module.exports = {
-  callHandler: callHandler,
-  initialize: initialize,
-};
+exports.callHandler = callHandler;

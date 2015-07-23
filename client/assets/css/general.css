@@ -4,11 +4,13 @@
   clear: both;
 }
 
-.bottom:after {
+#video-container:after, #video-chat:after, #video:after, .bottom:after {
   content: "";
   display: table;
   clear: both;
 }
+
+
 
 .top {
   width: 100%;

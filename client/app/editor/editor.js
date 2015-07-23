@@ -5,13 +5,13 @@ module.exports.initialize = function(){
   var firepadRef = new Firebase('glowing-heat-8297.firebaseIO.com/firepads/' + ext);
   var editor = ace.edit('firepad');
   var firepad = Firepad.fromACE(firepadRef, editor);
-  
+
   editor.setTheme("ace/theme/monokai");
   //extensions
   $('#settings').on('click', function(){
     editor.execCommand('showSettingsMenu');
   });
-
+  $('.powered-by-firepad').remove();
   // //menu functionality
   // $('#fontSize').on('change', function(){
   //   var fontSize = this.options[this.selectedIndex].value;

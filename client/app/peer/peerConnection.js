@@ -5,8 +5,9 @@ var helpers = require('./peerHelpers');
 var remotePeers = require('./remotePeers');
 var RemotePeer = require('./remotePeer');
 var callHandler = require('../video/video').callHandler;
-var saveBoard = require('./saveBoard');
-var URL = require('./urlGetter');
+var getStream = require('../video/video').getStream;
+var saveBoard = require('../helpers/saveBoard');
+var URL = require('../helpers/urlGetter');
 var rtc;
 exports.socket = socket;
 
@@ -34,9 +35,8 @@ socket.on('env', function(env, port){
     }, 300);
   });
   rtc.on('call', function(call){
-    var stream = require('../video/video').videoStream;
-    if(stream){
-      call.answer(stream);
+    if(getStream()){
+      call.answer(getStream());
       callHandler(call);
       remotePeers.getPeer(call.peer).mediaConnection = call;
     }

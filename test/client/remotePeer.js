@@ -1,5 +1,5 @@
-var remotePeers = require('../../client/app/helpers/remotePeers');
-var RemotePeer = require('../../client/app/helpers/remotePeer');
+var remotePeers = require('../../client/app/peer/remotePeers');
+var RemotePeer = require('../../client/app/peer/remotePeer');
 
 describe('Remote Peer & Collection', function () {
   var peer, bob, jon;

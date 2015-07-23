@@ -89,7 +89,9 @@
       // load template for all content items
       // TODO: seems to be having synchrnous issues with main.js
       $('#contentTmpl').tmpl( contentData ).insertAfter( $wrapper );
-      initContentPreviewEvents(); 
+      initContentPreviewEvents();
+
+   
     }
     
     // in content template, set the returned values and show/animate view

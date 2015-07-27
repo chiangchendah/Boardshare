@@ -72,14 +72,6 @@ a{
   -ms-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-.main a img{
-  opacity: 0.95;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
 .main > a > span{
   display: block;
   position: absolute;
@@ -99,9 +91,6 @@ a{
 }
 .main a:hover > span{
   bottom: 0px;
-}
-.main a:hover img{
-  opacity: 0.8;
 }
 .main a:hover{
   background-size: 100% 100%;
@@ -148,7 +137,7 @@ a{
 }
 .content-view .teaser h2{
   font-size: 50px;
-  padding: 85px 40px 20px 40px;
+  padding: 35px 40px 20px 40px;
 }
 .content-view .teaser span{
   padding: 20px 0px 0px 5px;
@@ -166,25 +155,8 @@ a{
 .content-full p{
 	padding: 5px 0px;
 }
-.preview{
-  overflow: hidden;
-  position: absolute;
-  top: 40px;
-  display: none;
-}
-.preview-descr{
-  position: absolute;
-  bottom: 30px;
-  left: 10px;
-  z-index: 999;
-  font-size: 50px;
-  text-shadow: 1px 0px 2px rgba(0,0,0,0.2);
-}
-.preview img{
-	position: absolute;
-}
 .close{
-	top: 7px;
+	top: -33px;
 	right: 7px;
 	background: transparent url(../img/close.png) no-repeat center center;
 	position: absolute;

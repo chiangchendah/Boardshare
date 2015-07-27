@@ -18,84 +18,96 @@
     
     <!-- font -->
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
-    
-    <!-- jQuery template -->
-    <script id="contentTmpl" type="text/x-jquery-tmpl"> 
-      <div id="content-view" class="content-view">
-        <div class="teaser" style="display:none;">{{html teaser}}</div>
-        <div class="content-full" style="display:none;">{{html content}}</div>
-        <span class="close" style="display:none;">Close Preview</span>
-      </div>
-    </script>
 
   </head>
   <body>
-
-      <div id="top" class="top">
-          <h1>Boardshare <span>a collaborative whiteboard and code-editor</span></h1>
-      </div>
-      <div id="main-wrapper" class="main-wrapper">
-        <div class="main">
-            <!-- <a href="#"><div id='video'></div><span>Guest</span></a> -->
-            
-            <a href="#" class="content">
-              <div class="teaser">
-                <h2><span>Video</span></h2>
-              </div>
-              <div class="content-full">
-                <div id='video'></div>
-              </div>
-            </a>
-            
-            <a href="#" class="content">
-              <div class="teaser">
-                <h2><span>Whiteboard</span></h2>
-              </div>
-              <div class="content-full">
-                <div id='paint-canvas'></div>
-              </div>
-            </a>
-
-            <a href="#" class="content">
-              <div class="teaser">
-                  <h2><span>Text-Editor</span></h2>
-              </div>
-              <div class="content-full">
-                 <div id='text-editor'></div>
-              </div>
-            </a>
-
-            <a href="#" class="content">
-              <div class="teaser">
-                  <h2><span>Messages</span></h2>
-              </div>
-              <div class="content-full">
-                 <div id='messaging'></div>
-              </div>
-            </a>
-
+    <header id="top" class="top">
+        <h1>Boardshare <span>a collaborative whiteboard and code-editor</span></h1>
+    </header>
+    <section id="main-wrapper" class="main-wrapper">
+      <div class="main">
+        <a href="#" class="content">
+          <div class="teaser">
+            <h2><span>Video</span></h2>
+          </div>
+        </a>
+        <a href="#" class="content">
+          <div class="teaser">
+            <h2><span>Whiteboard</span></h2>
+          </div>
+        </a>
+        <a href="#" class="content">
+          <div class="teaser">
+            <h2><span>Text-Editor</span></h2>
+          </div>
+        </a>
+        <a href="#" class="content">
+          <div class="teaser">
+              <h2><span>Messages</span></h2>
+          </div>
+        </a>
         <div class="clr"></div>
-
-        </div><!-- main -->
-      </div><!-- main-wrapper -->
+      </div><!-- main -->
+    </section><!-- main-wrapper -->
+    <section id='Video' class="content-view">
+      <div class="teaser" style="display:none;">
+        <h2><span>Video</span></h2>
+      </div>
+      <div class="content-html" style="display:none;"></div>
+      <span class="close Video" style="display:none;">Close</span>
+      <div class="content-full" style="display:none;">
+        <div id='video'></div>
+      </div>
+    </section>
+    <section id='Whiteboard' class="content-view">
+      <div class="teaser" style="display:none;">
+        <h2><span>Whiteboard</span></h2>
+      </div>
+      <div class="content-html" style="display:none;"></div>
+      <span class="close Whiteboard" style="display:none;">Close</span>
+      <div class="content-full" style="display:none;">
+        <div id='paint-canvas'></div>
+      </div>
+    </section>
+    <section id='Text-Editor' class="content-view">
+      <div class="teaser" style="display:none;">
+        <h2><span>Text-Editor</span></h2>
+      </div>
+      <div class="content-html" style="display:none;"></div>
+      <span class="close Text-Editor" style="display:none;">Close</span>
+      <div class="content-full" style="display:none;">
+        <div id='text-editor'></div>
+      </div>
+    </section>
+    <section id='Messages' class="content-view">
+      <div class="teaser" style="display:none;">
+        <h2><span>Messages</span></h2>
+      </div>
+      <div class="content-html" style="display:none;"></div>
+      <span class="close Messages" style="display:none;">Close</span>
+      <div class="content-full" style="display:none;">
+        <div id='messaging'></div>
+      </div>
+    </section>
 
     <script type="text/javascript" src='../lib/jquery/dist/jquery.min.js'></script>
-    <script type="text/javascript" src="../assets/js/helpers/jquery.tmpl.min.js"></script>
     <script type="text/javascript" src="../assets/js/helpers/jquery.kinetic.js"></script>
     <script type="text/javascript" src="../assets/js/helpers/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="../assets/js/app.layout.js"></script>
-
 
     <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <script src='../lib/ace-builds/src-noconflict/ace.js'></script>
     <link rel="stylesheet" href="//cdn.firebase.com/libs/firepad/1.1.1/firepad.css" />
     <script src="//cdn.firebase.com/libs/firepad/1.1.1/firepad.min.js"></script>
+    
+    <!-- app scripts invoked here -->
     <script>
       if (window.location.href.indexOf('localhost') > -1) {
         document.write('<script src="../dist/js/main.js"><\/script>');
       } else {
         document.write('<script src="../dist/js/main.min.js"><\/script>');
       }
+
+      // TODO: page takes 3 seconds to load, add loading gif..
     </script>
   </body>
 </html>

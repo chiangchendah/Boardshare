@@ -14,7 +14,11 @@ require('./helpers/resizeElement');
 require('./helpers/makeDraggable');
 require('./helpers/saveBoard');
 
+// UI
+require('./helpers/app.ui.js');
+
 require('./canvas/canvas');
 require('./editor/editor');
 require('./messaging/messaging');
 require('./video/video');
+

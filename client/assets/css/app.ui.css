@@ -64,7 +64,7 @@ a{
   overflow: hidden;
   margin: 0px 0px 2px 2px;
   cursor: move;
-  background: #fff url(../img/thumb_bg.jpg) no-repeat center center;
+  background: #fff;
   background-size: 110% 110%;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;

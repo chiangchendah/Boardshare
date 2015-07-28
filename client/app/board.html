@@ -65,8 +65,49 @@
       <div id="whiteboard-teaser" class="teaser" style="display:none;">
         <h2>
           <span>Whiteboard</span>
-          <button id='delete'><i class='fa fa-remove'></i></button>
-          <button id='copy'><i class='fa fa-copy'></i></button>
+
+          <style>
+          .whiteboard-menu {
+            background-color: #fbfbfb;
+          }
+          .whiteboard-menu a{
+            cursor: pointer;
+          }
+          .whiteboard-menu i {
+            color: #444;
+            font-size: 25px;
+            vertical-align: middle;
+          }
+          .sp-replacer {
+            border: none;
+            background: none;
+            vertical-align: middle;
+            margin-left: -6px;
+          }
+          .state-icons {
+            float: right;
+          }
+          #toolSelect {
+            font-family: 'FontAwesome', Arial;
+            vertical-align: middle;
+            height: 45px;
+            width: 70px;
+            background-color: inherit;
+            font-size: 28px;
+            padding-left: 16px;
+          }
+          #toolSelect option {
+            height: 45px;
+            padding: 20px;
+          }
+          #lineWidth {
+            vertical-align: middle;
+            padding: 4px;
+            background-color: inherit;
+          }
+          </style>
+          <div class='whiteboard-menu'>
+          <!-- Modifiers -->
           <i class='fa fa-circle-thin modifier'></i>
           <input type='text' id='strokeColor' value='#000' />
           <i class='fa fa-circle modifier'></i>
@@ -81,18 +122,26 @@
             <option value='6'>6.0</option>
           </select>
 
-
-          <button id='undo'><i class='fa fa-undo'></i></button>
-          <button id='redo'><i class='fa fa-repeat'></i></button>
-          <button id='clearAll'><i class='fa fa-trash-o'></i></button>
-          <button id='cursor'><i class='fa fa-hand-o-up'></i></button>
-
-          <select id='toolSelect'>
-            <option value='pencil'><i class='fa fa-pencil'></i>Pencil</option>
-            <option value='line'><i class='fa fa-minus'></i>Drawline</option>
-            <option value='rect'><i class='fa fa-square-o'></i>Rectangles</option>
-            <option value='ellipse'><i class='fa fa-circle-o'></i>Ellipse</option>
+          <select id='toolSelect' style="font-family: 'FontAwesome', Helvetica;">
+            <option value='pencil'>&#xf040;</option>
+            <option value='line'>&#xf068;</option>
+            <option value='rect'>&#xf04d;</option>
+            <option value='ellipse'>&#xf1db;</option>
           </select>
+          <a id='cursor' title='select'><i class='fa fa-hand-o-up'></i></a>
+
+          <!-- Select Specific Buttons -->
+          <a id='copy' title='copy'><i class='fa fa-copy'></i></a>
+          <a id='delete' title='remove'><i class='fa fa-remove'></i></a>
+          
+          <!-- State Buttons -->
+          <div class='state-icons'>
+            <a id='undo' title='undo'><i class='fa fa-arrow-left'></i></a>
+            <a id='redo' title='redo'><i class='fa fa-arrow-right'></i></a>
+            <a id='clearAll' title='clear all'><i class='fa fa-trash-o'></i></a>
+          </div>
+          
+          </div>
 
         </h2>
       </div>

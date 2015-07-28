@@ -79,7 +79,7 @@ exports.initialize = function() {
     setTimeout(function () {
       checkSize();
     }, 1000);
-  })
+  });
   $(window).resize(function () {
     checkSize();
   });

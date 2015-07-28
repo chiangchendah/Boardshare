@@ -8,6 +8,7 @@ var redoButton = document.getElementById('redo');
 var copyButton = document.getElementById('copy');
 var deleteButton = document.getElementById('delete');
 var imageUpload = document.getElementById('imageUpload');
+var cursorButton = document.getElementById('cursor');
 
 module.exports = {
   stroke: strokeColorSelect,
@@ -18,6 +19,7 @@ module.exports = {
   undo: undoButton,
   redo: redoButton,
   copy: copyButton,
+  cursor: cursorButton,
   delete: deleteButton,
   image: imageUpload
 };

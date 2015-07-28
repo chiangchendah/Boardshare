@@ -168,6 +168,11 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest('./client/dist/fonts/'));
 });
 
+gulp.task('profile', function() {
+  return gulp.src(['./client/app/profile/profile.js'])
+    .pipe(gulp.dest('./client/dist/js/'));
+});
+
 gulp.task('dev', function(){
   nodemon({
     script: './app.js',
@@ -177,7 +182,7 @@ gulp.task('dev', function(){
   });
 });
 
-gulp.task('deploy', ['js-deploy', 'stylesheets', 'fonts', 'imgs'], function(){
+gulp.task('deploy', ['js-deploy', 'stylesheets', 'fonts', 'imgs', 'profile'], function(){
   process.exit(0);
 });
 

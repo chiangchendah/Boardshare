@@ -13,7 +13,6 @@ require('./helpers/renderTemplates');
 require('./helpers/resizeElement');
 require('./helpers/makeDraggable');
 require('./helpers/saveBoard');
-
 // UI
 require('./helpers/app.ui.js');
 

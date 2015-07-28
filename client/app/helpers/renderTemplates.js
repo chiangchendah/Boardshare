@@ -23,3 +23,4 @@ getTemplates(routes.drawCanvas, 'paint-canvas', drawCanvas);
 getTemplates(routes.editor, 'text-editor', editor);
 getTemplates(routes.video, 'video', video);
 getTemplates(routes.chat, 'messaging', chat);
+

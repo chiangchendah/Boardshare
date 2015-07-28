@@ -35,6 +35,10 @@ module.exports = function(app){
       });
   });
 
+  app.get('/user', isAuthenticated, function(req, res){
+     res.sendFile(path.join(__dirname, '../../client/app/profile/profile.html'));
+  });
+
   app.post('/user/boards/:id', function (req, res) {
     if (!req.isAuthenticated() ) {
       return res.sendStatus(200);
@@ -78,7 +82,31 @@ module.exports = function(app){
       }
     });
   });
+
+  app.delete('/user/boards/:id', isAuthenticated, function (req, res) {
+    var id = req.params.id;
+    var userid = req.user._id;
+    User.findById(userid)
+      .exec(function (error, user) {
+        handleError(error, res);
+        if (user) {
+          var boardId = user.boards.indexOf(id);
+          user.boards.splice(boardId, boardId + 1);
+
+          user.save(function (error, user) {
+            handleError(error, res);
+            user && res.sendStatus(201);
+          });
+
+        } else {
+          res.sendStatus(404);
+        }
+      });     
+  });
 };
+
+
+
 
 function isAuthenticated(req, res, next){
   if(req.isAuthenticated()) {

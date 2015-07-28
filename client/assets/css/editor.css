@@ -1,9 +1,13 @@
 #text-editor {
-  width: 49.9%;
-  float: left;
+  margin: 0;
+  padding: 0;
+
 }
-#firepad {
-  height: 600px;
-  width: auto;
+#Text-Editor {
+
 }
 
+#firepad {
+  width: auto;
+  height: 100%;
+}

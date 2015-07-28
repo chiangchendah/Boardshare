@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../assets/css/editor.css">
     <link rel="stylesheet" href="../assets/css/video.css">
     <link rel="stylesheet" href="../lib/spectrum/spectrum.css">
-    
+
     <!-- font -->
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
 
@@ -60,23 +60,53 @@
       </div>
     </section>
     <section id='Whiteboard' class="content-view">
-      <div class="teaser" style="display:none;">
-        <h2><span>Whiteboard</span></h2>
+      <div id="whiteboard-teaser" class="teaser" style="display:none;">
+        <h2>
+          <span>Whiteboard</span>
+          <button id='delete'>Delete</button>
+          <button id='copy'>Copy</button>
+          <i class='fa fa-circle-thin modifier'></i>
+          <input type='text' id='strokeColor' value='#000' />
+          <i class='fa fa-circle modifier'></i>
+          <input type='text' id='fillColor' value='#fff' />
+          <i class='fa fa-text-width modifier'></i>
+          <select id='lineWidth'>
+            <option value='1'>1.0</option>
+            <option value='2'>2.0</option>
+            <option value='3'>3.0</option>
+            <option value='4'>4.0</option>
+            <option value='5'>5.0</option>
+            <option value='6'>6.0</option>
+          </select>
+
+
+          <button id='undo'><i class='fa fa-undo'></i></button>
+          <button id='redo'><i class='fa fa-repeat'></i></button>
+          <button id='clearAll'><i class='fa fa-trash-o'></i></button>
+
+          <select id='toolSelect'>
+            <option value='pencil'><i class='fa fa-pencil'></i>Pencil</option>
+            <option value='line'><i class='fa fa-minus'></i>Drawline</option>
+            <option value='cursor'><i class='fa fa-hand-o-up'></i>Cursor</option>
+            <option value='rect'><i class='fa fa-square-o'></i>Rectangles</option>
+            <option value='ellipse'><i class='fa fa-circle-o'></i>Ellipse</option>
+          </select>
+        </h2>
       </div>
       <div class="content-html" style="display:none;"></div>
       <span class="close Whiteboard" style="display:none;">Close</span>
-      <div class="content-full" style="display:none;">
-        <div id='paint-canvas'></div>
+      <div id="paint-canvas" class="content-full" style="display:none;">
+        <!-- <div id='paint-canvas'></div> -->
       </div>
     </section>
     <section id='Text-Editor' class="content-view">
-      <div class="teaser" style="display:none;">
-        <h2><span>Text-Editor</span></h2>
+      <div id="editor-teaser" class="teaser" style="display:none;">
+        <h2><span>Text-Editor</span> <button id="settings">Settings</button></h2>
       </div>
       <div class="content-html" style="display:none;"></div>
       <span class="close Text-Editor" style="display:none;">Close</span>
-      <div class="content-full" style="display:none;">
-        <div id='text-editor'></div>
+      <div id="text-editor" class="content-full" style="display:none;">
+        <!-- <div id='text-editor'></div> -->
       </div>
     </section>
     <section id='Messages' class="content-view">
@@ -98,7 +128,7 @@
     <script src='../lib/ace-builds/src-noconflict/ace.js'></script>
     <link rel="stylesheet" href="//cdn.firebase.com/libs/firepad/1.1.1/firepad.css" />
     <script src="//cdn.firebase.com/libs/firepad/1.1.1/firepad.min.js"></script>
-    
+
     <!-- app scripts invoked here -->
     <script>
       if (window.location.href.indexOf('localhost') > -1) {

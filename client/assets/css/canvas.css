@@ -1,12 +1,10 @@
 #paint-canvas {
-  width: 49.9%;
-  float: right;
-  display: inline-block;
   /*border: solid 1px black;*/
+  margin: 0;
+  padding: 0;
 }
 #canvas {
   display: block;
-  border: solid 1px red;
 }
 #toolSelect {
   width: 85px;

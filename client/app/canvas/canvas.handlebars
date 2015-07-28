@@ -1,37 +1,6 @@
-{{!-- Our modifiers --}}
-<button id='delete'>Delete</button>
-<button id='copy'>Copy</button>
-<i class='fa fa-circle-thin modifier'></i>
-<input type='text' id='strokeColor' value='#000' />
-<i class='fa fa-circle modifier'></i>
-<input type='text' id='fillColor' value='#fff' />
-<i class='fa fa-text-width modifier'></i>
-<select id='lineWidth'>
-  <option value='1'>1.0</option>
-  <option value='2'>2.0</option>
-  <option value='3'>3.0</option>
-  <option value='4'>4.0</option>
-  <option value='5'>5.0</option>
-  <option value='6'>6.0</option>
-</select>
 
-{{!-- <input type='file' id='imageUpload' /> --}}
-
-{{!-- Special function buttons --}}
-<button id='undo'><i class='fa fa-undo'></i></button>
-<button id='redo'><i class='fa fa-repeat'></i></button>
-<button id='clearAll'><i class='fa fa-trash-o'></i></button>
-
-{{!-- All our drawing tools go here --}}
-<select id='toolSelect'>
-  <option value='pencil'><i class='fa fa-pencil'></i>Pencil</option>
-  <option value='line'><i class='fa fa-minus'></i>Drawline</option>
-  <option value='cursor'><i class='fa fa-hand-o-up'></i>Cursor</option>
-  <option value='rect'><i class='fa fa-square-o'></i>Rectangles</option>
-  <option value='ellipse'><i class='fa fa-circle-o'></i>Ellipse</option>
-</select>
 
 {{!-- The Canvas --}}
-<canvas id='canvas' width='650' height='600'>
+<canvas id='canvas' width='3000' height='3000'>
   <h1>Canvas is not supported in your browser.</h1>
 </canvas>

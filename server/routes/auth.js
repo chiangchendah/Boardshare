@@ -4,7 +4,7 @@ var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var GitHubStrategy = require('p-gh-boardshare').Strategy;
 var config = require('../config');
-
+console.log(config.GITHUB_CALLBACK_URL);
 
 
 passport.serializeUser(function(user, done) {
@@ -91,6 +91,10 @@ module.exports = function(app) {
     passport.authenticate('github', { failureRedirect: '/' }),
     function(req, res) {
       // Successful authentication, redirect home.
-      res.redirect('/');
+      var boards = req.session.passport.user.boards;
+      var id = boards[boards.length - 1];
+      console.log(req.session.passport);
+      console.log('DO YOU SEE ME');
+      res.redirect('/' + id);
     });
 };

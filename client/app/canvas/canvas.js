@@ -74,22 +74,6 @@ exports.initialize = function() {
       modes.editMode();
     }
   };
-
-  $('.teaser').click(function () {
-    setTimeout(function () {
-      checkSize();
-    }, 1000);
-  })
-  $(window).resize(function () {
-    checkSize();
-  });
-
-  function checkSize() {
-    var containerHeight = $('#Whiteboard').height();
-    var titleHeight = $('#whiteboard-teaser').height();
-    var whiteboardHeight = containerHeight - titleHeight;
-    $('#paint-canvas').height(whiteboardHeight);
-  }
   // Initialize our canvas tool as a pencil
   modes.editMode(true);
 };

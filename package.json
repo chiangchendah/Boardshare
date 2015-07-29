@@ -40,7 +40,6 @@
     "gulp-util": "^3.0.6",
     "handlebars": "^3.0.3",
     "hashids": "1.0.2",
-    "interact.js": "^1.2.4",
     "jquery": "^2.1.4",
     "lodash": "^3.10.0",
     "mongoose": "^4.0.7",
@@ -61,6 +60,5 @@
     "mocha": "^2.2.5",
     "sinon": "^1.15.4"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

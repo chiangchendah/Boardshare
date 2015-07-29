@@ -28,15 +28,36 @@ html, body {
 }
 
 body {
-	overflow-y: scroll;
+	overflow-y: hidden;
+}
+
+.header,
+.footer {
+	margin-top:45px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+.start-btn {
+  padding: 10px 15px 10px 12px;
+  border: 3px double #e4e4e4;
 }
 
 .layout {
 	position: relative;
-	overflow-x: hidden;
+	overflow: hidden;
 	min-height: 100%;
 	width: 100%;
+	height: 400px;
 	margin-top: 0;
+}
+
+.container {
+	position: relative;
+}
+
+.footer i {
+	font-size: 30px;
 }
 
 /* ==========================================================================
@@ -44,10 +65,10 @@ Font
 ========================================================================== */
 
 body {
-	/*font-family: 'Amatic SC', cursive;*/
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	font-size: 13px;
 }
-
-/*'Crimson Text'*/
 
 /* ==========================================================================
 Images
@@ -159,26 +180,24 @@ body {
 	color: rgba(255, 44, 119, 0.3); /* subject to change */
 }
 
-/* editor */
+/* editor intro */
 .page-right {
-	outline: 5px solid #ecf0f1; /* avoid rounding gaps */
 	/*background: #ecf0f1;*/
 	background: black;
 	color: #97a8b2;
 }
-.layout.open-right {
-	background: #e7e8ea;
-}
 
-/* whiteboard */
+/* whiteboard intro */
 .page-left {
-	outline: 5px solid #34495e; /* avoid rounding gaps */
 	/*background: #34495e;*/
 	background: black;
-	color: #fff;
+	color: #d0c6c6;
 }
-.layout.open-left {
-	background: #e7e2e2;
+
+/* chat intro */
+.page-middle {
+	background: black;
+	color: #dddddd;
 }
 
 /* ==========================================================================
@@ -235,8 +254,8 @@ Front
 
 .profile {
 	margin: 0 auto;
-	width: 140px;
-	height: 140px;
+	width: 120px;
+	height: 120px;
 	border-radius: 50%;
 	border: 1px solid #cacbcc;
 }
@@ -262,7 +281,7 @@ Back
 
 .back {
 	position: fixed;
-	top: 7.6em;
+	top: 10.8em;
 	z-index: 500; /* ++overlay's z-index */
 	display: block;
 	visibility: hidden;
@@ -276,7 +295,7 @@ Back
 	pointer-events: none;
 }
 .back-left {
-	left: 8%;
+	left: 8.5%;
 	-webkit-transform: translateX(-50%);
 	transform: translateX(-50%);
 }
@@ -286,7 +305,7 @@ Back
 	transform: translateX(-50%);
 }
 .back-right {
-	right: 8%;
+	right: 8.5%;
 	-webkit-transform: translateX(50%);
 	transform: translateX(50%);
 }
@@ -309,7 +328,7 @@ Application
 .page {
 	position: relative;
 	top: 0;
-	width: 84%;
+	width: 83%;
 	overflow: auto;
 	min-height: 100%;
 	height: auto;
@@ -317,14 +336,14 @@ Application
 	/*-webkit-backface-visibility: hidden;*/
 }
 .page-right {
-	left: 16%;
+	left: 17%;
 	-webkit-transform: translateX(100%);
 	transform: translateX(100%);
 }
 .page-middle {
-	left: 16.666%;
-	-webkit-transform: translateX(100%);
-	transform: translateX(100%);
+	left: 0;
+	-webkit-transform: translateY(-100%);
+	transform: translateY(-100%);
 }
 .page-left {
 	left: 0;
@@ -377,16 +396,22 @@ Transitions
 	transition: opacity 0.3s;
 }
 
-/* on left and right page scroll */
+/* on animation, hide other pages */
 .reset-layout .page,
 .layout.open-right .page-left,
-.layout.open-right .page-middle,
+
 .layout.open-left .page-right,
 .layout.open-left .page-middle,
+
+.layout.open-middle .page-left,
+.layout.open-middle .page-right,
+
 .layout.close-right .page-left,
 .layout.close-right .page-middle,
-.layout.close-left .page-middle,
+
 .layout.close-left .page-right,
+.layout.close-left .page-middle,
+
 .layout.close-middle .page-right,
 .layout.close-middle .page-left {
 	position: absolute;
@@ -401,6 +426,17 @@ Transitions
 	position: relative;
 	overflow: auto;
 	height: auto;
+}
+/* handle middle page edge cases */
+.reset-layout .page-middle,
+.layout.close-middle .page-middle,
+.layout.open-right .page-middle {
+	position: absolute;
+  height: 0;
+}
+.layout.open-middle .page {
+	min-height: 0;
+	width: 100%;
 }
 
 .open-right .side-left .overlay,
@@ -459,12 +495,12 @@ Transitions
 
 /* other sides */
 .open-middle .side-left {
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
+	-webkit-transform: translateX(-100%);
+	transform: translateX(-100%);
 }
 .open-middle .side-right {
-	-webkit-transform: translateX(50%);
-	transform: translateX(50%);
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
 }
 .open-middle .side-right,
 .open-middle .side-left {
@@ -478,19 +514,10 @@ Transitions
 	transform: scale(0);
 }
 
-/* other menus */
-.open-middle .side-right .menu {
-	-webkit-transform: translateY(-50%) translateX(-100%) scale(0.6);
-	transform: translateY(-50%) translateX(-100%) scale(0.6);
-}
-.open-middle .side-left .menu {
-	-webkit-transform: translateY(-50%) translateX(0%) scale(0.6);
-	transform: translateY(-50%) translateX(0%) scale(0.6);
-}
-.open-middle .side-right .menu,
-.open-middle .side-left .menu {
-	-webkit-transition: -webkit-transform 0.5s ease-in-out;
-	transition: transform 0.5s ease-in-out;
+/* page-middle */
+.open-middle .page-middle {
+	-webkit-transform: translateY(0%);
+	transform: translateY(0%);
 }
 
 /* 
@@ -571,13 +598,13 @@ Media Queries
 	/* push menu down to bottom */
 	.open-right .side-right .menu {
 		top: 100%;
-		-webkit-transform: translateY(-150px) translateX(-22.5%) scale(0.5);
-		transform: translateY(-150px) translateX(-22.5%) scale(0.5);
+		-webkit-transform: translateY(-150px) translateX(-17.5%) scale(0.5);
+		transform: translateY(-150px) translateX(-17.5%) scale(0.5);
 	}
 	.open-left .side-left .menu {
 		top: 100%;
-		-webkit-transform: translateY(-150px) translateX(-87.5%) scale(0.5);
-		transform: translateY(-150px) translateX(-87.5%) scale(0.5);
+		-webkit-transform: translateY(-150px) translateX(-82.5%) scale(0.5);
+		transform: translateY(-150px) translateX(-82.5%) scale(0.5);
 	}
 
 	.page {
@@ -632,5 +659,13 @@ Media Queries
 @media screen and (max-width: 320px) {
 	body {
 		font-size: 70%;
+	}
+}
+
+@media screen and (max-width: 990px) {
+	.layout.open-left,
+	.layout.open-middle,
+	.layout.open-right {
+		overflow-y: scroll;
 	}
 }

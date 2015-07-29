@@ -15,7 +15,7 @@
 }
 
 .peer-vid-container {
-  /*margin: 0 -5px;*/
+  margin-left: 6px;
   order: 2;
   float: left;
 }
@@ -27,7 +27,4 @@
 
 #my-video {
   height: 150px;
-  background-color: #eee;
-  order: 1;
-  transform: scaleX(-1);
 }

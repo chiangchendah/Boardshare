@@ -23,7 +23,7 @@
   </head>
   <body>
     <header id="top" class="top">
-        <h1>Boardshare <span>a collaborative whiteboard and code-editor</span><a href="/auth/github"> Login</a></h1>
+        <h1>Boardshare <span>a collaborative whiteboard and code-editor</span></h1>
     </header>
     <section id="main-wrapper" class="main-wrapper">
       <div class="main">
@@ -45,15 +45,22 @@
         </a>
         <a href="#" class="content">
           <div class="teaser">
-              <h2><span>Messages</span></h2>
+              <h2><span>Profile</span></h2>
           </div>
         </a>
         <div class="clr"></div>
       </div><!-- main -->
     </section><!-- main-wrapper -->
+    <section>
+      <aside class="empty-state">Select a tool from the left to get started.</aside>
+    </section>
     <section id='Video' class="content-view">
       <div class="teaser" style="display:none;">
-        <h2><span>Video</span></h2>
+        <h2>
+          <span>Chat Room</span>
+          <button id="join-video">Join Video Chat</button>
+          <button id="leave-video">Leave Video Chat</button>
+        </h2>
       </div>
       <div class="content-html" style="display:none;"></div>
       <span class="close Video" style="display:none;">Close</span>
@@ -106,30 +113,23 @@
 
         </h2>
       </div>
-      <div class="content-html" style="display:none;"></div>
-      <span class="close Whiteboard" style="display:none;">Close</span>
-      <div id="paint-canvas" class="content-full" style="display:none;">
-        <!-- <div id='paint-canvas'></div> -->
-      </div>
+      <span class="close" style="display:none;">Close</span>
+      <div id="paint-canvas" class="content-full" style="display:none;"></div>
     </section>
     <section id='Text-Editor' class="content-view">
       <div id="editor-teaser" class="teaser" style="display:none;">
         <h2><span>Text-Editor</span> <button id="settings">Settings</button></h2>
       </div>
-      <div class="content-html" style="display:none;"></div>
-      <span class="close Text-Editor" style="display:none;">Close</span>
-      <div id="text-editor" class="content-full" style="display:none;">
-        <!-- <div id='text-editor'></div> -->
-      </div>
+      <span class="close" style="display:none;">Close</span>
+      <div id="text-editor" class="content-full" style="display:none;"></div>
     </section>
-    <section id='Messages' class="content-view">
+    <section id='Profile' class="content-view">
       <div class="teaser" style="display:none;">
-        <h2><span>Messages</span></h2>
+        <h2><span>Profile</span></h2>
       </div>
-      <div class="content-html" style="display:none;"></div>
-      <span class="close Messages" style="display:none;">Close</span>
+      <span class="close" style="display:none;">Close</span>
       <div class="content-full" style="display:none;">
-        <div id='messaging'></div>
+        <a href="/auth/github">Login</a>
       </div>
     </section>
 

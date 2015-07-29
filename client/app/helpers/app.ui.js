@@ -43,6 +43,9 @@
       // open only if not dragging the container
       if ( !kinetic_moving ) {
         openItem( $(this) );
+
+        // change empty state
+        $('aside').hide().text('You look nice today.');
       }
     
       return false; 
@@ -89,14 +92,14 @@
       top: $item.offset().top
     }).show().animate({
       // TODO: control content layout ratio here
-      width: $(window).width(),
-      left: 0
-    }, 500, 'easeOutExpo', function() {
+      width: $(window).width() - 220,
+      left: 222
+    }, 200, 'easeOutQuad', function() {
     
       $(this).animate({
         height: $(window).height(),
         top: 40 // header height
-      }, 400, function() {
+      }, 350, 'easeInOutExpo', function() {
         
         var $this = $(this),
             $teaser = $this.find('div.teaser'),
@@ -106,6 +109,7 @@
         $teaser.show();
         $content.fadeIn(600);
         $close.show();
+        $('aside').show();
         
         if( callback ) {
           callback();
@@ -147,11 +151,11 @@
       .animate({
         height: $item.height(),
         top: $item.offset().top // account for top bar
-      }, 500, 'easeOutExpo', function() {
+      }, 250, function() {
         $(this).animate({
           width: $item.width(),
           left: $item.offset().left
-        }, 400, function() {
+        }, 200, 'easeOutQuart', function() {
           $(this).fadeOut(function() {
             isAnimating = false;
           });

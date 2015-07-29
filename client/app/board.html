@@ -10,6 +10,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- cherry pick css for now -->
+    <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/app.ui.css">
     <link rel="stylesheet" href="../assets/css/canvas.css">
     <link rel="stylesheet" href="../assets/css/editor.css">
@@ -64,34 +65,45 @@
       <div id="whiteboard-teaser" class="teaser" style="display:none;">
         <h2>
           <span>Whiteboard</span>
-          <button id='delete'>Delete</button>
-          <button id='copy'>Copy</button>
-          <i class='fa fa-circle-thin modifier'></i>
-          <input type='text' id='strokeColor' value='#000' />
-          <i class='fa fa-circle modifier'></i>
-          <input type='text' id='fillColor' value='#fff' />
-          <i class='fa fa-text-width modifier'></i>
-          <select id='lineWidth'>
-            <option value='1'>1.0</option>
-            <option value='2'>2.0</option>
-            <option value='3'>3.0</option>
-            <option value='4'>4.0</option>
-            <option value='5'>5.0</option>
-            <option value='6'>6.0</option>
-          </select>
+          <div class='whiteboard-menu'>
+            <!-- Modifiers -->
+            <div class='modifier-icons'>
+              <i class='fa fa-circle-thin modifier'></i>
+              <input type='text' id='strokeColor' value='#000' />
+              <i class='fa fa-circle modifier'></i>
+              <input type='text' id='fillColor' value='#fff' />
+              <i class='fa fa-text-width modifier'></i>
+              <select id='lineWidth'>
+                <option value='1'>1.0</option>
+                <option value='2'>2.0</option>
+                <option value='3'>3.0</option>
+                <option value='4'>4.0</option>
+                <option value='5'>5.0</option>
+                <option value='6'>6.0</option>
+              </select>
+
+              <select id='toolSelect' style="font-family: 'FontAwesome', Helvetica;">
+                <option value='pencil'>&#xf040;</option>
+                <option value='line'>&#xf068;</option>
+                <option value='rect'>&#xf04d;</option>
+                <option value='ellipse'>&#xf1db;</option>
+              </select>
+              <!-- Select Specific Buttons -->
+              <a id='cursor' title='select'><i class='fa fa-hand-o-up'></i></a>
+              <a id='copy' title='copy'><i class='fa fa-copy disabled'></i></a>
+              <a id='delete' title='remove'><i class='fa fa-remove disabled'></i></a>
+            </div>
 
 
-          <button id='undo'><i class='fa fa-undo'></i></button>
-          <button id='redo'><i class='fa fa-repeat'></i></button>
-          <button id='clearAll'><i class='fa fa-trash-o'></i></button>
+            
+            <!-- State Buttons -->
+            <div class='state-icons'>
+              <a id='undo' title='undo'><i class='fa fa-arrow-left'></i></a>
+              <a id='redo' title='redo'><i class='fa fa-arrow-right'></i></a>
+              <a id='clearAll' title='clear all'><i class='fa fa-trash-o'></i></a>
+            </div>
+          </div>
 
-          <select id='toolSelect'>
-            <option value='pencil'><i class='fa fa-pencil'></i>Pencil</option>
-            <option value='line'><i class='fa fa-minus'></i>Drawline</option>
-            <option value='cursor'><i class='fa fa-hand-o-up'></i>Cursor</option>
-            <option value='rect'><i class='fa fa-square-o'></i>Rectangles</option>
-            <option value='ellipse'><i class='fa fa-circle-o'></i>Ellipse</option>
-          </select>
         </h2>
       </div>
       <div class="content-html" style="display:none;"></div>

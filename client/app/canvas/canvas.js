@@ -60,13 +60,15 @@ exports.initialize = function() {
   canvas.selectors.copy.onclick = function() {
     utils.copyObject();
   };
+  canvas.selectors.cursor.onclick = function() {
+    canvas.selectedTool = 'cursor';
+    modes.selectMode();
+  };
   canvas.selectors.tool.onchange = function() {
     // Change our selected tool
     canvas.selectedTool = this.value;
     // Change our canvas mode depending on tool
-    if (this.value === 'cursor') {
-      modes.selectMode();
-    } else if (this.value in canvas.brushes) {
+    if (this.value in canvas.brushes) {
       modes.editMode(true);
     } else {
       modes.editMode();

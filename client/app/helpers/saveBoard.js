@@ -1,11 +1,11 @@
 var $ = require('jquery');
+var URL = require('./urlGetter');
 
 /**
  * Save a BoardShare to an authed user's profile
  */
 var saveBoard = function () {
-  var id = (/\w+$/).exec(window.location.href)[0];
-  $.post('user/boards/' + id);
+  $.post('user/boards/' + URL);
 };
 
 module.exports = saveBoard;

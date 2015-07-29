@@ -5,12 +5,16 @@
 var URL = (function getURL() {
   var url;
   try {
-    url = (/\w+$/).exec(window.location.href)[0];
+    url = (/\w+$/).exec(window.location.href)[0]; // fail for #
   }
   catch (e) {
-    console.error('url broke again...');
+    try {
+      url = (/(\w+)(?=#$)/).exec(window.location.href)[0];
+    }
+    catch (e) {
+      console.error(e, 'url get failed');
+    }
   }
-
   return url;
 })();
 

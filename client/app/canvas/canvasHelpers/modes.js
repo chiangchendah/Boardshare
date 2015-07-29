@@ -7,8 +7,8 @@ var stateManager = require('./stateManager');
 * Set canvas to select mode and remove event handlers
 */
 exports.selectMode = function() {
-  $('#delete').removeAttr('disabled');
-  $('#copy').removeAttr('disabled');
+  $('.fa-remove').removeClass('disabled');
+  $('.fa-copy').removeClass('disabled');
   // Toggle state
   canvas.isDrawingMode = false;
   // Allow multiselect
@@ -35,8 +35,8 @@ exports.selectMode = function() {
 * @param      {Boolean}   drawingMode optional: is drawingmode true or not
 */
 exports.editMode = function(drawingMode) {
-  $('#delete').attr('disabled', 'disabled');
-  $('#copy').attr('disabled', 'disabled');
+  $('.fa-copy').addClass('disabled');
+  $('.fa-remove').addClass('disabled');
   // Account for free drawing
   if (drawingMode) {
     canvas.isDrawingMode = true;

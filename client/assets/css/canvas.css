@@ -10,6 +10,9 @@
 #toolSelect {
   width: 85px;
 }
+.disabled {
+  color: #ccc !important;
+}
 .modifier {
   margin: 0 6px 0 6px;
 }

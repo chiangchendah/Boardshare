@@ -18,7 +18,7 @@ body{
 	overflow: hidden;
 }
 a{
-  color: #ddd;
+  color: #aaa;
   text-decoration: none;
 }
 .clr{
@@ -137,7 +137,7 @@ a{
 }
 .content-view .teaser h2{
   font-size: 50px;
-  padding: 35px 40px 20px 40px;
+  padding: 0 40px 20px 40px;
 }
 .content-view .teaser span{
   padding: 20px 0px 0px 5px;

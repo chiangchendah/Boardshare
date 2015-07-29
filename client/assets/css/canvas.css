@@ -23,7 +23,65 @@
 .left-options li {
   padding: 0 0 15px 0;
 }
-
+.whiteboard-menu {
+  background-color: #fbfbfb;
+  clear: both;
+  overflow: hidden;
+}
+.whiteboard-menu a{
+  cursor: pointer;
+}
+.whiteboard-menu i {
+  color: #444;
+  font-size: 25px;
+  vertical-align: middle;
+}
+.sp-replacer {
+  border: none;
+  background: none;
+  vertical-align: middle;
+  margin-left: -6px;
+}
+.state-icons {
+  float: right;
+}
+.state-icons a {
+  vertical-align: middle;
+}
+.modifier-icons {
+  float: left;
+}
+.modifier-icons a {
+  margin-left: 10px; 
+  margin-right: 5px;
+}
+#toolSelect {
+  font-family: 'FontAwesome', Arial;
+  vertical-align: middle;
+  height: 45px;
+  width: 70px;
+  background-color: inherit;
+  font-size: 28px;
+  padding-left: 16px;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+#toolSelect option {
+  height: 45px;
+  padding: 20px;
+}
+#lineWidth {
+  vertical-align: middle;
+  padding: 4px;
+  background-color: inherit;
+}
+.state-icons .fa {
+  margin-right: 10px;
+}
+.top h1 a {
+  float: right;
+  margin-right: 60px;
+}
 
 @media (max-width: 800px) {
   #paint-canvas {

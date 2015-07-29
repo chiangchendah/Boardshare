@@ -33,8 +33,8 @@ exports.createRect = function(loc, options) {
   return new fabric.Rect({
     top: loc.y,
     left: loc.x,
-    width: 1,
-    height: 1,
+    width: 0,
+    height: 0,
     fill: options.fillColor,
     stroke: options.strokeColor,
     strokeWidth: options.lineWidth,
@@ -69,8 +69,8 @@ exports.createEllipse = function(loc, options) {
     left: loc.x,
     originY: 'top',
     originX: 'center',
-    rx: 1,
-    ry: 1,
+    rx: 0,
+    ry: 0,
     fill: options.fillColor,
     stroke: options.strokeColor,
     strokeWidth: options.lineWidth

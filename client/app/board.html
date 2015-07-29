@@ -65,82 +65,43 @@
       <div id="whiteboard-teaser" class="teaser" style="display:none;">
         <h2>
           <span>Whiteboard</span>
-
-          <style>
-          .whiteboard-menu {
-            background-color: #fbfbfb;
-          }
-          .whiteboard-menu a{
-            cursor: pointer;
-          }
-          .whiteboard-menu i {
-            color: #444;
-            font-size: 25px;
-            vertical-align: middle;
-          }
-          .sp-replacer {
-            border: none;
-            background: none;
-            vertical-align: middle;
-            margin-left: -6px;
-          }
-          .state-icons {
-            float: right;
-          }
-          #toolSelect {
-            font-family: 'FontAwesome', Arial;
-            vertical-align: middle;
-            height: 45px;
-            width: 70px;
-            background-color: inherit;
-            font-size: 28px;
-            padding-left: 16px;
-          }
-          #toolSelect option {
-            height: 45px;
-            padding: 20px;
-          }
-          #lineWidth {
-            vertical-align: middle;
-            padding: 4px;
-            background-color: inherit;
-          }
-          </style>
           <div class='whiteboard-menu'>
-          <!-- Modifiers -->
-          <i class='fa fa-circle-thin modifier'></i>
-          <input type='text' id='strokeColor' value='#000' />
-          <i class='fa fa-circle modifier'></i>
-          <input type='text' id='fillColor' value='#fff' />
-          <i class='fa fa-text-width modifier'></i>
-          <select id='lineWidth'>
-            <option value='1'>1.0</option>
-            <option value='2'>2.0</option>
-            <option value='3'>3.0</option>
-            <option value='4'>4.0</option>
-            <option value='5'>5.0</option>
-            <option value='6'>6.0</option>
-          </select>
+            <!-- Modifiers -->
+            <div class='modifier-icons'>
+              <i class='fa fa-circle-thin modifier'></i>
+              <input type='text' id='strokeColor' value='#000' />
+              <i class='fa fa-circle modifier'></i>
+              <input type='text' id='fillColor' value='#fff' />
+              <i class='fa fa-text-width modifier'></i>
+              <select id='lineWidth'>
+                <option value='1'>1.0</option>
+                <option value='2'>2.0</option>
+                <option value='3'>3.0</option>
+                <option value='4'>4.0</option>
+                <option value='5'>5.0</option>
+                <option value='6'>6.0</option>
+              </select>
 
-          <select id='toolSelect' style="font-family: 'FontAwesome', Helvetica;">
-            <option value='pencil'>&#xf040;</option>
-            <option value='line'>&#xf068;</option>
-            <option value='rect'>&#xf04d;</option>
-            <option value='ellipse'>&#xf1db;</option>
-          </select>
-          <a id='cursor' title='select'><i class='fa fa-hand-o-up'></i></a>
+              <select id='toolSelect' style="font-family: 'FontAwesome', Helvetica;">
+                <option value='pencil'>&#xf040;</option>
+                <option value='line'>&#xf068;</option>
+                <option value='rect'>&#xf04d;</option>
+                <option value='ellipse'>&#xf1db;</option>
+              </select>
+              <!-- Select Specific Buttons -->
+              <a id='cursor' title='select'><i class='fa fa-hand-o-up'></i></a>
+              <a id='copy' title='copy'><i class='fa fa-copy'></i></a>
+              <a id='delete' title='remove'><i class='fa fa-remove'></i></a>
+            </div>
 
-          <!-- Select Specific Buttons -->
-          <a id='copy' title='copy'><i class='fa fa-copy'></i></a>
-          <a id='delete' title='remove'><i class='fa fa-remove'></i></a>
-          
-          <!-- State Buttons -->
-          <div class='state-icons'>
-            <a id='undo' title='undo'><i class='fa fa-arrow-left'></i></a>
-            <a id='redo' title='redo'><i class='fa fa-arrow-right'></i></a>
-            <a id='clearAll' title='clear all'><i class='fa fa-trash-o'></i></a>
-          </div>
-          
+
+            
+            <!-- State Buttons -->
+            <div class='state-icons'>
+              <a id='undo' title='undo'><i class='fa fa-arrow-left'></i></a>
+              <a id='redo' title='redo'><i class='fa fa-arrow-right'></i></a>
+              <a id='clearAll' title='clear all'><i class='fa fa-trash-o'></i></a>
+            </div>
           </div>
 
         </h2>

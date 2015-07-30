@@ -8,19 +8,18 @@ var video = require('../video/video').initialize;
 var routes = {
   drawCanvas: 'app/canvas/canvas.handlebars',
   editor: 'app/editor/editor.handlebars',
-  video: 'app/video/video.handlebars'
-  // chat: 'app/messaging/messaging.handlebars'
+  video: 'app/video/video.handlebars',
+  chat: 'app/messaging/messaging.handlebars'
 };
 
 if (window.ENV === 'test') {
     routes.drawCanvas = '../../client/' + routes.drawCanvas;
     routes.editor = '../../client/' + routes.editor;
     routes.video = '../../client/' + routes.video;
-    // routes.chat = '../../client/' + routes.chat;
+    routes.chat = '../../client/' + routes.chat;
 }
 
 getTemplates(routes.drawCanvas, 'paint-canvas', drawCanvas);
 getTemplates(routes.editor, 'text-editor', editor);
 getTemplates(routes.video, 'video', video);
-// getTemplates(routes.chat, 'messaging', chat);
-
+getTemplates(routes.chat, 'user-profile', chat);

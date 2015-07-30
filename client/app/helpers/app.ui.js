@@ -10,7 +10,14 @@
       // current index of the opened item
       current = -1,
       // true if the item is being opened / closed
-      isAnimating = false;
+      isAnimating = false,
+      // true if item is opened
+      opened = {
+        Video: false,
+        Whiteboard: false,
+        'Text-Editor': false,
+        Profile: false
+      };
       
       
   function init() {
@@ -40,9 +47,29 @@
   function initEvents() {
     // open apps
     $items.bind('click.app-ui', function( event ) {
+      // store context
+      var $item = $(this),
+          selection = $item[0].innerText.trim(); // trim away newline character
+
       // open only if not dragging the container
       if ( !kinetic_moving ) {
-        openItem( $(this) );
+        // close any opened items
+        for (var item in opened) {
+          if (opened[item]) {
+
+            // opened item stays open
+            if (item === selection) {
+              return false;
+            }
+
+            closeContentView(item, function(){
+              // open click item after closing others
+              openItem( $item );
+            });
+          }
+        }
+        
+        openItem( $item );
 
         // change empty state
         $('aside').hide().text('You look nice today.');
@@ -63,6 +90,7 @@
   }
 
   function openItem( $item ) {
+    // prevent execution before animation callback fires
     if ( isAnimating ) {
       return false;
     }
@@ -79,7 +107,8 @@
   // opens one content item (currently fullscreen)
   function loadContentItem( $item, callback ) {
       
-    var appId = '#' + $item.find('div.teaser span').text();
+    var app = $item.find('div.teaser span').text(),
+        appId = '#' + app;
 
     // load template for all content items
     initContentViewEvents();
@@ -93,13 +122,13 @@
     }).show().animate({
       // TODO: control content layout ratio here
       width: $(window).width() - 220,
-      left: 222
-    }, 200, 'easeOutQuad', function() {
+      left: 222 // menu plus scroll bar width
+    }, 200, 'easeOutExpo', function() {
     
       $(this).animate({
         height: $(window).height(),
         top: 40 // header height
-      }, 350, 'easeInOutExpo', function() {
+      }, 300, 'easeInQuad', function() {
         
         var $this = $(this),
             $teaser = $this.find('div.teaser'),
@@ -110,6 +139,9 @@
         $content.fadeIn(600);
         $close.show();
         $('aside').show();
+
+        // track state of item
+        opened[app] = true;
         
         if( callback ) {
           callback();
@@ -131,7 +163,7 @@
   }
 
   // closes the fullscreen content item
-  function closeContentView(app) {
+  function closeContentView(app, callback) {
     
     if( isAnimating ) {
       return false;
@@ -157,7 +189,13 @@
           left: $item.offset().left
         }, 200, 'easeOutQuart', function() {
           $(this).fadeOut(function() {
+            // track state of item
+            opened[app] = false;
             isAnimating = false;
+
+            if ( callback ) {
+              callback();
+            }
           });
         });
       });

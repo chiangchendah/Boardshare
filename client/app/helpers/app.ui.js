@@ -94,12 +94,12 @@
       // TODO: control content layout ratio here
       width: $(window).width() - 220,
       left: 222
-    }, 200, 'easeOutQuad', function() {
+    }, 200, 'easeOutExpo', function() {
     
       $(this).animate({
         height: $(window).height(),
         top: 40 // header height
-      }, 350, 'easeInOutExpo', function() {
+      }, 300, 'easeInQuad', function() {
         
         var $this = $(this),
             $teaser = $this.find('div.teaser'),

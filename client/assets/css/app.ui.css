@@ -93,7 +93,7 @@ a{
   -o-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-} 
+}
 .main > a > span{
   display: block;
   position: absolute;

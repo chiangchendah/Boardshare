@@ -48,13 +48,20 @@
     // open apps
     $items.bind('click.app-ui', function( event ) {
       // store context
-      $item = $(this);
+      var $item = $(this),
+          selection = $item[0].innerText.trim(); // trim away newline character
 
       // open only if not dragging the container
       if ( !kinetic_moving ) {
         // close any opened items
         for (var item in opened) {
           if (opened[item]) {
+
+            // opened item stays open
+            if (item === selection) {
+              return false;
+            }
+
             closeContentView(item, function(){
               // open click item after closing others
               openItem( $item );

@@ -1,16 +1,22 @@
-#user p {
-  
+#user {
+  text-align: center;
 }
 
 #boards {
-  margin-top: 30px;
+  padding: 9px;
+  height: 340px;
+  width: 200px;
+  overflow: scroll;
+  border: 3px solid #e8d4af;
+  border-radius: 5px;
+  text-align: center;
+  margin: 50px auto;
 }
 
 #boards p {
-  float: left;
   border: 1px solid white;
-  margin: 10px 10px;
-  width: 20%;
+  margin: 18px auto;
+  width: 160px;
   text-align: center;
   position: relative;
 }

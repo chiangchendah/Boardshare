@@ -1,5 +1,5 @@
 var remotePeers = require('./remotePeers');
-var chat = require('../messaging/messaging');
+var profile = require('../profile/profile');
 
 /**
  * Create a new remote peer and add to remote peers collection
@@ -23,7 +23,7 @@ var RemotePeer = function(id, dc){
 /**
  * Send a data object to a connected remote peer
  * @param      {Object}   data any data you want to send,
- *   should be namespaced to feature e.g. {chat: 'string', canvas: {...}}
+ *   should be namespaced to feature e.g. {profile: 'string', canvas: {...}}
  */
 RemotePeer.prototype.sendData = function (data) {
   return this.dataConnection.open && this.dataConnection.send(data);
@@ -66,10 +66,10 @@ RemotePeer.prototype.addDataEventListeners = function () {
   });
 
   // namespace the incoming data to your feature
-  // e.g. { chat: "string", canvas: "..." }
+  // e.g. { profile: "string", canvas: "..." }
   this.dataConnection.on('data', function(data){
-    if (data.chat) {
-      chat.appendMessage(self.name, data.chat);
+    if (data.profile) {
+      profile.appendMessage(self.name, data.profile);
     }
     if (data.editor) {
       var updateEditor = require('../editor/editor').updateEditorByAPI;

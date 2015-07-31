@@ -15,5 +15,5 @@ require('./helpers/app.ui.js');
 
 require('./canvas/canvas');
 require('./editor/editor');
-require('./messaging/messaging');
+require('./profile/profile');
 require('./video/video');

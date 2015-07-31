@@ -2,14 +2,14 @@
 var getTemplates = require('./getTemplates');
 var drawCanvas = require('../canvas/canvas').initialize;
 var editor = require('../editor/editor').initialize;
-var chat = require('../messaging/messaging').initialize;
+var chat = require('../profile/profile').initialize;
 var video = require('../video/video').initialize;
 
 var routes = {
   drawCanvas: 'app/canvas/canvas.handlebars',
   editor: 'app/editor/editor.handlebars',
   video: 'app/video/video.handlebars',
-  chat: 'app/messaging/messaging.handlebars'
+  chat: 'app/profile/profile.handlebars'
 };
 
 if (window.ENV === 'test') {

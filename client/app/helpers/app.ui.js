@@ -71,7 +71,7 @@
         openItem( $item );
 
         // change empty state
-        $('aside').hide().text('You look nice today.');
+        $('aside').text('loading...');
       }
 
       return false;
@@ -112,6 +112,18 @@
     // load template for all content items
     initContentViewEvents();
 
+    // show menu state
+    // if (app === 'Video') {
+    //   $item.find('div.teaser').addClass('video-open');
+    // } else if (app === 'Whiteboard') {
+    //   $item.find('div.teaser').addClass('whiteboard-open');
+    // } else if (app === 'Text-Editor') {
+    //   $item.find('div.teaser').addClass('editor-open');
+    // } else if (app === 'Profile') {
+    //   $item.find('div.teaser').addClass('profile-open');
+    // }
+    $item.find('div.teaser').addClass('item-open');
+
     // in content template, set values and animate view
     $( appId ).css({
       width: $item.width(),
@@ -131,13 +143,10 @@
 
         var $this = $(this),
             $teaser = $this.find('div.teaser'),
-            $content= $this.find('div.content-full'),
-            $close  = $this.find('span.close');
+            $content= $this.find('div.content-full');
 
         $teaser.show();
         $content.fadeIn(600);
-        $close.show();
-        $('aside').show();
 
         // track state of item
         opened[app] = true;
@@ -174,9 +183,21 @@
     var $item = $items.eq( current );
     var appId = '#' + app;
 
+    // clear menu state
+    // if (app === 'Video') {
+    //   $item.find('div.teaser').removeClass('video-open');
+    // } else if (app === 'Whiteboard') {
+    //   $item.find('div.teaser').removeClass('whiteboard-open');
+    // } else if (app === 'Text-Editor') {
+    //   $item.find('div.teaser').removeClass('editor-open');
+    // } else if (app === 'Profile') {
+    //   $item.find('div.teaser').removeClass('profile-open');
+    // }
+    $item.find('div.teaser').removeClass('item-open');
+
     // animation
     $( appId )
-      .find('div.teaser, div.content-full, span.close')
+      .find('div.teaser, div.content-full')
       .hide()
       .end()
       .animate({

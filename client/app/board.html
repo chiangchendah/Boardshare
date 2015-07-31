@@ -10,12 +10,12 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- cherry pick css for now -->
-    <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/app.ui.css">
     <link rel="stylesheet" href="../assets/css/canvas.css">
     <link rel="stylesheet" href="../assets/css/editor.css">
     <link rel="stylesheet" href="../assets/css/video.css">
-    <link rel="stylesheet" href="../assets/css/messaging.css">
+    <link rel="stylesheet" href="../assets/css/profile.css">
     <link rel="stylesheet" href="../lib/spectrum/spectrum.css">
 
     <!-- font -->
@@ -86,27 +86,27 @@
                 <option value='5'>5.0</option>
                 <option value='6'>6.0</option>
               </select>
-
+              <i class='fa fa-cog' style='font-size:25px;'></i>
               <select id='toolSelect'>
-                <option value='pencil'>&#xf040;</option>
-                <option value='line'>&#xf068;</option>
-                <option value='rect'>&#xf04d;</option>
-                <option value='ellipse'>&#xf1db;</option>
+                <option value='pencil'>pencil</option>
+                <option value='line'>line</option>
+                <option value='rect'>rectangle</option>
+                <option value='ellipse'>ellipse</option>
               </select>
+              <div class="clr"></div>
+            </div>
+            <div class="state-icons">
               <!-- Select Specific Buttons -->
               <a id='cursor' title='select'><i class='fa fa-hand-o-up'></i></a>
               <a id='copy' title='copy'><i class='fa fa-copy disabled'></i></a>
               <a id='delete' title='remove'><i class='fa fa-remove disabled'></i></a>
-            </div>
 
-            <!-- State Buttons -->
-            <div class='state-icons'>
-              <a id='undo' title='undo'><i class='fa fa-arrow-left'></i></a>
-              <a id='redo' title='redo'><i class='fa fa-arrow-right'></i></a>
+              <!-- State Buttons -->
+              <a id='undo' title='undo'><i class='fa fa-undo'></i></a>
+              <a id='redo' title='redo'><i class='fa fa-repeat'></i></a>
               <a id='clearAll' title='clear all'><i class='fa fa-trash-o'></i></a>
             </div>
           </div>
-
         </h2>
       </div>
       <div id="paint-canvas" class="content-full" style="display:none;"></div>
@@ -119,7 +119,7 @@
     </section>
     <section id='Profile' class="content-view">
       <div class="teaser" style="display:none;">
-        <div id="user"></div>
+        <div id="user">Please login to continue.</div>
         <h2></h2>
       </div>
       <div id="user-profile-container" class="content-full" style="display:none;">

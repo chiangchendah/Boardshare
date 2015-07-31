@@ -4,6 +4,18 @@
   padding: 0;
   background: rgb(245, 245, 245);
 }
+.repeating-grid {
+  z-index: 1;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-size: 60px 60px;
+  background-image:
+    /*repeating-linear-gradient(0deg, rgba(0,0,0,0.11), rgba(0,0,0,0.11) 2px, transparent 2px, transparent 60px),
+    repeating-linear-gradient(-90deg, rgba(0,0,0,0.11), rgba(0,0,0,0.11) 2px, transparent 2px, transparent 60px),*/
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.055), rgba(0,0,0,0.055) 1px, transparent 1px, transparent 15px),
+    repeating-linear-gradient(-90deg, rgba(0,0,0,0.055), rgba(0,0,0,0.055) 1px, transparent 1px, transparent 15px); 
+}
 #canvas {
   display: block;
 }
@@ -12,9 +24,6 @@
 }
 .disabled {
   color: #ccc !important;
-}
-.modifier {
-  margin: 0 6px 0 6px;
 }
 .left-options {
   position: absolute;
@@ -27,7 +36,7 @@
   padding: 0 0 15px 0;
 }
 .whiteboard-menu {
-  background-color: #fbfbfb;
+  background-color: transparent;
   clear: both;
   overflow: hidden;
   margin-top: 30px;
@@ -37,9 +46,16 @@
   cursor: pointer;
 }
 .whiteboard-menu i {
-  color: #444;
-  font-size: 25px;
+  color: white;
+  font-size: 20px;
   vertical-align: middle;
+  margin-top: 3px;
+}
+.modifier-icons i:first-child {
+  margin-left: 10px;
+}
+.modifier-icons a:first-child {
+  margin-left: 0;
 }
 .sp-replacer {
   border: none;
@@ -50,42 +66,33 @@
 .state-icons {
   float: right;
 }
-.state-icons a {
-  vertical-align: middle;
-}
 .modifier-icons {
   float: left;
 }
 .modifier-icons a {
   margin-left: 10px; 
-  margin-right: 5px;
 }
 #toolSelect {
   font-family: 'FontAwesome', Arial;
   vertical-align: middle;
-  height: 45px;
-  width: 70px;
-  background-color: inherit;
-  font-size: 28px;
+  background-color: white;
   padding-left: 16px;
-  margin-left: 20px;
   margin-right: 5px;
 }
 #toolSelect option {
   height: 45px;
   padding: 20px;
 }
+#toolSelect .pencil:before {
+  content: '\f040';
+}
 #lineWidth {
   vertical-align: middle;
   padding: 4px;
-  background-color: inherit;
+  background-color: white;
 }
-.state-icons .fa {
-  margin-right: 10px;
-}
-.top h1 a {
-  float: right;
-  margin-right: 60px;
+#lineWidth:focus {
+  outline: 0;
 }
 
 @media (max-width: 800px) {

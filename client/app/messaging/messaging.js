@@ -11,7 +11,7 @@ exports.initialize = function(){
 };
 
 function successHandler(json) {
-  $('#user').append('<p>Username: ' + json.username + '</p>');
+  $('#user').append('<p>Hello <span>' + json.username + '</span>! Here are the boards we have saved for you.</p>');
   json.boards.forEach(function (board) {
     $('#boards').append(createElements(board));
   });
@@ -22,7 +22,7 @@ function errorHandler(err) {
 }
 
 function createElements(board) {
-  var button = $('<button>DELETE</button>')
+  var button = $('<button><i class="fa fa-times-circle"></i></button>')
     .addClass(board)
     .click(function(){
       deleteBoard( button.attr('class') );

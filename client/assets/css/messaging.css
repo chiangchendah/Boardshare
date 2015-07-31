@@ -1,1 +1,51 @@
-/*empty*/
+#user {
+  text-align: center;
+}
+
+#boards {
+  padding: 9px;
+  height: 340px;
+  width: 200px;
+  overflow: scroll;
+  border: 3px solid #e8d4af;
+  border-radius: 5px;
+  text-align: center;
+  margin: 50px auto;
+}
+
+#boards p {
+  border: 1px solid white;
+  margin: 18px auto;
+  width: 160px;
+  text-align: center;
+  position: relative;
+}
+
+#boards p a {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#boards p button {
+  border: none;
+  line-height: 1;
+  padding: 3px 5px;
+  background-color: black;
+  color: white;
+  position: absolute;
+  top: -14px;
+  right: -14px;
+}
+#boards p button:active,
+#boards p button:focus {
+  outline: 0;
+}
+
+#boards p button i {
+  font-size: 20px;
+  background-color: black;
+}
+#boards p button i:hover {
+  opacity: 0.7;
+}

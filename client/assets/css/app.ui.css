@@ -54,6 +54,22 @@ a{
   color: #555;
   font-size: 12px;
 }
+.top a {
+  font-size: 13px;
+  border: 1px solid black;
+  color: black;
+  border-radius: 2px;
+  line-height: normal;
+  padding: 4px 16px;
+  margin-top: 5px;
+  margin-right: -4px;
+  float: right;
+  -webkit-transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s ease-out;
+}
+.top a:hover {
+  opacity: 0.2;
+}
 .main-wrapper{
   width: 220px;
   overflow-y: scroll;

@@ -13,9 +13,6 @@
 .disabled {
   color: #ccc !important;
 }
-/*.modifier {
-  margin: 0 6px 0 6px;
-}*/
 .left-options {
   position: absolute;
 }
@@ -84,13 +81,6 @@
 }
 #lineWidth:focus {
   outline: 0;
-}
-/*.state-icons .fa {
-  margin-right: 10px;
-}*/
-.top h1 a {
-  float: right;
-  margin-right: 60px;
 }
 
 @media (max-width: 800px) {

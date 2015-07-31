@@ -112,6 +112,18 @@
     // load template for all content items
     initContentViewEvents();
 
+    // show menu state
+    // if (app === 'Video') {
+    //   $item.find('div.teaser').addClass('video-open');
+    // } else if (app === 'Whiteboard') {
+    //   $item.find('div.teaser').addClass('whiteboard-open');
+    // } else if (app === 'Text-Editor') {
+    //   $item.find('div.teaser').addClass('editor-open');
+    // } else if (app === 'Profile') {
+    //   $item.find('div.teaser').addClass('profile-open');
+    // }
+    $item.find('div.teaser').addClass('item-open');
+
     // in content template, set values and animate view
     $( appId ).css({
       width: $item.width(),
@@ -173,6 +185,18 @@
     // var $item = $items.not('.user').eq( current );
     var $item = $items.eq( current );
     var appId = '#' + app;
+
+    // clear menu state
+    // if (app === 'Video') {
+    //   $item.find('div.teaser').removeClass('video-open');
+    // } else if (app === 'Whiteboard') {
+    //   $item.find('div.teaser').removeClass('whiteboard-open');
+    // } else if (app === 'Text-Editor') {
+    //   $item.find('div.teaser').removeClass('editor-open');
+    // } else if (app === 'Profile') {
+    //   $item.find('div.teaser').removeClass('profile-open');
+    // }
+    $item.find('div.teaser').removeClass('item-open');
 
     // animation
     $( appId )

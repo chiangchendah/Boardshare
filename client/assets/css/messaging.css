@@ -1,5 +1,6 @@
 #user {
   text-align: center;
+  margin-top: 20px;
 }
 
 #boards {
@@ -11,6 +12,9 @@
   border-radius: 5px;
   text-align: center;
   margin: 50px auto;
+}
+#boards::-webkit-scrollbar { 
+    display: none; 
 }
 
 #boards p {

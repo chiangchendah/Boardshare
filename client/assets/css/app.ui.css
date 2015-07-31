@@ -158,6 +158,7 @@ a{
   width: 100%;
   height: 630px; /*dynamic*/
   display: none;
+  overflow-y: hidden;
 }
 .content-view .teaser h2{
   font-size: 50px;
@@ -178,16 +179,4 @@ a{
 }
 .content-full p{
 	padding: 5px 0px;
-}
-.close{
-	top: -33px;
-	right: 7px;
-	background: transparent url(../img/close.png) no-repeat center center;
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	cursor: pointer;
-	opacity: 0.2;
-	z-index: 999;
-  text-indent: -9000px;
 }

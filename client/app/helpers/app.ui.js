@@ -71,7 +71,7 @@
         openItem( $item );
 
         // change empty state
-        $('aside').hide().text('You look nice today.');
+        $('aside').text('loading...');
       }
 
       return false;
@@ -143,13 +143,10 @@
 
         var $this = $(this),
             $teaser = $this.find('div.teaser'),
-            $content= $this.find('div.content-full'),
-            $close  = $this.find('span.close');
+            $content= $this.find('div.content-full');
 
         $teaser.show();
         $content.fadeIn(600);
-        $close.show();
-        $('aside').show();
 
         // track state of item
         opened[app] = true;
@@ -200,7 +197,7 @@
 
     // animation
     $( appId )
-      .find('div.teaser, div.content-full, span.close')
+      .find('div.teaser, div.content-full')
       .hide()
       .end()
       .animate({

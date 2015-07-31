@@ -11,7 +11,7 @@ exports.initialize = function(){
 };
 
 function successHandler(json) {
-  $('#user').append('<p>Hello <span>' + json.username + '</span>! Here are the boards we have saved for you.</p>');
+  $('#user').append('<p>Hello <span>' + json.username + '</span>.  Here are the boards we have saved for you.</p>');
   json.boards.forEach(function (board) {
     $('#boards').append(createElements(board));
   });

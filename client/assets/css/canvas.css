@@ -30,6 +30,8 @@
   background-color: #fbfbfb;
   clear: both;
   overflow: hidden;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 .whiteboard-menu a{
   cursor: pointer;

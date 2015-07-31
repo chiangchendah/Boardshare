@@ -13,7 +13,7 @@ exports.initialize = function(){
 
 function successHandler(json) {
   var logoutLink = $('<a href="/logout">Logout</a>');
-  $('#user').append('<p>Hello <span>' + json.username + '</span>.  Here are the boards we have saved for you.</p>');
+  $('#user').html('<p>Hello <span>' + json.username + '</span>.  Here are the boards we have saved for you.</p>');
   $('#log').replaceWith(logoutLink);
   json.boards.forEach(function (board) {
     $('#boards').append(createElements(board));

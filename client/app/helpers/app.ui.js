@@ -83,7 +83,7 @@
       setWrapperSize();
       
       $('.content-view').css({
-        width: $(window).width(),
+        width: $(window).width() - 220,
         height: $(window).height()
       });
     });

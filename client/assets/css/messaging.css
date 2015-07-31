@@ -12,6 +12,9 @@
   text-align: center;
   margin: 50px auto;
 }
+#boards::-webkit-scrollbar { 
+    display: none; 
+}
 
 #boards p {
   border: 1px solid white;

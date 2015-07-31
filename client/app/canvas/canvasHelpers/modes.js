@@ -2,6 +2,7 @@ var canvas = require('../canvas').canvas;
 var toolSelect = require('./getSelectors');
 var mouseEvents = require('./mouseEvents');
 var stateManager = require('./stateManager');
+var $ = require('jquery');
 
 /**
 * Set canvas to select mode and remove event handlers
@@ -14,14 +15,14 @@ exports.selectMode = function() {
   // Allow multiselect
   canvas.selection = true;
 
-  // Make each object selectable  
+  // Make each object selectable
   canvas.forEachObject(function(obj) {
     obj.selectable = true;
   });
   canvas.forEachObject(function(obj){
     obj.setCoords();
   });
-  
+
   // remove event handlers
   canvas.off('mouse:down');
   canvas.off('mouse:move');

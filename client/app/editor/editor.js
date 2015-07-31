@@ -4,8 +4,13 @@ var URL = require('../helpers/urlGetter');
 module.exports.initialize = function(){
   var firepadRef = new Firebase('glowing-heat-8297.firebaseIO.com/firepads/' + URL);
   var editor = ace.edit('firepad');
-  var firepad = Firepad.fromACE(firepadRef, editor);
   editor.setTheme("ace/theme/monokai");
+  var firepad = Firepad.fromACE(firepadRef, editor);
+  //setting defaults
+  var sess = editor.getSession();
+  sess.setMode('ace/mode/javascript');
+  sess.setTabSize(2);
+  sess.setUseWrapMode(true);
   //extensions
   $('#settings').on('click', function(){
     editor.execCommand('showSettingsMenu');
@@ -13,19 +18,14 @@ module.exports.initialize = function(){
   // remove firepad logo
   $('.powered-by-firepad').remove();
   // size the editor div
-  $('.teaser').click(function () {
-    setTimeout(function () {
-      checkSize();
-    }, 1000);
-  });
-  $(window).resize(function () {
-    checkSize();
-  });
+  setInterval(checkSize, 32);
+  var oldHeight;
   function checkSize() {
-    var containerHeight = $('#Text-Editor').height();
-    var titleHeight = $('#editor-teaser').height();
-    var aceHeight = containerHeight - titleHeight;
-    $('#text-editor').height(aceHeight);
-    $('#firepad').height(aceHeight);
+    var newHeight = $('body').height() - $('#editor-teaser').height();
+    if (oldHeight !== newHeight) {
+      oldHeight = newHeight;
+      $('#firepad').height(newHeight);
+      editor.resize(true);
+    }
   }
 };
